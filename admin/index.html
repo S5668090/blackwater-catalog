@@ -29,6 +29,13 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
 .dialog{border:1px solid #355264;border-radius:17px;background:#0d1b28;color:var(--text);padding:24px;width:min(560px,calc(100vw - 28px));box-shadow:0 30px 90px #000a}.dialog::backdrop{background:#02070baa;backdrop-filter:blur(5px)}.dialog h2{margin-bottom:18px}.dialogfoot{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
 .toast{position:fixed;right:22px;bottom:22px;z-index:20;max-width:410px;padding:13px 16px;border-radius:12px;background:#173440;border:1px solid #45717a;color:#eaffff;box-shadow:var(--shadow);font-size:13px}.toast.error{background:#40242b;border-color:#81434c}
 .notice{padding:12px 14px;border-radius:10px;background:#102934;border:1px solid #284f5b;color:#a8c8d0;font-size:12px;margin-bottom:14px}
+
+.mirror-editor{display:flex;flex-direction:column;gap:9px;margin:0 0 16px}
+.mirror-row{display:grid;grid-template-columns:minmax(110px,.7fr) minmax(180px,1.3fr) auto;gap:8px;align-items:center;padding:10px;background:#0a1822;border:1px solid var(--line);border-radius:10px}
+.mirror-row input{min-width:0;width:100%;background:#081722;border:1px solid #294658;color:var(--text);border-radius:8px;padding:9px 10px;outline:none}
+.mirror-row input:focus{border-color:var(--accent2);box-shadow:0 0 0 3px #5db9c422}
+.mirror-empty{padding:11px;border:1px dashed #345064;border-radius:10px;color:var(--muted);font-size:12px}
+@media(max-width:600px){.mirror-row{grid-template-columns:1fr}.mirror-row .btn{justify-self:start}}
 @media(max-width:900px){.workspace{grid-template-columns:1fr}.sidebar{position:static}.gamelist{max-height:240px}.hero{align-items:flex-start;flex-direction:column}.stats{width:100%}.stat{flex:1;min-width:0}}
 @media(max-width:600px){.top{padding:0 14px}.wrap{padding:24px 14px 50px}.topright .status{display:none}.login{margin:30px auto;padding:21px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.dlc{grid-template-columns:1fr auto}.dlc>div:nth-child(2){grid-column:1/-1;grid-row:2}.dlc>div:nth-child(3){grid-column:1/-1;grid-row:3;justify-content:flex-start}.footeractions{align-items:flex-start;flex-direction:column}.footeractions .right{width:100%}.footeractions .right .btn{flex:1}}
 </style>
@@ -83,6 +90,9 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
       <button class="btn secondary small" id="uploadGoogleDriveBtn" type="button">Загрузить ZIP на Google Drive</button>
       <div class="hint" id="uploadGoogleDriveStatus">После загрузки ZIP будет открыт для чтения по ссылке, а ссылка появится в поле выше.</div>
     </div>
+    <div class="sectionhead" style="margin-top:18px"><h2>Зеркала загрузки</h2><button class="btn secondary small" id="addMirrorBtn" type="button">＋ Добавить зеркало</button></div>
+    <div class="hint" style="margin:-5px 0 10px">Дополнительные источники ZIP. Лаунчер покажет их в раскрывающейся панели под основной кнопкой скачивания.</div>
+    <div class="mirror-editor" id="mirrorEditor"></div>
     <label class="checkrow"><input id="dlcFeatured" type="checkbox"> Рекомендованное DLC</label>
     <div class="hint">Для Google Drive нужен доступ «Все, у кого есть ссылка — Читатель». При ручном вводе используй ссылку на отдельный ZIP-файл, не на папку.</div>
     <div class="dialogfoot"><button class="btn ghost" type="button" id="cancelDlc">Отмена</button><button class="btn primary" type="submit">Сохранить DLC</button></div>
@@ -151,6 +161,10 @@ function validateCatalog(data){
       if(!String(d.name||'').trim())throw new Error('У DLC '+d.id+' в игре '+g.name+' не указано название.');
       if(d.download_url&&!/^https:\/\//i.test(d.download_url))throw new Error('Ссылка на DLC должна начинаться с HTTPS: '+d.name);
       if(String(d.description||'').length>1000)throw new Error('Описание DLC слишком длинное: '+d.name);
+      if(d.mirrors!=null&&!Array.isArray(d.mirrors))throw new Error('Поле mirrors должно быть массивом: '+d.name);
+      d.mirrors=Array.isArray(d.mirrors)?d.mirrors:[];
+      if(d.mirrors.length>20)throw new Error('У DLC '+d.name+' больше 20 зеркал.');
+      d.mirrors.forEach((m,mi)=>{if(!m||typeof m!=='object'||Array.isArray(m)||!String(m.name||m.label||'').trim()||!/^https:\/\//i.test(String(m.url||'')))throw new Error('Проверь название и HTTPS-ссылку зеркала №'+(mi+1)+' у DLC '+d.name+'.');});
       d.description=d.description||'';d.download_url=d.download_url||'';d.featured=d.featured!==false;
     });
     // Legacy launcher compatibility: keep the first DLC in mod_pack.
@@ -241,7 +255,21 @@ function field(id,label,value,placeholder,type,extra){
 function renderDlcList(g){
   const list=Array.isArray(g.dlcs)?g.dlcs:[];
   if(!list.length)return '<div class="empty">Для этой игры ещё не добавлено DLC. Нажми «Добавить DLC».</div>';
-  return list.map((d,index)=>'<div class="dlc"><div><strong>'+escapeHtml(d.name)+'</strong><small>'+escapeHtml(d.id)+(d.featured?' · Рекомендованное':'')+'</small></div><div><small>'+escapeHtml(d.download_url||'HTTPS-ссылка на архив не добавлена')+'</small></div><div class="dlcactions"><button class="btn secondary small" type="button" data-edit-dlc="'+index+'">Изменить</button><button class="btn danger small" type="button" data-delete-dlc="'+index+'">Удалить</button></div></div>').join('');
+  return list.map((d,index)=>'<div class="dlc"><div><strong>'+escapeHtml(d.name)+'</strong><small>'+escapeHtml(d.id)+(d.featured?' · Рекомендованное':'')+((Array.isArray(d.mirrors)&&d.mirrors.length)?' · Зеркал: '+d.mirrors.length:'')+'</small></div><div><small>'+escapeHtml(d.download_url||'HTTPS-ссылка на архив не добавлена')+'</small></div><div class="dlcactions"><button class="btn secondary small" type="button" data-edit-dlc="'+index+'">Изменить</button><button class="btn danger small" type="button" data-delete-dlc="'+index+'">Удалить</button></div></div>').join('');
+}
+function renderMirrorEditor(mirrors){
+  const list=Array.isArray(mirrors)?mirrors:[];
+  $('mirrorEditor').innerHTML=list.length?list.map((m,index)=>'<div class="mirror-row" data-mirror-row="'+index+'"><input type="text" data-mirror-name="'+index+'" maxlength="100" placeholder="Название зеркала" value="'+escapeHtml(m.name||m.label||('Зеркало '+(index+1)))+'"><input type="url" data-mirror-url="'+index+'" placeholder="https://…" value="'+escapeHtml(typeof m==='string'?m:(m.url||''))+'"><button class="btn danger small" type="button" data-remove-mirror="'+index+'">Удалить</button></div>').join(''):'<div class="mirror-empty">Зеркала пока не добавлены.</div>';
+}
+function readMirrorEditor(){
+  const rows=Array.from($('mirrorEditor').querySelectorAll('[data-mirror-row]'));
+  return rows.map((row,index)=>({name:row.querySelector('[data-mirror-name]').value.trim()||('Зеркало '+(index+1)),url:row.querySelector('[data-mirror-url]').value.trim()}));
+}
+function addMirrorRow(){
+  const mirrors=readMirrorEditor();
+  if(mirrors.length>=20){showToast('Можно добавить не более 20 зеркал для одного DLC.',true);return;}
+  mirrors.push({name:'Зеркало '+(mirrors.length+1),url:''});renderMirrorEditor(mirrors);
+  const inputs=$('mirrorEditor').querySelectorAll('[data-mirror-url]');if(inputs.length)inputs[inputs.length-1].focus();
 }
 function saveGame(){
   const g=currentGame();if(!g)return;
@@ -270,19 +298,27 @@ function openDlc(index){
   const g=currentGame();if(!g)return;
   const list=Array.isArray(g.dlcs)?g.dlcs:[];
   editingDlcIndex=Number.isInteger(index)?index:-1;
-  const p=editingDlcIndex>=0&&list[editingDlcIndex]?list[editingDlcIndex]:{id:makeDlcId(g),name:'',description:'',download_url:'',featured:false};
+  const p=editingDlcIndex>=0&&list[editingDlcIndex]?list[editingDlcIndex]:{id:makeDlcId(g),name:'',description:'',download_url:'',featured:false,mirrors:[]};
   $('dlcDialogTitle').textContent=editingDlcIndex>=0?'Изменить DLC':'Добавить DLC';
   $('dlcId').value=p.id;$('dlcName').value=p.name;$('dlcDescription').value=p.description||'';
   $('dlcUrl').value=p.download_url||'';$('dlcFeatured').checked=p.featured===true;
   $('packageFile').value='';$('uploadGoogleDriveStatus').textContent='После загрузки ZIP будет открыт для чтения по ссылке, а ссылка появится в поле выше.';
+  renderMirrorEditor(p.mirrors||[]);
   $('dlcDialog').showModal();
 }
 function saveDlc(event){
   event.preventDefault();const g=currentGame();if(!g)return;
-  const d={id:$('dlcId').value.trim(),name:$('dlcName').value.trim(),description:$('dlcDescription').value.trim(),download_url:$('dlcUrl').value.trim(),featured:$('dlcFeatured').checked};
+  const d={id:$('dlcId').value.trim(),name:$('dlcName').value.trim(),description:$('dlcDescription').value.trim(),download_url:$('dlcUrl').value.trim(),featured:$('dlcFeatured').checked,mirrors:readMirrorEditor()};
   if(!/^[A-Za-z0-9_-]{1,80}$/.test(d.id)||!d.name){showToast('Укажи корректный ID и название DLC.',true);return;}
   if(d.download_url&&!/^https:\/\//i.test(d.download_url)){showToast('Ссылка на DLC должна начинаться с HTTPS.',true);return;}
   if(d.description.length>1000){showToast('Описание DLC не должно превышать 1000 символов.',true);return;}
+  if(d.mirrors.length>20){showToast('Можно добавить не более 20 зеркал для одного DLC.',true);return;}
+  for(let i=0;i<d.mirrors.length;i++){
+    const m=d.mirrors[i];
+    if(!m.url&&(!m.name||/^Зеркало \d+$/i.test(m.name)))continue;
+    if(!m.name||!/^https:\/\//i.test(m.url)){showToast('Для каждого зеркала укажи название и HTTPS-ссылку (№'+(i+1)+').',true);return;}
+  }
+  d.mirrors=d.mirrors.filter(m=>m.name&&m.url);
   if(!Array.isArray(g.dlcs))g.dlcs=g.mod_pack?[g.mod_pack]:[];
   if(editingDlcIndex<0&&g.dlcs.length>=10000){showToast('Достигнут лимит 10000 DLC для одной игры.',true);return;}
   if(g.dlcs.some((item,index)=>index!==editingDlcIndex&&item.id===d.id)){showToast('В этой игре уже есть DLC с таким ID.',true);return;}
@@ -358,6 +394,8 @@ connect=async function(){await originalConnect();if(catalog)addPublishButton();}
 $('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});
 $('logoutBtn').addEventListener('click',logout);$('addGameBtn').addEventListener('click',addGame);
 $('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',saveDlc);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
+$('addMirrorBtn').addEventListener('click',addMirrorRow);
+$('mirrorEditor').addEventListener('click',e=>{const btn=e.target.closest('[data-remove-mirror]');if(!btn)return;const mirrors=readMirrorEditor();mirrors.splice(Number(btn.dataset.removeMirror),1);renderMirrorEditor(mirrors);});
 })();
 </script>
 <script src="./google-drive-upload.js"></script>
