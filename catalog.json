@@ -15,17 +15,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "https://drive.google.com/file/d/17I8z3AYFRkoIPQrur9iiJXFUkpkqC0PL/view?usp=sharing",
-        "featured": true,
-        "mirrors": [
-          {
-            "name": "MEGA",
-            "url": "https://mega.nz/file/hMo1DATQ#RzpCuIphlIr9kuDfG-s3h0TZ9pDWr8F8mDgGRWJMWO8"
-          },
-          {
-            "name": "Playground",
-            "url": "https://dl3.gamedl.ru/download/Lnc-qBAAAAACaoTB7PUQFXjvkcChyRxMCZfo2Y-D/H3/17b63162a450098d68020494a442892fb38b5e6655b7a118a7a4d7b7b679bbe0/1637950/Unlocker_CK3.rar"
-          }
-        ]
+        "featured": true
       },
       "dlcs": [
         {
@@ -33,17 +23,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "https://drive.google.com/file/d/17I8z3AYFRkoIPQrur9iiJXFUkpkqC0PL/view?usp=sharing",
-          "featured": true,
-          "mirrors": [
-            {
-              "name": "MEGA",
-              "url": "https://mega.nz/file/hMo1DATQ#RzpCuIphlIr9kuDfG-s3h0TZ9pDWr8F8mDgGRWJMWO8"
-            },
-            {
-              "name": "Playground",
-              "url": "https://dl3.gamedl.ru/download/Lnc-qBAAAAACaoTB7PUQFXjvkcChyRxMCZfo2Y-D/H3/17b63162a450098d68020494a442892fb38b5e6655b7a118a7a4d7b7b679bbe0/1637950/Unlocker_CK3.rar"
-            }
-          ]
+          "featured": true
         }
       ]
     },
@@ -59,8 +39,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -68,8 +47,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     },
@@ -85,8 +63,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -94,8 +71,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     },
@@ -111,8 +87,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -120,8 +95,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     },
@@ -137,8 +111,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -146,8 +119,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     },
@@ -163,8 +135,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -172,8 +143,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     },
@@ -189,8 +159,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -198,8 +167,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     },
@@ -215,8 +183,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -224,8 +191,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     },
@@ -241,8 +207,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -250,8 +215,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     },
@@ -267,8 +231,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -276,8 +239,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     },
@@ -293,8 +255,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -302,8 +263,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     },
@@ -319,8 +279,7 @@
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
-        "featured": true,
-        "mirrors": []
+        "featured": true
       },
       "dlcs": [
         {
@@ -328,8 +287,7 @@
           "name": "MOD All",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": true,
-          "mirrors": []
+          "featured": true
         }
       ]
     }
