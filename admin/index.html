@@ -192,7 +192,7 @@ function deleteGame(){
   catalog.games=catalog.games.filter(x=>x.id!==g.id);selectedId=catalog.games[0]?catalog.games[0].id:null;markDirty();renderAll();showToast('Игра удалена из черновика.');
 }
 function openDlc(index){
-  const g=currentGame();if(!g)return;editingDlcIndex=index;const d=index>=0?g.dlcs[index]:{id:'new-dlc',name:'Новое DLC',description:'',download_url:'',featured:false};
+  const g=currentGame();if(!g)return;editingDlcIndex=index;let newId='new-dlc',suffix=1;while((g.dlcs||[]).some(x=>x.id===newId))newId='new-dlc-'+suffix++;const d=index>=0?g.dlcs[index]:{id:newId,name:'Новое DLC',description:'',download_url:'',featured:false};
   $('dlcDialogTitle').textContent=index>=0?'Изменить DLC':'Добавить DLC';
   $('dlcId').value=d.id;$('dlcName').value=d.name;$('dlcDescription').value=d.description||'';$('dlcUrl').value=d.download_url||'';$('dlcFeatured').checked=!!d.featured;
   $('dlcDialog').showModal();
@@ -230,11 +230,11 @@ function logout(){
   if(dirty&&!confirm('Есть неопубликованные изменения. Выйти без публикации?'))return;
   token='';catalog=null;catalogSha='';selectedId=null;dirty=false;$('tokenInput').value='';$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');const slot=$('publishSlot');if(slot)slot.remove();setStatus('Не подключено');showToast('Сеанс завершён.');
 }
+const originalConnect=connect;
+connect=async function(){await originalConnect();if(catalog)addPublishButton();};
 $('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});
 $('logoutBtn').addEventListener('click',logout);$('addGameBtn').addEventListener('click',addGame);
 $('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',saveDlc);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
-const originalConnect=connect;
-connect=async function(){await originalConnect();if(catalog)addPublishButton();};
 })();
 </script>
 </body>
