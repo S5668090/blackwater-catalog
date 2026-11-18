@@ -41,3 +41,11 @@ This repository is public. Never commit Personal Access Tokens, passwords, priva
 ## Important
 
 The current entries include placeholder DLC labels. Replace those with accurate DLC metadata and trusted archive URLs before treating them as published downloads.
+
+## Admin panel
+
+A separate browser-based admin panel is available in [`admin/`](admin/). To publish it as a website, enable GitHub Pages in **Settings → Pages**, select branch `main` and folder `/ (root)`. The panel will then be available at:
+
+`https://s5668090.github.io/blackwater-catalog/admin/`
+
+See [`admin/README.md`](admin/README.md) for token permissions and security instructions. The panel requests a narrowly scoped Fine-grained token at runtime and does not save it in the page or repository.
