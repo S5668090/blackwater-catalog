@@ -79,7 +79,7 @@
       "steam_app_id": 1669000,
       "steam_folder": "Age of Wonders 4",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1669000/header.jpg",
-      "featured": false,
+      "featured": true,
       "mod_pack": {
         "id": "mod-all",
         "name": "MOD All",
