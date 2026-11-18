@@ -30,12 +30,22 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
 .toast{position:fixed;right:22px;bottom:22px;z-index:20;max-width:410px;padding:13px 16px;border-radius:12px;background:#173440;border:1px solid #45717a;color:#eaffff;box-shadow:var(--shadow);font-size:13px}.toast.error{background:#40242b;border-color:#81434c}
 .notice{padding:12px 14px;border-radius:10px;background:#102934;border:1px solid #284f5b;color:#a8c8d0;font-size:12px;margin-bottom:14px}
 
-.mirror-editor{display:flex;flex-direction:column;gap:9px;margin:0 0 16px}
-.mirror-row{display:grid;grid-template-columns:minmax(110px,.7fr) minmax(180px,1.3fr) auto;gap:8px;align-items:center;padding:10px;background:#0a1822;border:1px solid var(--line);border-radius:10px}
+.mirror-editor{display:flex;flex-direction:column;gap:9px;margin:0 0 14px}
+.mirror-row{display:grid;grid-template-columns:minmax(115px,.62fr) minmax(190px,1.38fr) auto auto;gap:8px;align-items:center;padding:9px;background:#0a1822;border:1px solid var(--line);border-radius:11px}
 .mirror-row input{min-width:0;width:100%;background:#081722;border:1px solid #294658;color:var(--text);border-radius:8px;padding:9px 10px;outline:none}
 .mirror-row input:focus{border-color:var(--accent2);box-shadow:0 0 0 3px #5db9c422}
-.mirror-empty{padding:11px;border:1px dashed #345064;border-radius:10px;color:var(--muted);font-size:12px}
-@media(max-width:600px){.mirror-row{grid-template-columns:1fr}.mirror-row .btn{justify-self:start}}
+.mirror-order{display:flex;gap:5px;align-items:center}
+.mirror-order .btn{width:32px;height:34px;padding:0;font-size:15px}
+.mirror-order .btn:disabled{opacity:.25}
+.mirror-empty{padding:12px;border:1px dashed #345064;border-radius:10px;color:var(--muted);font-size:12px}
+.mirror-bulk{padding:12px;margin:0 0 16px;background:#0a1822;border:1px solid var(--line);border-radius:11px}
+.mirror-bulk-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:8px}
+.mirror-bulk-head strong{font-size:12px;color:#d9edf2}
+.mirror-bulk-head span,.mirror-bulk-foot .hint{font-size:11px;color:var(--muted)}
+.mirror-bulk textarea{display:block;width:100%;min-height:84px;resize:vertical;background:#081722;border:1px solid #294658;color:var(--text);border-radius:8px;padding:10px;outline:none;font:12px/1.5 Consolas,monospace}
+.mirror-bulk textarea:focus{border-color:var(--accent2);box-shadow:0 0 0 3px #5db9c422}
+.mirror-bulk-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px}
+@media(max-width:700px){.mirror-row{grid-template-columns:1fr}.mirror-order{grid-row:auto}.mirror-row>.btn{justify-self:start}.mirror-bulk-foot{align-items:flex-start;flex-direction:column}}
 @media(max-width:900px){.workspace{grid-template-columns:1fr}.sidebar{position:static}.gamelist{max-height:240px}.hero{align-items:flex-start;flex-direction:column}.stats{width:100%}.stat{flex:1;min-width:0}}
 @media(max-width:600px){.top{padding:0 14px}.wrap{padding:24px 14px 50px}.topright .status{display:none}.login{margin:30px auto;padding:21px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.dlc{grid-template-columns:1fr auto}.dlc>div:nth-child(2){grid-column:1/-1;grid-row:2}.dlc>div:nth-child(3){grid-column:1/-1;grid-row:3;justify-content:flex-start}.footeractions{align-items:flex-start;flex-direction:column}.footeractions .right{width:100%}.footeractions .right .btn{flex:1}}
 </style>
@@ -93,6 +103,13 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
     <div class="sectionhead" style="margin-top:18px"><h2>Зеркала загрузки</h2><button class="btn secondary small" id="addMirrorBtn" type="button">＋ Добавить зеркало</button></div>
     <div class="hint" style="margin:-5px 0 10px">Дополнительные источники ZIP. Лаунчер покажет их в раскрывающейся панели под основной кнопкой скачивания.</div>
     <div class="mirror-editor" id="mirrorEditor"></div>
+    <div class="mirror-bulk">
+      <div class="mirror-bulk-head"><strong>Массовое добавление</strong><span>Одна HTTPS-ссылка на строку или «Название | ссылка»</span></div>
+      <textarea id="bulkMirrorInput" rows="4" spellcheck="false" placeholder="https://drive.google.com/file/d/.../view
+Google Drive | https://drive.google.com/file/d/.../view
+https://pixeldrain.com/u/..." ></textarea>
+      <div class="mirror-bulk-foot"><span class="hint">Порядок строк сохранится в каталоге. Лимит — 20 зеркал на DLC.</span><button class="btn secondary small" id="bulkAddMirrorsBtn" type="button">Добавить список</button></div>
+    </div>
     <label class="checkrow"><input id="dlcFeatured" type="checkbox"> Рекомендованное DLC</label>
     <div class="hint">Для Google Drive нужен доступ «Все, у кого есть ссылка — Читатель». При ручном вводе используй ссылку на отдельный ZIP-файл, не на папку.</div>
     <div class="dialogfoot"><button class="btn ghost" type="button" id="cancelDlc">Отмена</button><button class="btn primary" type="submit">Сохранить DLC</button></div>
@@ -164,7 +181,17 @@ function validateCatalog(data){
       if(d.mirrors!=null&&!Array.isArray(d.mirrors))throw new Error('Поле mirrors должно быть массивом: '+d.name);
       d.mirrors=Array.isArray(d.mirrors)?d.mirrors:[];
       if(d.mirrors.length>20)throw new Error('У DLC '+d.name+' больше 20 зеркал.');
-      d.mirrors.forEach((m,mi)=>{if(!m||typeof m!=='object'||Array.isArray(m)||!String(m.name||m.label||'').trim()||!/^https:\/\//i.test(String(m.url||'')))throw new Error('Проверь название и HTTPS-ссылку зеркала №'+(mi+1)+' у DLC '+d.name+'.');});
+      const mirrorKeys=new Set();
+      if(d.download_url)mirrorKeys.add(normalizeMirrorUrl(d.download_url));
+      d.mirrors=d.mirrors.map((m,mi)=>{
+        const url=String(typeof m==='string'?m:(m&&m.url)||'').trim();
+        const name=String(typeof m==='string'?'':(m&&(m.name||m.label))||'').trim();
+        if(!url||!/^https:\/\//i.test(url))throw new Error('Проверь HTTPS-ссылку зеркала №'+(mi+1)+' у DLC '+d.name+'.');
+        const key=normalizeMirrorUrl(url);
+        if(mirrorKeys.has(key))throw new Error('Повторяется ссылка в основных/зеркальных источниках DLC «'+d.name+'»: '+url);
+        mirrorKeys.add(key);
+        return {name:name||mirrorHostLabel(url),url};
+      });
       d.description=d.description||'';d.download_url=d.download_url||'';d.featured=d.featured!==false;
     });
     // Legacy launcher compatibility: keep the first DLC in mod_pack.
@@ -257,20 +284,97 @@ function renderDlcList(g){
   if(!list.length)return '<div class="empty">Для этой игры ещё не добавлено DLC. Нажми «Добавить DLC».</div>';
   return list.map((d,index)=>'<div class="dlc"><div><strong>'+escapeHtml(d.name)+'</strong><small>'+escapeHtml(d.id)+(d.featured?' · Рекомендованное':'')+((Array.isArray(d.mirrors)&&d.mirrors.length)?' · Зеркал: '+d.mirrors.length:'')+'</small></div><div><small>'+escapeHtml(d.download_url||'HTTPS-ссылка на архив не добавлена')+'</small></div><div class="dlcactions"><button class="btn secondary small" type="button" data-edit-dlc="'+index+'">Изменить</button><button class="btn danger small" type="button" data-delete-dlc="'+index+'">Удалить</button></div></div>').join('');
 }
+function mirrorHostLabel(raw){
+  try{
+    const host=new URL(String(raw||'').trim()).hostname.toLowerCase().replace(/^www\./,'');
+    const known=[
+      ['drive.google.com','Google Drive'],['googleusercontent.com','Google Drive'],
+      ['mega.nz','MEGA'],['mediafire.com','MediaFire'],['pixeldrain.com','Pixeldrain'],
+      ['gofile.io','Gofile'],['buzzheavier.com','Buzzheavier'],['1fichier.com','1fichier'],
+      ['dropbox.com','Dropbox'],['dropboxusercontent.com','Dropbox'],['onedrive.live.com','OneDrive'],
+      ['1drv.ms','OneDrive'],['cloud.mail.ru','Облако Mail.ru'],['disk.yandex.ru','Яндекс Диск'],
+      ['yadi.sk','Яндекс Диск'],['fileditch.com','Fileditch'],['qiwi.gg','Qiwi']
+    ];
+    for(const [domain,label] of known)if(host===domain||host.endsWith('.'+domain))return label;
+    const parts=host.split('.');
+    const root=parts.length>1?parts[parts.length-2]:parts[0];
+    return root?root.charAt(0).toUpperCase()+root.slice(1):'Зеркало';
+  }catch(_){return 'Зеркало';}
+}
+function normalizeMirrorUrl(raw){
+  let url;
+  try{url=new URL(String(raw||'').trim());}catch(_){throw new Error('Некорректная ссылка зеркала: '+raw);}
+  if(url.protocol!=='https:'||!url.hostname||url.username||url.password)throw new Error('Зеркало должно быть обычной HTTPS-ссылкой без логина/пароля: '+raw);
+  url.hash='';
+  if(url.pathname.length>1)url.pathname=url.pathname.replace(/\/+$/,'');
+  return url.href;
+}
+function parseBulkMirrorLine(line){
+  const value=String(line||'').trim();if(!value)return null;
+  let name='',url=value;
+  const split=value.indexOf('|');
+  if(split>=0){
+    const left=value.slice(0,split).trim(),right=value.slice(split+1).trim();
+    if(/^https:\/\//i.test(right)){name=left;url=right;}
+    else if(/^https:\/\//i.test(left)){url=left;name=right;}
+  }
+  normalizeMirrorUrl(url);
+  return {name:name||mirrorHostLabel(url),url};
+}
 function renderMirrorEditor(mirrors){
   const list=Array.isArray(mirrors)?mirrors:[];
-  $('mirrorEditor').innerHTML=list.length?list.map((m,index)=>'<div class="mirror-row" data-mirror-row="'+index+'"><input type="text" data-mirror-name="'+index+'" maxlength="100" placeholder="Название зеркала" value="'+escapeHtml(m.name||m.label||('Зеркало '+(index+1)))+'"><input type="url" data-mirror-url="'+index+'" placeholder="https://…" value="'+escapeHtml(typeof m==='string'?m:(m.url||''))+'"><button class="btn danger small" type="button" data-remove-mirror="'+index+'">Удалить</button></div>').join(''):'<div class="mirror-empty">Зеркала пока не добавлены.</div>';
+  $('mirrorEditor').innerHTML=list.length?list.map((m,index)=>{
+    const url=String(typeof m==='string'?m:(m&&m.url)||'');
+    const guessed=mirrorHostLabel(url);
+    const supplied=String(typeof m==='string'?'':(m&&(m.name||m.label))||'').trim();
+    const name=supplied||guessed;
+    const autoName=!supplied||supplied===guessed;
+    return '<div class="mirror-row" data-mirror-row="'+index+'">'+
+      '<input type="text" data-mirror-name maxlength="100" data-auto-name="'+(autoName?'1':'0')+'" placeholder="Название зеркала" value="'+escapeHtml(name)+'">'+
+      '<input type="url" data-mirror-url placeholder="https://…" value="'+escapeHtml(url)+'">'+
+      '<div class="mirror-order"><button class="btn secondary small" type="button" data-move-mirror="-1" aria-label="Переместить выше" title="Выше" '+(index===0?'disabled':'')+'>↑</button><button class="btn secondary small" type="button" data-move-mirror="1" aria-label="Переместить ниже" title="Ниже" '+(index===list.length-1?'disabled':'')+'>↓</button></div>'+
+      '<button class="btn danger small" type="button" data-remove-mirror="'+index+'">Удалить</button></div>';
+  }).join(''):'<div class="mirror-empty">Зеркала пока не добавлены. Добавь ссылки по одной или вставь сразу список ниже.</div>';
 }
 function readMirrorEditor(){
   const rows=Array.from($('mirrorEditor').querySelectorAll('[data-mirror-row]'));
-  return rows.map((row,index)=>({name:row.querySelector('[data-mirror-name]').value.trim()||('Зеркало '+(index+1)),url:row.querySelector('[data-mirror-url]').value.trim()}));
+  return rows.map(row=>({name:row.querySelector('[data-mirror-name]').value.trim(),url:row.querySelector('[data-mirror-url]').value.trim()}));
 }
 function addMirrorRow(){
   const mirrors=readMirrorEditor();
   if(mirrors.length>=20){showToast('Можно добавить не более 20 зеркал для одного DLC.',true);return;}
-  mirrors.push({name:'Зеркало '+(mirrors.length+1),url:''});renderMirrorEditor(mirrors);
+  mirrors.push({name:'',url:''});renderMirrorEditor(mirrors);
   const inputs=$('mirrorEditor').querySelectorAll('[data-mirror-url]');if(inputs.length)inputs[inputs.length-1].focus();
 }
+function addBulkMirrors(){
+  const lines=$('bulkMirrorInput').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  if(!lines.length){showToast('Вставь хотя бы одну HTTPS-ссылку.',true);return;}
+  const mirrors=readMirrorEditor();
+  const keys=new Set();let invalid=0,duplicates=0,added=0,limit=0;
+  const primary=$('dlcUrl').value.trim();
+  if(primary){try{keys.add(normalizeMirrorUrl(primary));}catch(_){}}
+  mirrors.forEach(m=>{if(m.url){try{keys.add(normalizeMirrorUrl(m.url));}catch(_){}}});
+  for(const line of lines){
+    let mirror;
+    try{mirror=parseBulkMirrorLine(line);}catch(_){invalid++;continue;}
+    if(!mirror)continue;
+    let key;try{key=normalizeMirrorUrl(mirror.url);}catch(_){invalid++;continue;}
+    if(keys.has(key)){duplicates++;continue;}
+    if(mirrors.length>=20){limit++;continue;}
+    keys.add(key);mirrors.push(mirror);added++;
+  }
+  renderMirrorEditor(mirrors);$('bulkMirrorInput').value='';
+  const parts=['Добавлено: '+added,'повторов: '+duplicates,'ошибочных строк: '+invalid];
+  if(limit)parts.push('не добавлено из-за лимита: '+limit);
+  showToast(parts.join(' · '),invalid>0||limit>0);
+}
+function moveMirror(index,delta){
+  const mirrors=readMirrorEditor(),next=index+delta;
+  if(index<0||index>=mirrors.length||next<0||next>=mirrors.length)return;
+  [mirrors[index],mirrors[next]]=[mirrors[next],mirrors[index]];
+  renderMirrorEditor(mirrors);
+}
+
 function saveGame(){
   const g=currentGame();if(!g)return;
   const next={id:$('gameId').value.trim(),name:$('gameName').value.trim(),steam_app_id:Number($('gameAppId').value),steam_folder:$('gameFolder').value.trim(),cover_url:$('gameCover').value.trim(),featured:$('gameFeatured').checked,dlcs:Array.isArray(g.dlcs)?g.dlcs:[],mod_pack:(Array.isArray(g.dlcs)&&g.dlcs.length)?g.dlcs[0]:null};
@@ -313,12 +417,19 @@ function saveDlc(event){
   if(d.download_url&&!/^https:\/\//i.test(d.download_url)){showToast('Ссылка на DLC должна начинаться с HTTPS.',true);return;}
   if(d.description.length>1000){showToast('Описание DLC не должно превышать 1000 символов.',true);return;}
   if(d.mirrors.length>20){showToast('Можно добавить не более 20 зеркал для одного DLC.',true);return;}
+  const mirrorKeys=new Set();
+  try{if(d.download_url)mirrorKeys.add(normalizeMirrorUrl(d.download_url));}catch(e){showToast(e.message,true);return;}
+  const validMirrors=[];
   for(let i=0;i<d.mirrors.length;i++){
     const m=d.mirrors[i];
-    if(!m.url&&(!m.name||/^Зеркало \d+$/i.test(m.name)))continue;
-    if(!m.name||!/^https:\/\//i.test(m.url)){showToast('Для каждого зеркала укажи название и HTTPS-ссылку (№'+(i+1)+').',true);return;}
+    if(!m.url&&!m.name)continue;
+    if(!m.url){showToast('Добавь HTTPS-ссылку для зеркала №'+(i+1)+'.',true);return;}
+    let key;try{key=normalizeMirrorUrl(m.url);}catch(e){showToast(e.message,true);return;}
+    if(mirrorKeys.has(key)){showToast('Повторяется ссылка на основной архив или другое зеркало (№'+(i+1)+').',true);return;}
+    mirrorKeys.add(key);
+    validMirrors.push({name:m.name||mirrorHostLabel(m.url),url:m.url});
   }
-  d.mirrors=d.mirrors.filter(m=>m.name&&m.url);
+  d.mirrors=validMirrors;
   if(!Array.isArray(g.dlcs))g.dlcs=g.mod_pack?[g.mod_pack]:[];
   if(editingDlcIndex<0&&g.dlcs.length>=10000){showToast('Достигнут лимит 10000 DLC для одной игры.',true);return;}
   if(g.dlcs.some((item,index)=>index!==editingDlcIndex&&item.id===d.id)){showToast('В этой игре уже есть DLC с таким ID.',true);return;}
@@ -395,7 +506,20 @@ $('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListen
 $('logoutBtn').addEventListener('click',logout);$('addGameBtn').addEventListener('click',addGame);
 $('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',saveDlc);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
 $('addMirrorBtn').addEventListener('click',addMirrorRow);
-$('mirrorEditor').addEventListener('click',e=>{const btn=e.target.closest('[data-remove-mirror]');if(!btn)return;const mirrors=readMirrorEditor();mirrors.splice(Number(btn.dataset.removeMirror),1);renderMirrorEditor(mirrors);});
+$('bulkAddMirrorsBtn').addEventListener('click',addBulkMirrors);
+$('mirrorEditor').addEventListener('input',e=>{
+  if(e.target.matches('[data-mirror-name]')){e.target.dataset.autoName=e.target.value.trim()?'0':'1';return;}
+  if(e.target.matches('[data-mirror-url]')){
+    const row=e.target.closest('[data-mirror-row]');const name=row&&row.querySelector('[data-mirror-name]');
+    if(name&&(name.dataset.autoName==='1'||!name.value.trim()))name.value=mirrorHostLabel(e.target.value);
+  }
+});
+$('mirrorEditor').addEventListener('click',e=>{
+  const move=e.target.closest('[data-move-mirror]');
+  if(move){const row=move.closest('[data-mirror-row]');moveMirror(Number(row.dataset.mirrorRow),Number(move.dataset.moveMirror));return;}
+  const remove=e.target.closest('[data-remove-mirror]');
+  if(remove){const mirrors=readMirrorEditor();mirrors.splice(Number(remove.dataset.removeMirror),1);renderMirrorEditor(mirrors);}
+});
 })();
 </script>
 <script src="./google-drive-upload.js"></script>
