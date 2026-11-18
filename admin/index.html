@@ -45,6 +45,7 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
     <p class="intro">Подключись к GitHub, чтобы редактировать единый MOD All-пакет каждой игры.</p>
     <div class="field"><label for="tokenInput">Fine-grained Personal Access Token</label><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…"></div>
     <div class="login-actions"><button class="btn primary full" id="connectBtn" type="button">Подключить GitHub</button><div class="hint">Создай токен с доступом только к репозиторию <b>S5668090/blackwater-catalog</b>: Contents — Read and write, Metadata — Read-only.</div><a class="hint" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Создать Fine-grained token на GitHub ↗</a></div>
+    <div class="notice hidden" id="loginError" role="alert" style="margin-top:14px;background:#3a2028;border-color:#62343b;color:#ffc5c8"></div>
     <div class="security">🔒 Токен не сохраняется в браузере и не отправляется на сторонние серверы. Он используется только в текущей вкладке для запросов к api.github.com. При закрытии или перезагрузке страницы подключение нужно повторить.</div>
   </section>
   <section id="appPanel" class="hidden">
@@ -105,14 +106,14 @@ async function github(path,options){
   init.headers=Object.assign({
     'Accept':'application/vnd.github+json',
     'Authorization':'Bearer '+token,
-    'X-GitHub-Api-Version':'2022-11-28',
-    'Cache-Control':'no-cache'
+    'X-GitHub-Api-Version':'2022-11-28'
   },(options&&options.headers)||{});
   let response;
   try {
     response=await fetch(API+path,init);
   } catch(e) {
-    const error=new Error('Не удалось связаться с GitHub. Проверь интернет-соединение и попробуй ещё раз.');
+    const original=(e&&e.message)?e.message:'неизвестная ошибка браузера';
+    const error=new Error('Браузер не получил ответ от GitHub API. Возможны блокировка CORS, расширение-блокировщик или проблема сети. Подробности браузера: '+original);
     error.status=0; throw error;
   }
   const text=await response.text();let data={};
@@ -155,11 +156,22 @@ function validateCatalog(data){
   });
 }
 async function connect(){
-  const value=$('tokenInput').value.trim();if(!value){showToast('Вставь новый Fine-grained token.',true);return;}
-  token=value;$('connectBtn').disabled=true;$('connectBtn').textContent='Подключение…';setStatus('Подключение к GitHub…');
-  try{await loadCatalog();$('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');setStatus('Подключено · '+OWNER+'/'+REPO);showToast('Каталог загружен.');}
-  catch(e){token='';setStatus('Не подключено');showToast(e.message,true);}
-  finally{$('connectBtn').disabled=false;$('connectBtn').textContent='Подключить GitHub';}
+  const value=$('tokenInput').value.trim();if(!value){showToast('Вставь Fine-grained token.',true);return;}
+  token=value;
+  $('loginError').classList.add('hidden');$('loginError').textContent='';
+  $('connectBtn').disabled=true;$('connectBtn').textContent='Проверка токена…';setStatus('Подключение к GitHub…');
+  try{
+    await loadCatalog();
+    $('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');
+    setStatus('Подключено · '+OWNER+'/'+REPO);showToast('Каталог загружен.');
+  }catch(e){
+    token='';setStatus('Не подключено');
+    $('loginError').textContent=e&&e.message?e.message:'Не удалось подключиться к GitHub.';
+    $('loginError').classList.remove('hidden');
+    showToast($('loginError').textContent,true);
+  }finally{
+    $('connectBtn').disabled=false;$('connectBtn').textContent='Подключить GitHub';
+  }
 }
 async function loadCatalog(){
   const data=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);
