@@ -12,7 +12,7 @@
       "featured": true,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "https://drive.google.com/file/d/17I8z3AYFRkoIPQrur9iiJXFUkpkqC0PL/view?usp=sharing",
         "featured": true,
@@ -21,7 +21,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "https://drive.google.com/file/d/17I8z3AYFRkoIPQrur9iiJXFUkpkqC0PL/view?usp=sharing",
           "featured": true,
@@ -38,7 +38,7 @@
       "featured": true,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -47,7 +47,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -64,7 +64,7 @@
       "featured": false,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -73,7 +73,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -90,7 +90,7 @@
       "featured": false,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -99,7 +99,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -116,7 +116,7 @@
       "featured": false,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -125,7 +125,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -142,7 +142,7 @@
       "featured": false,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -151,7 +151,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -168,7 +168,7 @@
       "featured": false,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -177,7 +177,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -194,7 +194,7 @@
       "featured": false,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -203,7 +203,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -220,7 +220,7 @@
       "featured": false,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -229,7 +229,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -246,7 +246,7 @@
       "featured": false,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -255,7 +255,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -272,7 +272,7 @@
       "featured": false,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -281,7 +281,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -298,7 +298,7 @@
       "featured": false,
       "mod_pack": {
         "id": "mod-all",
-        "name": "MOD All",
+        "name": "DLC Unlocker",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true,
@@ -307,7 +307,7 @@
       "dlcs": [
         {
           "id": "mod-all",
-          "name": "MOD All",
+          "name": "DLC Unlocker",
           "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true,
@@ -318,7 +318,6 @@
   ],
   "launcher_update": {
     "version": "v1.8.6",
-    "download_url": "https://drive.google.com/file/d/1Dhingd6ubfAtO9n-j2vejIkrtoFexymi/view?usp=sharing",
-    "sha256": "a0aeef27b0938a54736f01ed078bfa7859dd71bbbd7990f571c75d511ee1df5e"
+    "download_url": "https://drive.google.com/file/d/1Dhingd6ubfAtO9n-j2vejIkrtoFexymi/view?usp=sharing"
   }
 }
