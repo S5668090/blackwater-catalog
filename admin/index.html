@@ -56,7 +56,7 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
         <div class="card stat"><strong id="catalogVersion">—</strong><span>ВЕРСИЯ КАТАЛОГА</span></div>
       </div>
     </div>
-    <div class="notice" id="connectionNotice">Подключено к GitHub. Изменения пока находятся только в памяти страницы — нажми «Опубликовать», чтобы записать их в main.</div>
+    <div class="notice" id="connectionNotice">Подключено к GitHub. Сначала нажми «Сохранить игру» или «Сохранить пакет», затем «Опубликовать», чтобы создать коммит в main.</div>
     <div class="workspace">
       <aside class="card sidebar">
         <div class="sidehead"><h2>Игры</h2><button class="btn secondary small" id="addGameBtn" type="button">＋ Добавить</button></div>
@@ -167,7 +167,7 @@ async function loadCatalog(){
   renderAll();
   $('connectionNotice').textContent=migrated
     ? 'Обнаружен старый формат DLC. Он преобразован в единый MOD All-пакет. Нажми «Опубликовать», чтобы сохранить новый формат в main.'
-    : 'Подключено к GitHub. Изменения сохраняются только после нажатия «Опубликовать».';
+    : 'Подключено к GitHub. Сначала сохрани изменения кнопкой «Сохранить игру» или «Сохранить пакет», затем нажми «Опубликовать» для создания коммита в main.';
   syncPublishButton();
 }
 function markDirty(){
