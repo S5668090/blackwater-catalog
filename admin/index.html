@@ -96,7 +96,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
         <span class="release-state" id="launcherReleaseState">Обновление не настроено</span>
       </div>
       <div class="release-grid">
-        <div class="field"><label for="launcherVersion">Последняя версия (формат vX.Y.Z)</label><input id="launcherVersion" type="text" spellcheck="false" placeholder="v1.8.3" autocomplete="off"></div>
+        <div class="field"><label for="launcherVersion">Последняя версия (формат vX.Y.Z)</label><input id="launcherVersion" type="text" spellcheck="false" placeholder="v1.8.5" autocomplete="off"></div>
         <div class="field"><label for="launcherDriveLink">Ссылка на EXE в Google Drive</label><input id="launcherDriveLink" type="url" spellcheck="false" placeholder="https://drive.google.com/file/d/FILE_ID/view" autocomplete="off"></div>
         <div class="field wide"><label for="launcherSha256">SHA-256 опубликованного EXE (64 символа)</label><input id="launcherSha256" type="text" spellcheck="false" maxlength="64" placeholder="64-значный SHA-256 хэш" autocomplete="off"></div>
         <div class="field wide"><label for="launcherExeHashFile">Выбрать локальный EXE для автоматического расчёта SHA-256</label><input id="launcherExeHashFile" type="file" accept=".exe,application/vnd.microsoft.portable-executable"><div class="hint" id="launcherHashStatus">Файл не загружается на сервер — браузер только рассчитывает хэш выбранного EXE.</div></div>
@@ -198,18 +198,17 @@ function isGoogleDriveFileUrl(raw){
 function validateCatalog(data){
   if(!data||data.schema_version!==1||!Array.isArray(data.games))throw new Error('Неподдерживаемая структура catalog.json. Ожидается schema_version: 1 и массив games.');
   if(data.games.length<1||data.games.length>250)throw new Error('Количество игр должно быть от 1 до 250.');
-  if(data.launcher_update!=null){
-    const update=data.launcher_update;
-    if(!update||typeof update!=='object'||Array.isArray(update))throw new Error('Блок launcher_update должен быть объектом.');
-    let version=String(update.version||'').trim();
-    if(!/^v?\d+\.\d+\.\d+$/i.test(version))throw new Error('Версия лаунчера должна быть в формате v1.8.3.');
-    if(version[0].toLowerCase()!=='v')version='v'+version;
-    update.version=version;
-    update.download_url=String(update.download_url||'').trim();
-    update.sha256=String(update.sha256||'').trim().toLowerCase();
-    if(!isGoogleDriveFileUrl(update.download_url))throw new Error('Укажи ссылку Google Drive на отдельный файл, а не на папку.');
-    if(!/^[a-f0-9]{64}$/.test(update.sha256))throw new Error('Для обновления нужен корректный SHA-256 из 64 шестнадцатеричных символов.');
-  }
+  const update=data.launcher_update;
+  if(!update||typeof update!=='object'||Array.isArray(update))
+    throw new Error('В опубликованном catalog.json отсутствует обязательный объект launcher_update. Проверь актуальную версию файла в ветке main.');
+  let version=String(update.version||'').trim();
+  if(!/^v?\d+\.\d+\.\d+$/i.test(version))throw new Error('Версия лаунчера должна быть в формате v1.8.5.');
+  if(version[0].toLowerCase()!=='v')version='v'+version;
+  update.version=version;
+  update.download_url=String(update.download_url||'').trim();
+  update.sha256=String(update.sha256||'').trim().toLowerCase();
+  if(!isGoogleDriveFileUrl(update.download_url))throw new Error('launcher_update.download_url должен быть HTTPS-ссылкой Google Drive на отдельный файл, а не на папку.');
+  if(!/^[a-f0-9]{64}$/.test(update.sha256))throw new Error('launcher_update.sha256 должен содержать ровно 64 шестнадцатеричных символа.');
   const ids=new Set(),apps=new Set();
   data.games.forEach((g,i)=>{
     if(!g||typeof g!=='object')throw new Error('Некорректная запись игры №'+(i+1)+'.');
@@ -269,7 +268,7 @@ function applyLauncherRelease(){
   const version=$('launcherVersion').value.trim();
   const url=$('launcherDriveLink').value.trim();
   const sha256=$('launcherSha256').value.trim().toLowerCase();
-  if(!/^v?\d+\.\d+\.\d+$/i.test(version)){showToast('Укажи версию в формате v1.8.3.',true);return;}
+  if(!/^v?\d+\.\d+\.\d+$/i.test(version)){showToast('Укажи версию в формате v1.8.5.',true);return;}
   if(!isGoogleDriveFileUrl(url)){showToast('Добавь ссылку Google Drive на отдельный EXE-файл, а не на папку.',true);return;}
   if(!/^[a-f0-9]{64}$/.test(sha256)){showToast('SHA-256 должен содержать ровно 64 шестнадцатеричных символа.',true);return;}
   catalog.launcher_update={version:version[0].toLowerCase()==='v'?version:'v'+version,download_url:url,sha256};
