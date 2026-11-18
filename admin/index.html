@@ -46,7 +46,7 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
     <div class="field"><label for="tokenInput">Fine-grained Personal Access Token</label><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…"></div>
     <div class="login-actions"><button class="btn primary full" id="connectBtn" type="button">Подключить GitHub</button><div class="hint">Создай токен с доступом только к репозиторию <b>S5668090/blackwater-catalog</b>: Contents — Read and write, Metadata — Read-only.</div><a class="hint" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Создать Fine-grained token на GitHub ↗</a></div>
     <div class="notice hidden" id="loginError" role="alert" style="margin-top:14px;background:#3a2028;border-color:#62343b;color:#ffc5c8"></div>
-    <div class="security">🔒 GitHub-токен не сохраняется в браузере и не отправляется на сторонние серверы. Он используется только в текущей вкладке для запросов к api.github.com. При закрытии или перезагрузке страницы подключение нужно повторить.</div>
+    <div class="security">🔒 Токен не сохраняется в браузере и не отправляется на сторонние серверы. Он используется только в текущей вкладке для запросов к api.github.com. При закрытии или перезагрузке страницы подключение нужно повторить.</div>
   </section>
   <section id="appPanel" class="hidden">
     <div class="hero">
@@ -78,15 +78,10 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
     <div class="field"><label for="dlcDescription">Описание</label><textarea id="dlcDescription" placeholder="Короткое описание"></textarea></div>
     <div class="field"><label for="dlcUrl">HTTPS-ссылка на ZIP-архив</label><input id="dlcUrl" type="url" placeholder="https://…"></div>
     <div class="field">
-      <label for="googleDriveClientId">Google OAuth Client ID</label>
-      <input id="googleDriveClientId" type="text" autocomplete="off" spellcheck="false" placeholder="1234567890-....apps.googleusercontent.com">
-      <div class="hint">Client ID веб-приложения из Google Cloud Console. Это не секрет; он сохраняется только в этом браузере.</div>
-    </div>
-    <div class="field">
       <label for="packageFile">Или загрузи ZIP прямо на Google Drive</label>
       <input id="packageFile" type="file" accept=".zip,application/zip">
       <button class="btn secondary small" id="uploadGoogleDriveBtn" type="button">Загрузить ZIP на Google Drive</button>
-      <div class="hint" id="uploadGoogleDriveStatus">Для загрузки нужен OAuth Client ID и доступ к Google Drive API.</div>
+      <div class="hint" id="uploadGoogleDriveStatus">После загрузки ZIP будет открыт для чтения по ссылке, а ссылка появится в поле выше.</div>
     </div>
     <label class="checkrow"><input id="dlcFeatured" type="checkbox"> Рекомендованное DLC</label>
     <div class="hint">Для Google Drive нужен доступ «Все, у кого есть ссылка — Читатель». При ручном вводе используй ссылку на отдельный ZIP-файл, не на папку.</div>
@@ -98,11 +93,7 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
 (function(){
 'use strict';
 const OWNER='S5668090',REPO='blackwater-catalog',BRANCH='main',API='https://api.github.com';
-const DRIVE_SCOPE='https://www.googleapis.com/auth/drive.file';
-const DRIVE_UPLOAD_URL='https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable';
-const CLIENT_ID_KEY='blackwater.googleDriveOAuthClientId';
 let token='',catalog=null,catalogSha='',selectedId=null,dirty=false,toastTimer=0,editingDlcIndex=-1;
-let googleIdentityLoaded=false,googleIdentityPromise=null;
 const $=id=>document.getElementById(id);
 function escapeHtml(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function showToast(message,error){const el=$('toast');el.textContent=message;el.classList.remove('hidden','error');if(error)el.classList.add('error');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add('hidden'),4200);}
@@ -110,12 +101,31 @@ function setStatus(s){$('topStatus').textContent=s;}
 function utf8ToBase64(text){const bytes=new TextEncoder().encode(text);let binary='';for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(binary);}
 function base64ToUtf8(text){const binary=atob(text.replace(/\s/g,''));const bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);return new TextDecoder('utf-8',{fatal:true}).decode(bytes);}
 async function github(path,options){
-  const init=Object.assign({method:'GET',cache:'no-store'},options||{});init.cache='no-store';
-  init.headers=Object.assign({'Accept':'application/vnd.github+json','Authorization':'Bearer '+token},(options&&options.headers)||{});
+  const init=Object.assign({method:'GET',cache:'no-store'},options||{});
+  init.cache='no-store';
+  init.headers=Object.assign({
+    'Accept':'application/vnd.github+json',
+    'Authorization':'Bearer '+token,
+  },(options&&options.headers)||{});
   let response;
-  try{response=await fetch(API+path,init);}catch(e){const original=e&&e.message?e.message:'неизвестная ошибка браузера';const error=new Error('Браузер не получил ответ от GitHub API. Возможны блокировка CORS, расширение-блокировщик или проблема сети. Подробности браузера: '+original);error.status=0;throw error;}
-  const text=await response.text();let data={};try{data=text?JSON.parse(text):{};}catch(_){throw new Error('GitHub вернул некорректный ответ (HTTP '+response.status+').');}
-  if(!response.ok){let msg=data.message||('HTTP '+response.status);if(response.status===401)msg='Токен GitHub недействителен или отозван. Создай новый Fine-grained token.';else if(response.status===403)msg='GitHub запретил запись (403). Проверь, что токен выдан именно для S5668090/blackwater-catalog и имеет Contents: Read and write. Также проверь Branch protection / Rulesets для main. Ответ GitHub: '+msg;else if(response.status===404)msg='GitHub не нашёл каталог или токен не имеет доступа к репозиторию (404). Проверь выбранный репозиторий в токене.';else if(response.status===409)msg='Конфликт версии файла (409). Каталог на GitHub изменился одновременно с этой вкладкой. Перезагрузи страницу и повтори правки. Ответ GitHub: '+msg;else if(response.status===422)msg='GitHub отклонил публикацию (422). Частая причина — файл не изменился или нарушено правило репозитория. Ответ GitHub: '+msg;const error=new Error(msg);error.status=response.status;error.response=data;throw error;}
+  try {
+    response=await fetch(API+path,init);
+  } catch(e) {
+    const original=(e&&e.message)?e.message:'неизвестная ошибка браузера';
+    const error=new Error('Браузер не получил ответ от GitHub API. Возможны блокировка CORS, расширение-блокировщик или проблема сети. Подробности браузера: '+original);
+    error.status=0; throw error;
+  }
+  const text=await response.text();let data={};
+  try{data=text?JSON.parse(text):{};}catch(_){throw new Error('GitHub вернул некорректный ответ (HTTP '+response.status+').');}
+  if(!response.ok){
+    let msg=data.message||('HTTP '+response.status);
+    if(response.status===401)msg='Токен GitHub недействителен или отозван. Создай новый Fine-grained token.';
+    else if(response.status===403)msg='GitHub запретил запись (403). Проверь, что токен выдан именно для S5668090/blackwater-catalog и имеет Contents: Read and write. Также проверь Branch protection / Rulesets для main. Ответ GitHub: '+msg;
+    else if(response.status===404)msg='GitHub не нашёл каталог или токен не имеет доступа к репозиторию (404). Проверь выбранный репозиторий в токене.';
+    else if(response.status===409)msg='Конфликт версии файла (409). Каталог на GitHub изменился одновременно с этой вкладкой. Перезагрузи страницу и повтори правки. Ответ GitHub: '+msg;
+    else if(response.status===422)msg='GitHub отклонил публикацию (422). Частая причина — файл не изменился или нарушено правило репозитория. Ответ GitHub: '+msg;
+    const error=new Error(msg);error.status=response.status;error.response=data;throw error;
+  }
   return data;
 }
 function validateCatalog(data){
@@ -132,7 +142,7 @@ function validateCatalog(data){
     if(!String(g.steam_folder||'').trim()||/[\\/:*?"<>|]/.test(g.steam_folder))throw new Error('Проверь Steam folder у игры '+g.name+'.');
     if(g.cover_url&&!/^https:\/\//i.test(g.cover_url))throw new Error('Обложка должна иметь HTTPS-ссылку: '+g.name);
     if(!Array.isArray(g.dlcs))g.dlcs=g.mod_pack&&typeof g.mod_pack==='object'&&!Array.isArray(g.mod_pack)?[g.mod_pack]:[];
-    if(g.dlcs.length>10000)throw new Error('У игры '+g.name+' больше 10000 DLC. Лимит админки — 10000 на игру.');
+    if(g.dlcs.length>10000)throw new Error('У игры '+g.name+' больше 10000 DLC. Лимит лаунчера — 10000 на игру.');
     const dlcIds=new Set();
     g.dlcs.forEach((d,di)=>{
       if(!d||typeof d!=='object'||Array.isArray(d))throw new Error('Некорректная запись DLC №'+(di+1)+' в игре '+g.name+'.');
@@ -143,95 +153,213 @@ function validateCatalog(data){
       if(String(d.description||'').length>1000)throw new Error('Описание DLC слишком длинное: '+d.name);
       d.description=d.description||'';d.download_url=d.download_url||'';d.featured=d.featured!==false;
     });
-    // Keep the first DLC in mod_pack for compatibility with older launcher builds.
+    // Legacy launcher compatibility: keep the first DLC in mod_pack.
     g.mod_pack=g.dlcs.length?g.dlcs[0]:null;
   });
 }
 async function connect(){
-  const value=$('tokenInput').value.trim();if(!value){showToast('Вставь Fine-grained token.',true);return;}token=value;$('loginError').classList.add('hidden');$('loginError').textContent='';$('connectBtn').disabled=true;$('connectBtn').textContent='Проверка токена…';setStatus('Подключение к GitHub…');
-  try{await loadCatalog();$('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');setStatus('Подключено · '+OWNER+'/'+REPO);showToast('Каталог загружен.');}
-  catch(e){token='';setStatus('Не подключено');$('loginError').textContent=e&&e.message?e.message:'Не удалось подключиться к GitHub.';$('loginError').classList.remove('hidden');showToast($('loginError').textContent,true);}
-  finally{$('connectBtn').disabled=false;$('connectBtn').textContent='Подключить GitHub';}
+  const value=$('tokenInput').value.trim();if(!value){showToast('Вставь Fine-grained token.',true);return;}
+  token=value;
+  $('loginError').classList.add('hidden');$('loginError').textContent='';
+  $('connectBtn').disabled=true;$('connectBtn').textContent='Проверка токена…';setStatus('Подключение к GitHub…');
+  try{
+    await loadCatalog();
+    $('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');
+    setStatus('Подключено · '+OWNER+'/'+REPO);showToast('Каталог загружен.');
+  }catch(e){
+    token='';setStatus('Не подключено');
+    $('loginError').textContent=e&&e.message?e.message:'Не удалось подключиться к GitHub.';
+    $('loginError').classList.remove('hidden');
+    showToast($('loginError').textContent,true);
+  }finally{
+    $('connectBtn').disabled=false;$('connectBtn').textContent='Подключить GitHub';
+  }
 }
 async function loadCatalog(){
-  const data=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);if(!data.content||data.encoding!=='base64'||!data.sha)throw new Error('GitHub не вернул содержимое catalog.json и его SHA.');
-  const parsed=JSON.parse(base64ToUtf8(data.content));const before=JSON.stringify(parsed);validateCatalog(parsed);const migrated=JSON.stringify(parsed)!==before;catalog=parsed;catalogSha=data.sha;dirty=migrated;
-  if(!selectedId||!catalog.games.some(g=>g.id===selectedId))selectedId=catalog.games[0].id;renderAll();
-  $('connectionNotice').textContent=migrated?'Старые записи преобразованы в список DLC. Первое DLC также сохранено в mod_pack для совместимости со старыми версиями лаунчера. Нажми «Опубликовать», чтобы сохранить формат в main.':'Подключено к GitHub. Сначала сохрани изменения игры или DLC, затем нажми «Опубликовать» для создания коммита в main.';syncPublishButton();
+  const data=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);
+  if(!data.content||data.encoding!=='base64'||!data.sha)throw new Error('GitHub не вернул содержимое catalog.json и его SHA.');
+  const parsed=JSON.parse(base64ToUtf8(data.content));
+  const before=JSON.stringify(parsed);
+  validateCatalog(parsed);
+  const migrated=JSON.stringify(parsed)!==before;
+  catalog=parsed;catalogSha=data.sha;dirty=migrated;
+  if(!selectedId||!catalog.games.some(g=>g.id===selectedId))selectedId=catalog.games[0].id;
+  renderAll();
+  $('connectionNotice').textContent=migrated
+    ? 'Старые записи преобразованы в список DLC. Первое DLC также сохранено в mod_pack для совместимости со старыми версиями лаунчера. Нажми «Опубликовать», чтобы сохранить формат в main.'
+    : 'Подключено к GitHub. Сначала сохрани изменения игры или DLC, затем нажми «Опубликовать» для создания коммита в main.';
+  syncPublishButton();
 }
-function markDirty(){dirty=true;$('connectionNotice').textContent='Есть неопубликованные изменения. Нажми «Опубликовать», чтобы создать Git-коммит в main.';syncPublishButton();}
-function syncPublishButton(){const b=$('publishBtn');if(!b)return;b.disabled=!dirty;b.title=dirty?'Опубликовать изменения и создать Git-коммит':'Нет изменений для Git-коммита';}
-function renderAll(){$('gameCount').textContent=catalog.games.length;$('dlcCount').textContent=catalog.games.reduce((total,g)=>total+(Array.isArray(g.dlcs)?g.dlcs.length:(g.mod_pack?1:0)),0);$('catalogVersion').textContent=catalog.catalog_version||'—';renderGameList();renderEditor();syncPublishButton();}
-function renderGameList(){const q=$('gameSearch').value.trim().toLowerCase();const list=catalog.games.filter(g=>(g.name+' '+g.id).toLowerCase().includes(q));$('gameList').innerHTML=list.length?list.map(g=>'<button type="button" class="gameitem '+(g.id===selectedId?'active':'')+'" data-id="'+escapeHtml(g.id)+'"><span class="dot"></span><span>'+escapeHtml(g.name)+'</span></button>').join(''):'<div class="empty">Ничего не найдено.</div>';$('gameList').querySelectorAll('[data-id]').forEach(btn=>btn.addEventListener('click',()=>{selectedId=btn.dataset.id;renderGameList();renderEditor();}));}
+function markDirty(){
+  dirty=true;
+  $('connectionNotice').textContent='Есть неопубликованные изменения. Нажми «Опубликовать», чтобы создать Git-коммит в main.';
+  syncPublishButton();
+}
+function syncPublishButton(){
+  const b=$('publishBtn');if(!b)return;
+  b.disabled=!dirty;
+  b.title=dirty?'Опубликовать изменения и создать Git-коммит':'Нет изменений для Git-коммита';
+}
+function renderAll(){
+  $('gameCount').textContent=catalog.games.length;
+  $('dlcCount').textContent=catalog.games.reduce((total,g)=>total+(Array.isArray(g.dlcs)?g.dlcs.length:(g.mod_pack?1:0)),0);
+  $('catalogVersion').textContent=catalog.catalog_version||'—';
+  renderGameList();renderEditor();syncPublishButton();
+}
+function renderGameList(){
+  const q=$('gameSearch').value.trim().toLowerCase();
+  const list=catalog.games.filter(g=>(g.name+' '+g.id).toLowerCase().includes(q));
+  $('gameList').innerHTML=list.length?list.map(g=>'<button type="button" class="gameitem '+(g.id===selectedId?'active':'')+'" data-id="'+escapeHtml(g.id)+'"><span class="dot"></span><span>'+escapeHtml(g.name)+'</span></button>').join(''):'<div class="empty">Ничего не найдено.</div>';
+  $('gameList').querySelectorAll('[data-id]').forEach(btn=>btn.addEventListener('click',()=>{selectedId=btn.dataset.id;renderGameList();renderEditor();}));
+}
 function currentGame(){return catalog.games.find(g=>g.id===selectedId)||null;}
 function renderEditor(){
   const g=currentGame();if(!g){$('editor').innerHTML='<div class="empty">Добавь или выбери игру.</div>';return;}
-  $('editor').innerHTML='<div class="editorhead"><div><div class="eyebrow">Редактирование игры</div><h2>'+escapeHtml(g.name)+'</h2><p>ID: '+escapeHtml(g.id)+' · Steam AppID: '+escapeHtml(g.steam_app_id)+'</p></div><button class="btn danger small" id="deleteGameBtn" type="button">Удалить игру</button></div>'+
-    '<div class="grid">'+field('gameId','ID игры',g.id,'Например: europa-universalis-4')+field('gameName','Название',g.name,'Название в лаунчере')+field('gameAppId','Steam AppID',g.steam_app_id,'Только число','number')+field('gameFolder','Папка Steam',g.steam_folder,'Имя папки в steamapps/common')+field('gameCover','URL обложки',g.cover_url||'','HTTPS-ссылка','url','wide')+'</div>'+
+  $('editor').innerHTML=
+    '<div class="editorhead"><div><div class="eyebrow">Редактирование игры</div><h2>'+escapeHtml(g.name)+'</h2><p>ID: '+escapeHtml(g.id)+' · Steam AppID: '+escapeHtml(g.steam_app_id)+'</p></div><button class="btn danger small" id="deleteGameBtn" type="button">Удалить игру</button></div>'+
+    '<div class="grid">'+
+      field('gameId','ID игры',g.id,'Например: europa-universalis-4')+
+      field('gameName','Название',g.name,'Название в лаунчере')+
+      field('gameAppId','Steam AppID',g.steam_app_id,'Только число','number')+
+      field('gameFolder','Папка Steam',g.steam_folder,'Имя папки в steamapps/common')+
+      field('gameCover','URL обложки',g.cover_url||'','HTTPS-ссылка','url','wide')+
+    '</div>'+
     '<div class="preview"><img id="coverPreview" src="'+escapeHtml(g.cover_url||'')+'" alt="" onerror="this.style.visibility=\'hidden\'" onload="this.style.visibility=\'visible\'"><span id="coverPreviewText">'+(g.cover_url?'Предпросмотр обложки':'Добавь HTTPS-ссылку на обложку')+'</span></div>'+
     '<label class="checkrow"><input id="gameFeatured" type="checkbox" '+(g.featured?'checked':'')+'> Крупная / выделенная карточка на главной</label>'+
     '<div class="sectionhead"><h2>DLC игры</h2><button class="btn secondary small" id="addDlcBtn" type="button">＋ Добавить DLC</button></div>'+
     '<div class="dlclist" id="dlcList">'+renderDlcList(g)+'</div>'+
     '<div class="footeractions"><span class="hint">Изменения локальные до публикации каталога.</span><div class="right"><button class="btn ghost" id="resetGameBtn" type="button">Отменить правки</button><button class="btn primary" id="saveGameBtn" type="button">Сохранить игру</button></div></div>';
-  $('deleteGameBtn').addEventListener('click',deleteGame);$('addDlcBtn').addEventListener('click',()=>openDlc(-1));$('dlcList').querySelectorAll('[data-edit-dlc]').forEach(btn=>btn.addEventListener('click',()=>openDlc(Number(btn.dataset.editDlc))));$('dlcList').querySelectorAll('[data-delete-dlc]').forEach(btn=>btn.addEventListener('click',()=>deleteDlc(Number(btn.dataset.deleteDlc))));$('saveGameBtn').addEventListener('click',saveGame);$('resetGameBtn').addEventListener('click',renderEditor);
+  $('deleteGameBtn').addEventListener('click',deleteGame);$('addDlcBtn').addEventListener('click',()=>openDlc(-1));
+  $('dlcList').querySelectorAll('[data-edit-dlc]').forEach(btn=>btn.addEventListener('click',()=>openDlc(Number(btn.dataset.editDlc))));
+  $('dlcList').querySelectorAll('[data-delete-dlc]').forEach(btn=>btn.addEventListener('click',()=>deleteDlc(Number(btn.dataset.deleteDlc))));
+  $('saveGameBtn').addEventListener('click',saveGame);$('resetGameBtn').addEventListener('click',renderEditor);
   $('gameCover').addEventListener('input',()=>{const url=$('gameCover').value.trim();$('coverPreview').src=url;$('coverPreviewText').textContent=url?'Предпросмотр обложки':'Добавь HTTPS-ссылку на обложку';});
 }
-function field(id,label,value,placeholder,type,extra){return '<div class="field '+(extra||'')+'"><label for="'+id+'">'+label+'</label><input id="'+id+'" type="'+(type||'text')+'" value="'+escapeHtml(value)+'" placeholder="'+escapeHtml(placeholder||'')+'"></div>';}
-function renderDlcList(g){const list=Array.isArray(g.dlcs)?g.dlcs:[];if(!list.length)return '<div class="empty">Для этой игры ещё не добавлено DLC. Нажми «Добавить DLC».</div>';return list.map((d,index)=>'<div class="dlc"><div><strong>'+escapeHtml(d.name)+'</strong><small>'+escapeHtml(d.id)+(d.featured?' · Рекомендованное':'')+'</small></div><div><small>'+escapeHtml(d.download_url||'HTTPS-ссылка на архив не добавлена')+'</small></div><div class="dlcactions"><button class="btn secondary small" type="button" data-edit-dlc="'+index+'">Изменить</button><button class="btn danger small" type="button" data-delete-dlc="'+index+'">Удалить</button></div></div>').join('');}
+function field(id,label,value,placeholder,type,extra){
+  return '<div class="field '+(extra||'')+'"><label for="'+id+'">'+label+'</label><input id="'+id+'" type="'+(type||'text')+'" value="'+escapeHtml(value)+'" placeholder="'+escapeHtml(placeholder||'')+'"></div>';
+}
+function renderDlcList(g){
+  const list=Array.isArray(g.dlcs)?g.dlcs:[];
+  if(!list.length)return '<div class="empty">Для этой игры ещё не добавлено DLC. Нажми «Добавить DLC».</div>';
+  return list.map((d,index)=>'<div class="dlc"><div><strong>'+escapeHtml(d.name)+'</strong><small>'+escapeHtml(d.id)+(d.featured?' · Рекомендованное':'')+'</small></div><div><small>'+escapeHtml(d.download_url||'HTTPS-ссылка на архив не добавлена')+'</small></div><div class="dlcactions"><button class="btn secondary small" type="button" data-edit-dlc="'+index+'">Изменить</button><button class="btn danger small" type="button" data-delete-dlc="'+index+'">Удалить</button></div></div>').join('');
+}
 function saveGame(){
-  const g=currentGame();if(!g)return;const next={id:$('gameId').value.trim(),name:$('gameName').value.trim(),steam_app_id:Number($('gameAppId').value),steam_folder:$('gameFolder').value.trim(),cover_url:$('gameCover').value.trim(),featured:$('gameFeatured').checked,dlcs:Array.isArray(g.dlcs)?g.dlcs:[],mod_pack:(Array.isArray(g.dlcs)&&g.dlcs.length)?g.dlcs[0]:null};
-  if(!/^[A-Za-z0-9_-]{1,80}$/.test(next.id)||!next.name||!Number.isInteger(next.steam_app_id)||next.steam_app_id<=0||!next.steam_folder){showToast('Проверь ID, название, Steam AppID и папку Steam.',true);return;}if(next.cover_url&&!/^https:\/\//i.test(next.cover_url)){showToast('Ссылка на обложку должна начинаться с HTTPS.',true);return;}if(catalog.games.some(x=>x!==g&&(x.id===next.id||Number(x.steam_app_id)===next.steam_app_id))){showToast('Такой ID игры или Steam AppID уже существует.',true);return;}
-  const oldId=g.id;Object.assign(g,next);if(oldId!==next.id)selectedId=next.id;markDirty();renderAll();showToast('Изменения игры сохранены в черновике.');
+  const g=currentGame();if(!g)return;
+  const next={id:$('gameId').value.trim(),name:$('gameName').value.trim(),steam_app_id:Number($('gameAppId').value),steam_folder:$('gameFolder').value.trim(),cover_url:$('gameCover').value.trim(),featured:$('gameFeatured').checked,dlcs:Array.isArray(g.dlcs)?g.dlcs:[],mod_pack:(Array.isArray(g.dlcs)&&g.dlcs.length)?g.dlcs[0]:null};
+  if(!/^[A-Za-z0-9_-]{1,80}$/.test(next.id)||!next.name||!Number.isInteger(next.steam_app_id)||next.steam_app_id<=0||!next.steam_folder){showToast('Проверь ID, название, Steam AppID и папку Steam.',true);return;}
+  if(next.cover_url&&!/^https:\/\//i.test(next.cover_url)){showToast('Ссылка на обложку должна начинаться с HTTPS.',true);return;}
+  if(catalog.games.some(x=>x!==g&&(x.id===next.id||Number(x.steam_app_id)===next.steam_app_id))){showToast('Такой ID игры или Steam AppID уже существует.',true);return;}
+  const oldId=g.id;Object.assign(g,next);if(oldId!==next.id)selectedId=next.id;
+  markDirty();renderAll();showToast('Изменения игры сохранены в черновике.');
 }
-function addGame(){let base='new-game',n=1,id=base;while(catalog.games.some(g=>g.id===id))id=base+'-'+n++;const g={id,name:'Новая игра',steam_app_id:1,steam_folder:'Game Folder',cover_url:'',featured:false,dlcs:[],mod_pack:null};catalog.games.push(g);selectedId=id;markDirty();renderAll();$('gameName').focus();$('gameName').select();showToast('Создан черновик. Заполни поля и сохрани игру.');}
-function deleteGame(){const g=currentGame();if(!g)return;if(!confirm('Удалить игру «'+g.name+'» и все её DLC из каталога?'))return;catalog.games=catalog.games.filter(x=>x.id!==g.id);selectedId=catalog.games[0]?catalog.games[0].id:null;markDirty();renderAll();showToast('Игра удалена из черновика.');}
-function makeDlcId(g){const used=new Set((Array.isArray(g.dlcs)?g.dlcs:[]).map(d=>d.id));let id='new-dlc',n=2;while(used.has(id))id='new-dlc-'+n++;return id;}
-function openDlc(index){const g=currentGame();if(!g)return;const list=Array.isArray(g.dlcs)?g.dlcs:[];editingDlcIndex=Number.isInteger(index)?index:-1;const p=editingDlcIndex>=0&&list[editingDlcIndex]?list[editingDlcIndex]:{id:makeDlcId(g),name:'',description:'',download_url:'',featured:false};$('dlcDialogTitle').textContent=editingDlcIndex>=0?'Изменить DLC':'Добавить DLC';$('dlcId').value=p.id;$('dlcName').value=p.name;$('dlcDescription').value=p.description||'';$('dlcUrl').value=p.download_url||'';$('dlcFeatured').checked=p.featured===true;$('packageFile').value='';$('uploadGoogleDriveStatus').textContent='Выбери ZIP и загрузи его на Google Drive. Ссылка появится в поле выше.';$('dlcDialog').showModal();}
+function addGame(){
+  let base='new-game',n=1,id=base;while(catalog.games.some(g=>g.id===id)){id=base+'-'+n++;}
+  const g={id,name:'Новая игра',steam_app_id:1,steam_folder:'Game Folder',cover_url:'',featured:false,dlcs:[],mod_pack:null};
+  catalog.games.push(g);selectedId=id;markDirty();renderAll();$('gameName').focus();$('gameName').select();showToast('Создан черновик. Заполни поля и сохрани игру.');
+}
+function deleteGame(){
+  const g=currentGame();if(!g)return;if(!confirm('Удалить игру «'+g.name+'» и все её DLC из каталога?'))return;
+  catalog.games=catalog.games.filter(x=>x.id!==g.id);selectedId=catalog.games[0]?catalog.games[0].id:null;markDirty();renderAll();showToast('Игра удалена из черновика.');
+}
+function makeDlcId(g){
+  const used=new Set((Array.isArray(g.dlcs)?g.dlcs:[]).map(d=>d.id));
+  let id='new-dlc',n=2;while(used.has(id))id='new-dlc-'+n++;
+  return id;
+}
+function openDlc(index){
+  const g=currentGame();if(!g)return;
+  const list=Array.isArray(g.dlcs)?g.dlcs:[];
+  editingDlcIndex=Number.isInteger(index)?index:-1;
+  const p=editingDlcIndex>=0&&list[editingDlcIndex]?list[editingDlcIndex]:{id:makeDlcId(g),name:'',description:'',download_url:'',featured:false};
+  $('dlcDialogTitle').textContent=editingDlcIndex>=0?'Изменить DLC':'Добавить DLC';
+  $('dlcId').value=p.id;$('dlcName').value=p.name;$('dlcDescription').value=p.description||'';
+  $('dlcUrl').value=p.download_url||'';$('dlcFeatured').checked=p.featured===true;
+  $('packageFile').value='';$('uploadGoogleDriveStatus').textContent='После загрузки ZIP будет открыт для чтения по ссылке, а ссылка появится в поле выше.';
+  $('dlcDialog').showModal();
+}
 function saveDlc(event){
-  event.preventDefault();const g=currentGame();if(!g)return;const d={id:$('dlcId').value.trim(),name:$('dlcName').value.trim(),description:$('dlcDescription').value.trim(),download_url:$('dlcUrl').value.trim(),featured:$('dlcFeatured').checked};
-  if(!/^[A-Za-z0-9_-]{1,80}$/.test(d.id)||!d.name){showToast('Укажи корректный ID и название DLC.',true);return;}if(d.download_url&&!/^https:\/\//i.test(d.download_url)){showToast('Ссылка на DLC должна начинаться с HTTPS.',true);return;}if(d.description.length>1000){showToast('Описание DLC не должно превышать 1000 символов.',true);return;}
-  if(!Array.isArray(g.dlcs))g.dlcs=g.mod_pack?[g.mod_pack]:[];if(editingDlcIndex<0&&g.dlcs.length>=10000){showToast('Достигнут лимит 10000 DLC для одной игры.',true);return;}if(g.dlcs.some((item,index)=>index!==editingDlcIndex&&item.id===d.id)){showToast('В этой игре уже есть DLC с таким ID.',true);return;}
-  if(editingDlcIndex>=0)g.dlcs[editingDlcIndex]=d;else g.dlcs.push(d);g.mod_pack=g.dlcs.length?g.dlcs[0]:null;$('dlcDialog').close();markDirty();renderAll();showToast('DLC сохранено в черновике.');
+  event.preventDefault();const g=currentGame();if(!g)return;
+  const d={id:$('dlcId').value.trim(),name:$('dlcName').value.trim(),description:$('dlcDescription').value.trim(),download_url:$('dlcUrl').value.trim(),featured:$('dlcFeatured').checked};
+  if(!/^[A-Za-z0-9_-]{1,80}$/.test(d.id)||!d.name){showToast('Укажи корректный ID и название DLC.',true);return;}
+  if(d.download_url&&!/^https:\/\//i.test(d.download_url)){showToast('Ссылка на DLC должна начинаться с HTTPS.',true);return;}
+  if(d.description.length>1000){showToast('Описание DLC не должно превышать 1000 символов.',true);return;}
+  if(!Array.isArray(g.dlcs))g.dlcs=g.mod_pack?[g.mod_pack]:[];
+  if(editingDlcIndex<0&&g.dlcs.length>=10000){showToast('Достигнут лимит 10000 DLC для одной игры.',true);return;}
+  if(g.dlcs.some((item,index)=>index!==editingDlcIndex&&item.id===d.id)){showToast('В этой игре уже есть DLC с таким ID.',true);return;}
+  if(editingDlcIndex>=0)g.dlcs[editingDlcIndex]=d;else g.dlcs.push(d);
+  g.mod_pack=g.dlcs.length?g.dlcs[0]:null;
+  $('dlcDialog').close();markDirty();renderAll();showToast('DLC сохранено в черновике.');
 }
-function deleteDlc(index){const g=currentGame();if(!g||!Array.isArray(g.dlcs)||!g.dlcs[index])return;const d=g.dlcs[index];if(!confirm('Удалить DLC «'+d.name+'»?'))return;g.dlcs.splice(index,1);g.mod_pack=g.dlcs.length?g.dlcs[0]:null;markDirty();renderAll();showToast('DLC удалено из черновика.');}
-function getGoogleErrorMessage(payload,fallback){if(payload&&payload.error&&typeof payload.error==='object')return payload.error.message||payload.error.status||fallback;if(payload&&typeof payload.error==='string')return payload.error_description||payload.error;return fallback;}
-async function loadGoogleIdentityServices(){
-  if(window.google&&window.google.accounts&&window.google.accounts.oauth2){googleIdentityLoaded=true;return;}if(googleIdentityPromise)return googleIdentityPromise;
-  googleIdentityPromise=new Promise((resolve,reject)=>{const existing=document.querySelector('script[data-blackwater-google-identity]');if(existing){existing.addEventListener('load',resolve,{once:true});existing.addEventListener('error',()=>reject(new Error('Не удалось загрузить Google Identity Services.')),{once:true});return;}const script=document.createElement('script');script.src='https://accounts.google.com/gsi/client';script.async=true;script.defer=true;script.dataset.blackwaterGoogleIdentity='true';script.onload=resolve;script.onerror=()=>{script.remove();reject(new Error('Не удалось загрузить Google Identity Services. Проверь интернет и блокировщик.'));};document.head.appendChild(script);});
-  await googleIdentityPromise;if(!(window.google&&window.google.accounts&&window.google.accounts.oauth2))throw new Error('Google Identity Services загрузился некорректно.');googleIdentityLoaded=true;
+function deleteDlc(index){
+  const g=currentGame();if(!g||!Array.isArray(g.dlcs)||!g.dlcs[index])return;
+  const d=g.dlcs[index];if(!confirm('Удалить DLC «'+d.name+'»?'))return;
+  g.dlcs.splice(index,1);g.mod_pack=g.dlcs.length?g.dlcs[0]:null;
+  markDirty();renderAll();showToast('DLC удалено из черновика.');
 }
-function requestDriveAccessToken(clientId){return new Promise((resolve,reject)=>{try{const tokenClient=window.google.accounts.oauth2.initTokenClient({client_id:clientId,scope:DRIVE_SCOPE,callback:response=>{if(!response||response.error||!response.access_token){reject(new Error((response&&(response.error_description||response.error))||'Google не выдал токен доступа.'));return;}resolve(response.access_token);},error_callback:error=>reject(new Error((error&&error.message)||'Не удалось открыть окно авторизации Google.'))});tokenClient.requestAccessToken({prompt:''});}catch(error){reject(error);}});}
-async function beginDriveResumableUpload(file,accessToken){
-  const response=await fetch(DRIVE_UPLOAD_URL+'&fields=id,name,webViewLink,size,resourceKey',{method:'POST',headers:{'Authorization':'Bearer '+accessToken,'Content-Type':'application/json; charset=UTF-8','X-Upload-Content-Type':'application/zip','X-Upload-Content-Length':String(file.size)},body:JSON.stringify({name:file.name,mimeType:'application/zip'})});
-  if(!response.ok){const body=await response.json().catch(()=>null);throw new Error('Google Drive не смог начать загрузку (HTTP '+response.status+'): '+getGoogleErrorMessage(body,response.statusText));}const sessionUrl=response.headers.get('Location');if(!sessionUrl)throw new Error('Google Drive не вернул адрес сессии resumable upload.');return sessionUrl;
-}
-function uploadDriveFileWithProgress(sessionUrl,file){return new Promise((resolve,reject)=>{const xhr=new XMLHttpRequest();xhr.open('PUT',sessionUrl,true);xhr.setRequestHeader('Content-Type','application/zip');xhr.upload.onprogress=event=>{if(event.lengthComputable){const pct=Math.round(event.loaded/event.total*100);$('uploadGoogleDriveStatus').textContent='Загрузка в Google Drive: '+pct+'% ('+(event.loaded/1048576).toFixed(1)+' / '+(event.total/1048576).toFixed(1)+' МБ)';}else $('uploadGoogleDriveStatus').textContent='Загрузка ZIP в Google Drive…';};xhr.onerror=()=>reject(new Error('Сетевой сбой при передаче ZIP в Google Drive. Создай новую сессию загрузки и повтори попытку.'));xhr.onabort=()=>reject(new Error('Загрузка в Google Drive отменена.'));xhr.onload=()=>{let body=null;try{body=xhr.responseText?JSON.parse(xhr.responseText):null;}catch(_){}if(xhr.status<200||xhr.status>=300||!body||!body.id){reject(new Error('Google Drive не принял ZIP (HTTP '+xhr.status+'): '+getGoogleErrorMessage(body,xhr.statusText||'Некорректный ответ сервера.')));return;}resolve(body);};try{xhr.send(file);}catch(error){reject(new Error('Не удалось начать передачу ZIP: '+(error.message||'ошибка браузера')));}});}
-async function enableDrivePublicRead(fileId,accessToken){
-  const endpoint='https://www.googleapis.com/drive/v3/files/'+encodeURIComponent(fileId)+'/permissions?supportsAllDrives=true&fields=id';const response=await fetch(endpoint,{method:'POST',headers:{'Authorization':'Bearer '+accessToken,'Content-Type':'application/json; charset=UTF-8'},body:JSON.stringify({type:'anyone',role:'reader',allowFileDiscovery:false})});
-  if(!response.ok){const body=await response.json().catch(()=>null);throw new Error('ZIP загружен, но Google не разрешил доступ «Все, у кого есть ссылка» (HTTP '+response.status+'): '+getGoogleErrorMessage(body,response.statusText)+'. Проверь политику общего доступа Google Workspace. ID файла: '+fileId);}
-}
-async function uploadDlcToGoogleDrive(){
-  const file=$('packageFile').files&&$('packageFile').files[0];const clientId=$('googleDriveClientId').value.trim();if(!file)throw new Error('Сначала выбери ZIP-файл.');if(!/\.zip$/i.test(file.name))throw new Error('Можно загрузить только ZIP-архив.');if(!clientId||!/\.apps\.googleusercontent\.com$/i.test(clientId))throw new Error('Введи корректный Google OAuth Client ID веб-приложения (оканчивается на .apps.googleusercontent.com).');
-  try{localStorage.setItem(CLIENT_ID_KEY,clientId);}catch(_){}if(!googleIdentityLoaded)throw new Error('Компонент авторизации Google ещё загружается. Повтори нажатие через секунду.');
-  // Request the OAuth popup before the first await, while the click retains user activation.
-  const accessTokenRequest=requestDriveAccessToken(clientId);const button=$('uploadGoogleDriveBtn');button.disabled=true;
-  try{$('uploadGoogleDriveStatus').textContent='Подключение к Google Drive…';const accessToken=await accessTokenRequest;$('uploadGoogleDriveStatus').textContent='Создание сессии загрузки…';const sessionUrl=await beginDriveResumableUpload(file,accessToken);$('uploadGoogleDriveStatus').textContent='Загрузка ZIP в Google Drive…';const uploaded=await uploadDriveFileWithProgress(sessionUrl,file);$('uploadGoogleDriveStatus').textContent='Настройка доступа по ссылке…';await enableDrivePublicRead(uploaded.id,accessToken);
-    const shareUrl='https://drive.google.com/file/d/'+encodeURIComponent(uploaded.id)+'/view?usp=sharing'+(uploaded.resourceKey?'&resourcekey='+encodeURIComponent(uploaded.resourceKey):'');$('dlcUrl').value=shareUrl;$('dlcUrl').dispatchEvent(new Event('input',{bubbles:true}));const sizeMb=(Number(uploaded.size||file.size)/1048576).toFixed(1);$('uploadGoogleDriveStatus').textContent='Загружено: '+file.name+' · '+sizeMb+' МБ. Доступ по ссылке включён, ссылка вставлена в поле DLC. Нажми «Сохранить DLC».';showToast('ZIP загружен в Google Drive и открыт для чтения по ссылке.');
-  }finally{button.disabled=false;}
-}
-async function handleGoogleDriveUpload(){try{await uploadDlcToGoogleDrive();}catch(error){const message=error&&error.message?error.message:'Не удалось загрузить ZIP в Google Drive.';$('uploadGoogleDriveStatus').textContent=message;showToast(message,true);}}
+
 async function publish(){
-  const btn=$('publishBtn');if(!dirty){showToast('Нет неопубликованных изменений. GitHub не создаёт пустой коммит.');return;}
-  try{if(btn){btn.disabled=true;btn.textContent='Публикация…';}validateCatalog(catalog);catalog.catalog_version=catalog.catalog_version||'1.0.0';catalog.updated_at=new Date().toISOString().slice(0,10);const content=JSON.stringify(catalog,null,2)+'\n';const remote=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);if(!remote.sha||!remote.content)throw new Error('GitHub не вернул текущую версию catalog.json.');if(remote.sha!==catalogSha)throw new Error('Каталог на GitHub изменился после его загрузки. Перезагрузи админку, чтобы не затереть чужие изменения, затем повтори правки.');const remoteText=base64ToUtf8(remote.content);if(remoteText===content){catalogSha=remote.sha;dirty=false;$('connectionNotice').textContent='Изменений нет: содержимое уже совпадает с GitHub. Новый коммит не требуется.';showToast('Содержимое не изменилось — пустой коммит не создавался.');syncPublishButton();return;}
-    const data=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'Update Blackwater catalog '+catalog.updated_at,content:utf8ToBase64(content),sha:remote.sha,branch:BRANCH})});const commitSha=data&&data.commit&&data.commit.sha;const newBlobSha=data&&data.content&&data.content.sha;if(!commitSha||!newBlobSha)throw new Error('GitHub принял запрос, но не вернул SHA созданного коммита/файла. Проверь вкладку commits в репозитории.');const commit=await github('/repos/'+OWNER+'/'+REPO+'/commits/'+commitSha);if(commit.sha!==commitSha)throw new Error('GitHub не подтвердил созданный коммит '+commitSha+'.');const after=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);if(after.sha!==newBlobSha)throw new Error('Коммит создан ('+commitSha.slice(0,7)+'), но проверка main не совпала с новым файлом. Проверь историю репозитория.');catalogSha=newBlobSha;dirty=false;$('connectionNotice').textContent='Опубликовано в main. Git-коммит: '+commitSha+'. Пользователи получат каталог при следующем запуске лаунчера.';renderAll();showToast('Git-коммит создан: '+commitSha.slice(0,7));setStatus('Опубликовано · '+new Date().toLocaleTimeString());
-  }catch(e){const message=e&&e.message?e.message:'Неизвестная ошибка публикации.';$('connectionNotice').textContent='Публикация не выполнена: '+message;setStatus('Ошибка публикации');showToast(message,true);}finally{if(btn)btn.textContent='Опубликовать';syncPublishButton();}
+  const btn=$('publishBtn');
+  if(!dirty){showToast('Нет неопубликованных изменений. GitHub не создаёт пустой коммит.');return;}
+  try{
+    if(btn){btn.disabled=true;btn.textContent='Публикация…';}
+    validateCatalog(catalog);
+    catalog.catalog_version=catalog.catalog_version||'1.0.0';
+    catalog.updated_at=new Date().toISOString().slice(0,10);
+    const content=JSON.stringify(catalog,null,2)+'\n';
+    const remote=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);
+    if(!remote.sha||!remote.content)throw new Error('GitHub не вернул текущую версию catalog.json.');
+    if(remote.sha!==catalogSha)throw new Error('Каталог на GitHub изменился после его загрузки. Перезагрузи админку, чтобы не затереть чужие изменения, затем повтори правки.');
+
+    const remoteText=base64ToUtf8(remote.content);
+    if(remoteText===content){
+      catalogSha=remote.sha;dirty=false;
+      $('connectionNotice').textContent='Изменений нет: содержимое уже совпадает с GitHub. Новый коммит не требуется.';
+      showToast('Содержимое не изменилось — пустой коммит не создавался.');
+      syncPublishButton();return;
+    }
+
+    const data=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json',{
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:'Update Blackwater catalog '+catalog.updated_at,content:utf8ToBase64(content),sha:remote.sha,branch:BRANCH})
+    });
+    const commitSha=data&&data.commit&&data.commit.sha;
+    const newBlobSha=data&&data.content&&data.content.sha;
+    if(!commitSha||!newBlobSha)throw new Error('GitHub принял запрос, но не вернул SHA созданного коммита/файла. Проверь вкладку commits в репозитории.');
+
+    const commit=await github('/repos/'+OWNER+'/'+REPO+'/commits/'+commitSha);
+    if(commit.sha!==commitSha)throw new Error('GitHub не подтвердил созданный коммит '+commitSha+'.');
+    const after=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);
+    if(after.sha!==newBlobSha)throw new Error('Коммит создан ('+commitSha.slice(0,7)+'), но проверка main не совпала с новым файлом. Проверь историю репозитория.');
+
+    catalogSha=newBlobSha;dirty=false;
+    $('connectionNotice').textContent='Опубликовано в main. Git-коммит: '+commitSha+'. Пользователи получат каталог при следующем запуске лаунчера.';
+    renderAll();showToast('Git-коммит создан: '+commitSha.slice(0,7));setStatus('Опубликовано · '+new Date().toLocaleTimeString());
+  }catch(e){
+    const message=e&&e.message?e.message:'Неизвестная ошибка публикации.';
+    $('connectionNotice').textContent='Публикация не выполнена: '+message;
+    setStatus('Ошибка публикации');showToast(message,true);
+  }finally{
+    if(btn){btn.textContent='Опубликовать';}
+    syncPublishButton();
+  }
 }
-function addPublishButton(){const old=$('publishBtn');if(old)return;const b=document.createElement('button');b.id='publishBtn';b.className='btn primary';b.type='button';b.textContent='Опубликовать';b.addEventListener('click',publish);const slot=document.createElement('span');slot.id='publishSlot';slot.appendChild(b);$('logoutBtn').before(slot);syncPublishButton();}
-function logout(){if(dirty&&!confirm('Есть неопубликованные изменения. Выйти без публикации?'))return;token='';catalog=null;catalogSha='';selectedId=null;dirty=false;$('tokenInput').value='';$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');const slot=$('publishSlot');if(slot)slot.remove();setStatus('Не подключено');showToast('Сеанс завершён.');}
-function initGoogleDrive(){try{$('googleDriveClientId').value=localStorage.getItem(CLIENT_ID_KEY)||'';}catch(_){}$('uploadGoogleDriveBtn').disabled=true;$('uploadGoogleDriveStatus').textContent='Загрузка компонента авторизации Google…';loadGoogleIdentityServices().then(()=>{$('uploadGoogleDriveBtn').disabled=false;$('uploadGoogleDriveStatus').textContent='Google Drive готов. Выбери ZIP и нажми кнопку загрузки.';}).catch(error=>{$('uploadGoogleDriveBtn').disabled=false;$('uploadGoogleDriveStatus').textContent=error.message||'Не удалось загрузить Google Identity Services.';});$('googleDriveClientId').addEventListener('change',()=>{try{localStorage.setItem(CLIENT_ID_KEY,$('googleDriveClientId').value.trim());}catch(_){}});}
-$('connectBtn').addEventListener('click',async()=>{await connect();if(catalog)addPublishButton();});$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('connectBtn').click();});$('logoutBtn').addEventListener('click',logout);$('addGameBtn').addEventListener('click',addGame);$('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',saveDlc);$('uploadGoogleDriveBtn').addEventListener('click',handleGoogleDriveUpload);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
-initGoogleDrive();
+function addPublishButton(){
+  const old=$('publishBtn');if(old)return;
+  const b=document.createElement('button');b.id='publishBtn';b.className='btn primary';b.type='button';b.textContent='Опубликовать';b.addEventListener('click',publish);
+  const slot=document.createElement('span');slot.id='publishSlot';slot.appendChild(b);$('logoutBtn').before(slot);syncPublishButton();
+}
+function logout(){
+  if(dirty&&!confirm('Есть неопубликованные изменения. Выйти без публикации?'))return;
+  token='';catalog=null;catalogSha='';selectedId=null;dirty=false;$('tokenInput').value='';$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');const slot=$('publishSlot');if(slot)slot.remove();setStatus('Не подключено');showToast('Сеанс завершён.');
+}
+const originalConnect=connect;
+connect=async function(){await originalConnect();if(catalog)addPublishButton();};
+$('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});
+$('logoutBtn').addEventListener('click',logout);$('addGameBtn').addEventListener('click',addGame);
+$('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',saveDlc);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
 })();
 </script>
+<script src="./google-drive-upload.js"></script>
 </body>
 </html>
