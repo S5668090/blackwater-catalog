@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "1.0.0",
+  "catalog_version": "1.1.0",
   "updated_at": "2026-11-18",
   "games": [
     {
@@ -12,32 +12,11 @@
       "featured": true,
       "dlcs": [
         {
-          "id": "main",
-          "name": "Главное дополнение",
-          "description": "Замените это название, описание и URL архива на данные настоящего DLC.",
-          "download_url": "",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "https://itsfileditchfiles.st/alpha44/1aa9ffabe1dfc2157959/Mod_CK3.zip",
           "featured": true
-        },
-        {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
         }
       ]
     },
@@ -50,32 +29,11 @@
       "featured": true,
       "dlcs": [
         {
-          "id": "main",
-          "name": "Главное дополнение",
-          "description": "Замените это название, описание и URL архива на данные настоящего DLC.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
           "featured": true
-        },
-        {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
         }
       ]
     },
@@ -88,46 +46,11 @@
       "featured": false,
       "dlcs": [
         {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-4",
-          "name": "Дополнение 4",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-5",
-          "name": "Дополнение 5",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-6",
-          "name": "Дополнение 6",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
+          "featured": true
         }
       ]
     },
@@ -140,46 +63,11 @@
       "featured": false,
       "dlcs": [
         {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-4",
-          "name": "Дополнение 4",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-5",
-          "name": "Дополнение 5",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-6",
-          "name": "Дополнение 6",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
+          "featured": true
         }
       ]
     },
@@ -192,46 +80,11 @@
       "featured": false,
       "dlcs": [
         {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-4",
-          "name": "Дополнение 4",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-5",
-          "name": "Дополнение 5",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-6",
-          "name": "Дополнение 6",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
+          "featured": true
         }
       ]
     },
@@ -244,46 +97,11 @@
       "featured": false,
       "dlcs": [
         {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-4",
-          "name": "Дополнение 4",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-5",
-          "name": "Дополнение 5",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-6",
-          "name": "Дополнение 6",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
+          "featured": true
         }
       ]
     },
@@ -296,46 +114,11 @@
       "featured": false,
       "dlcs": [
         {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-4",
-          "name": "Дополнение 4",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-5",
-          "name": "Дополнение 5",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-6",
-          "name": "Дополнение 6",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
+          "featured": true
         }
       ]
     },
@@ -348,46 +131,11 @@
       "featured": false,
       "dlcs": [
         {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-4",
-          "name": "Дополнение 4",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-5",
-          "name": "Дополнение 5",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-6",
-          "name": "Дополнение 6",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
+          "featured": true
         }
       ]
     },
@@ -400,46 +148,11 @@
       "featured": false,
       "dlcs": [
         {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-4",
-          "name": "Дополнение 4",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-5",
-          "name": "Дополнение 5",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-6",
-          "name": "Дополнение 6",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
+          "featured": true
         }
       ]
     },
@@ -452,46 +165,11 @@
       "featured": false,
       "dlcs": [
         {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-4",
-          "name": "Дополнение 4",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-5",
-          "name": "Дополнение 5",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-6",
-          "name": "Дополнение 6",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
+          "featured": true
         }
       ]
     },
@@ -504,46 +182,11 @@
       "featured": false,
       "dlcs": [
         {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-4",
-          "name": "Дополнение 4",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-5",
-          "name": "Дополнение 5",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-6",
-          "name": "Дополнение 6",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
+          "featured": true
         }
       ]
     },
@@ -556,46 +199,11 @@
       "featured": false,
       "dlcs": [
         {
-          "id": "dlc-1",
-          "name": "Дополнение 1",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
           "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-2",
-          "name": "Дополнение 2",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-3",
-          "name": "Дополнение 3",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-4",
-          "name": "Дополнение 4",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-5",
-          "name": "Дополнение 5",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
-        },
-        {
-          "id": "dlc-6",
-          "name": "Дополнение 6",
-          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
-          "download_url": "",
-          "featured": false
+          "featured": true
         }
       ]
     }
