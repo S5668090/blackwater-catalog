@@ -92,19 +92,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
     <div class="notice" id="connectionNotice">Подключено к GitHub. Сначала сохрани игру или изменения DLC, затем нажми «Опубликовать», чтобы создать коммит в main.</div>
     <section class="card release-panel" aria-labelledby="releaseHeading">
       <div class="release-head">
-        <div><div class="eyebrow">Developer panel · Launcher release</div><h2 id="releaseHeading">Публикация обновления лаунчера</h2><p>Задай последнюю версию, публичную ссылку Google Drive на EXE и SHA-256. После сохранения черновика нажми общую кнопку «Опубликовать» в верхней панели.</p></div>
+        <div><div class="eyebrow">Developer panel · Launcher release</div><h2 id="releaseHeading">Публикация обновления лаунчера</h2><p>Задай последнюю версию лаунчера и публичную ссылку Google Drive на EXE. После сохранения черновика нажми общую кнопку «Опубликовать» в верхней панели.</p></div>
         <span class="release-state" id="launcherReleaseState">Обновление не настроено</span>
       </div>
       <div class="release-grid">
-        <div class="field"><label for="launcherVersion">Последняя версия (формат vX.Y.Z)</label><input id="launcherVersion" type="text" spellcheck="false" placeholder="v1.8.5" autocomplete="off"></div>
+        <div class="field"><label for="launcherVersion">Последняя версия (формат vX.Y.Z)</label><input id="launcherVersion" type="text" spellcheck="false" placeholder="v1.8.6" autocomplete="off"></div>
         <div class="field"><label for="launcherDriveLink">Ссылка на EXE в Google Drive</label><input id="launcherDriveLink" type="url" spellcheck="false" placeholder="https://drive.google.com/file/d/FILE_ID/view" autocomplete="off"></div>
-        <div class="field wide"><label for="launcherSha256">SHA-256 опубликованного EXE (64 символа)</label><input id="launcherSha256" type="text" spellcheck="false" maxlength="64" placeholder="64-значный SHA-256 хэш" autocomplete="off"></div>
-        <div class="field wide"><label for="launcherExeHashFile">Выбрать локальный EXE для автоматического расчёта SHA-256</label><input id="launcherExeHashFile" type="file" accept=".exe,application/vnd.microsoft.portable-executable"><div class="hint" id="launcherHashStatus">Файл не загружается на сервер — браузер только рассчитывает хэш выбранного EXE.</div></div>
       </div>
       <div class="release-actions">
         <button class="btn secondary" id="applyLauncherReleaseBtn" type="button">Сохранить параметры в черновик</button>
       </div>
-      <div class="release-help hint">Проверка версии обязательна и не может быть отключена из панели. Порядок выпуска: собери новый EXE с увеличенной APP_VERSION, загрузи именно этот файл на Google Drive, включи доступ «Все, у кого есть ссылка — Читатель», вставь ссылку и укажи ту же версию. Выбери тот же локальный EXE для расчёта SHA-256, нажми «Сохранить параметры в черновик», затем «Опубликовать». Публикация каталога без корректного блока launcher_update запрещена. Команда PowerShell для хэша вручную: <code>(Get-FileHash -Algorithm SHA256 -LiteralPath ".\Blackwater Launcher.exe").Hash</code>. Лаунчер заменяет себя только после совпадения SHA-256.</div>
+      <div class="release-help hint">Проверка версии обязательна и не может быть отключена из панели. При каждом запуске лаунчер заново получает catalog.json с GitHub и сравнивает APP_VERSION с опубликованной версией. Порядок выпуска: собери новый EXE с увеличенной APP_VERSION, загрузи его на Google Drive, включи доступ «Все, у кого есть ссылка — Читатель», вставь ссылку и укажи ту же версию. Нажми «Сохранить параметры в черновик», затем общую кнопку «Опубликовать». Публикация каталога без корректного блока launcher_update запрещена. Перед заменой лаунчер проверяет, что Google Drive вернул исполняемый Windows EXE.</div>
     </section>
     <div class="workspace">
       <aside class="card sidebar">
@@ -202,13 +200,12 @@ function validateCatalog(data){
   if(!update||typeof update!=='object'||Array.isArray(update))
     throw new Error('В опубликованном catalog.json отсутствует обязательный объект launcher_update. Проверь актуальную версию файла в ветке main.');
   let version=String(update.version||'').trim();
-  if(!/^v?\d+\.\d+\.\d+$/i.test(version))throw new Error('Версия лаунчера должна быть в формате v1.8.5.');
+  if(!/^v?\d+\.\d+\.\d+$/i.test(version))throw new Error('Версия лаунчера должна быть в формате v1.8.6.');
   if(version[0].toLowerCase()!=='v')version='v'+version;
   update.version=version;
   update.download_url=String(update.download_url||'').trim();
-  update.sha256=String(update.sha256||'').trim().toLowerCase();
+  delete update.sha256; // Удаляем устаревшее поле манифеста.
   if(!isGoogleDriveFileUrl(update.download_url))throw new Error('launcher_update.download_url должен быть HTTPS-ссылкой Google Drive на отдельный файл, а не на папку.');
-  if(!/^[a-f0-9]{64}$/.test(update.sha256))throw new Error('launcher_update.sha256 должен содержать ровно 64 шестнадцатеричных символа.');
   const ids=new Set(),apps=new Set();
   data.games.forEach((g,i)=>{
     if(!g||typeof g!=='object')throw new Error('Некорректная запись игры №'+(i+1)+'.');
@@ -227,6 +224,7 @@ function validateCatalog(data){
       if(!/^[A-Za-z0-9_-]{1,80}$/.test(d.id||''))throw new Error('Некорректный ID DLC в игре '+g.name+'.');
       if(dlcIds.has(d.id))throw new Error('Повторяется ID DLC '+d.id+' в игре '+g.name+'.');dlcIds.add(d.id);
       if(!String(d.name||'').trim())throw new Error('У DLC '+d.id+' в игре '+g.name+' не указано название.');
+      if(String(d.name).trim().toLowerCase()==='mod all')d.name='DLC Unlocker';
       if(d.download_url&&!/^https:\/\//i.test(d.download_url))throw new Error('Ссылка на DLC должна начинаться с HTTPS: '+d.name);
       if(String(d.description||'').length>1000)throw new Error('Описание DLC слишком длинное: '+d.name);
       if(d.mirrors!=null&&!Array.isArray(d.mirrors))throw new Error('Поле mirrors должно быть массивом: '+d.name);
@@ -253,7 +251,6 @@ function renderLauncherReleaseFields(){
   const update=catalog&&catalog.launcher_update?catalog.launcher_update:{};
   $('launcherVersion').value=update.version||'';
   $('launcherDriveLink').value=update.download_url||'';
-  $('launcherSha256').value=update.sha256||'';
   renderLauncherReleaseState();
 }
 function renderLauncherReleaseState(){
@@ -267,31 +264,12 @@ function applyLauncherRelease(){
   if(!catalog)return;
   const version=$('launcherVersion').value.trim();
   const url=$('launcherDriveLink').value.trim();
-  const sha256=$('launcherSha256').value.trim().toLowerCase();
-  if(!/^v?\d+\.\d+\.\d+$/i.test(version)){showToast('Укажи версию в формате v1.8.5.',true);return;}
+  if(!/^v?\d+\.\d+\.\d+$/i.test(version)){showToast('Укажи версию в формате v1.8.6.',true);return;}
   if(!isGoogleDriveFileUrl(url)){showToast('Добавь ссылку Google Drive на отдельный EXE-файл, а не на папку.',true);return;}
-  if(!/^[a-f0-9]{64}$/.test(sha256)){showToast('SHA-256 должен содержать ровно 64 шестнадцатеричных символа.',true);return;}
-  catalog.launcher_update={version:version[0].toLowerCase()==='v'?version:'v'+version,download_url:url,sha256};
+  catalog.launcher_update={version:version[0].toLowerCase()==='v'?version:'v'+version,download_url:url};
   $('launcherVersion').value=catalog.launcher_update.version;
   markDirty();renderLauncherReleaseState();
   showToast('Параметры обновления добавлены в черновик. Нажми «Опубликовать» вверху страницы.');
-}
-async function calculateLauncherHash(){
-  const file=$('launcherExeHashFile').files&&$('launcherExeHashFile').files[0];
-  if(!file)return;
-  if(!file.name.toLowerCase().endsWith('.exe')){showToast('Выбери EXE-файл лаунчера.',true);$('launcherExeHashFile').value='';return;}
-  if(file.size<=0||file.size>300*1024*1024){showToast('Размер EXE должен быть от 1 байта до 300 МБ.',true);$('launcherExeHashFile').value='';return;}
-  if(!window.crypto||!crypto.subtle||!window.isSecureContext){showToast('Расчёт SHA-256 доступен через HTTPS или localhost. Используй PowerShell из подсказки.',true);return;}
-  const status=$('launcherHashStatus');status.textContent='Вычисляем SHA-256 для '+file.name+'…';
-  const input=$('launcherExeHashFile');input.disabled=true;
-  try{
-    const digest=await crypto.subtle.digest('SHA-256',await file.arrayBuffer());
-    const hash=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
-    $('launcherSha256').value=hash;
-    status.textContent='SHA-256 рассчитан для '+file.name+'. Убедись, что на Google Drive загружен именно этот файл.';
-    showToast('SHA-256 рассчитан и вставлен в поле.');
-  }catch(e){status.textContent='Не удалось прочитать выбранный EXE.';showToast('Не удалось рассчитать SHA-256.',true);}
-  finally{input.disabled=false;}
 }
 async function connect(){
   const value=$('tokenInput').value.trim();if(!value){showToast('Вставь Fine-grained token.',true);return;}
@@ -323,7 +301,7 @@ async function loadCatalog(){
   renderAll();
   renderLauncherReleaseFields();
   $('connectionNotice').textContent=migrated
-    ? 'Старые записи преобразованы в список DLC. Первое DLC также сохранено в mod_pack для совместимости со старыми версиями лаунчера. Нажми «Опубликовать», чтобы сохранить формат в main.'
+    ? 'Каталог приведён к формату DLC. Старые записи сохранены совместимыми с прежними версиями лаунчера. Нажми «Опубликовать», чтобы сохранить изменения в main.'
     : 'Подключено к GitHub. Сначала сохрани изменения игры или DLC, затем нажми «Опубликовать» для создания коммита в main.';
   syncPublishButton();
 }
@@ -548,8 +526,8 @@ async function publish(){
     validateCatalog(catalog);
     const release=catalog.launcher_update;
     if(!release||!/^v?\d+\.\d+\.\d+$/i.test(String(release.version||''))||
-       !isGoogleDriveFileUrl(String(release.download_url||''))||! /^[a-f0-9]{64}$/i.test(String(release.sha256||'')))
-      throw new Error('Публикация запрещена: настрой обязательный релиз лаунчера (версия, Google Drive EXE и SHA-256) в верхнем блоке. Отключить проверку нельзя.');
+       !isGoogleDriveFileUrl(String(release.download_url||'')))
+      throw new Error('Публикация запрещена: настрой обязательный релиз лаунчера (версия и Google Drive EXE) в верхнем блоке. Отключить проверку нельзя.');
     catalog.catalog_version=catalog.catalog_version||'1.0.0';
     catalog.updated_at=new Date().toISOString().slice(0,10);
     const content=JSON.stringify(catalog,null,2)+'\n';
@@ -604,7 +582,6 @@ const originalConnect=connect;
 connect=async function(){await originalConnect();if(catalog)addPublishButton();};
 $('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});
 $('applyLauncherReleaseBtn').addEventListener('click',applyLauncherRelease);
-$('launcherExeHashFile').addEventListener('change',calculateLauncherHash);
 $('logoutBtn').addEventListener('click',logout);$('addGameBtn').addEventListener('click',addGame);
 $('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',saveDlc);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
 $('addMirrorBtn').addEventListener('click',addMirrorRow);
