@@ -40,6 +40,20 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
 .release-state.pending{color:#f0c8a0;border-color:#614a32;background:#2a2118}
 .release-help{margin-top:12px;padding:11px 13px;background:#091722;border:1px solid #20394b;border-radius:10px;overflow-wrap:anywhere}
 .release-help code{color:#cce8ea;word-break:break-all}
+
+.community-panel{margin-top:14px}
+.community-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+.community-grid .wide{grid-column:1/-1}
+.wallet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:18px 0 10px}
+.wallet-head h3{font-size:15px;margin:0 0 3px}
+.wallet-editor{display:flex;flex-direction:column;gap:9px}
+.wallet-row{display:grid;grid-template-columns:minmax(150px,.7fr) minmax(220px,1.3fr) auto;gap:10px;align-items:end;padding:10px;background:#0a1822;border:1px solid var(--line);border-radius:11px}
+.wallet-row .field{margin:0;min-width:0}
+.wallet-row input{min-width:0}
+.wallet-empty{padding:13px;border:1px dashed #345064;border-radius:10px;color:var(--muted);font-size:12px}
+.community-state{font-size:11px;color:var(--muted);padding:5px 9px;border:1px solid var(--line);border-radius:999px}
+.community-state.ready{color:#a9e7c9;border-color:#315d4d;background:#102a23}
+@media(max-width:640px){.community-grid{grid-template-columns:1fr}.community-grid .wide{grid-column:auto}.wallet-row{grid-template-columns:1fr;align-items:stretch}.wallet-row .btn{justify-self:end}}
 @media(max-width:900px){.workspace{grid-template-columns:1fr}.sidebar{position:static}.gamelist{max-height:260px}.hero{align-items:flex-start;flex-direction:column}.stats{flex-wrap:wrap}}
 @media(max-width:640px){.wrap{padding:20px 12px 45px}.top{padding:0 12px}.topright{gap:6px}.status{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.release-panel{padding:16px}.release-grid{grid-template-columns:1fr}.release-grid .wide{grid-column:auto}.editor{padding:15px}.footeractions{align-items:stretch;flex-direction:column}.footeractions .right{justify-content:flex-end}}
 
@@ -103,6 +117,25 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
         <button class="btn secondary" id="applyLauncherReleaseBtn" type="button">Сохранить параметры в черновик</button>
       </div>
       <div class="release-help hint">Проверка версии обязательна и не может быть отключена из панели. При каждом запуске лаунчер заново получает catalog.json с GitHub и сравнивает APP_VERSION с опубликованной версией. Порядок выпуска: собери новый EXE с увеличенной APP_VERSION, загрузи его на Google Drive, включи доступ «Все, у кого есть ссылка — Читатель», вставь ссылку и укажи ту же версию. Нажми «Сохранить параметры в черновик», затем общую кнопку «Опубликовать». Публикация каталога без корректного блока launcher_update запрещена. Перед заменой лаунчер проверяет, что Google Drive вернул исполняемый Windows EXE.</div>
+    </section>
+    <section class="card release-panel community-panel" aria-labelledby="communityHeading">
+      <div class="release-head">
+        <div><div class="eyebrow">Community · Social links</div><h2 id="communityHeading">Ссылки сообщества и поддержка</h2><p>Эти ссылки и USDT-кошельки будут отображаться в меню лаунчера. Пустые ссылки и пустой список кошельков не показываются.</p></div>
+        <span class="community-state" id="communityState">Настройки не сохранены</span>
+      </div>
+      <div class="community-grid">
+        <div class="field"><label for="communityDiscord">Discord — приглашение на сервер</label><input id="communityDiscord" type="url" spellcheck="false" placeholder="https://discord.gg/…" autocomplete="off"></div>
+        <div class="field"><label for="communityLava">Lava.top — поддержать проект</label><input id="communityLava" type="url" spellcheck="false" placeholder="https://lava.top/…" autocomplete="off"></div>
+        <div class="field"><label for="communityPatreon">Patreon</label><input id="communityPatreon" type="url" spellcheck="false" placeholder="https://www.patreon.com/…" autocomplete="off"></div>
+        <div class="field"><label for="communityKofi">Ko-fi</label><input id="communityKofi" type="url" spellcheck="false" placeholder="https://ko-fi.com/…" autocomplete="off"></div>
+      </div>
+      <div class="wallet-head">
+        <div><h3>USDT — кошельки по сетям</h3><div class="hint">Добавь отдельную строку для каждой сети (TRC20, ERC20, BEP20 и т. д.). Адреса будут доступны для копирования в лаунчере.</div></div>
+        <button class="btn secondary small" id="addUsdtWalletBtn" type="button">＋ Добавить кошелёк</button>
+      </div>
+      <div class="wallet-editor" id="usdtWalletEditor"></div>
+      <div class="release-actions"><button class="btn secondary" id="applyCommunityBtn" type="button">Сохранить ссылки и кошельки в черновик</button></div>
+      <div class="release-help hint">После сохранения нажми общую кнопку «Опубликовать» в верхней панели. До публикации изменения остаются только в текущем черновике админки.</div>
     </section>
     <div class="workspace">
       <aside class="card sidebar">
@@ -206,6 +239,21 @@ function validateCatalog(data){
   update.download_url=String(update.download_url||'').trim();
   delete update.sha256; // Удаляем устаревшее поле манифеста.
   if(!isGoogleDriveFileUrl(update.download_url))throw new Error('launcher_update.download_url должен быть HTTPS-ссылкой Google Drive на отдельный файл, а не на папку.');
+  if(data.community!=null){
+    if(!data.community||typeof data.community!=='object'||Array.isArray(data.community))throw new Error('Поле community должно быть объектом.');
+    ['discord_url','lava_url','patreon_url','kofi_url'].forEach(key=>{
+      const value=String(data.community[key]||'').trim();
+      if(value){let u;try{u=new URL(value);}catch(_){throw new Error('Некорректная ссылка community.'+key+'.');}
+        if(u.protocol!=='https:')throw new Error('Ссылка community.'+key+' должна начинаться с HTTPS.');}
+    });
+    if(data.community.usdt_wallets!=null&&!Array.isArray(data.community.usdt_wallets))throw new Error('community.usdt_wallets должен быть массивом.');
+    const wallets=Array.isArray(data.community.usdt_wallets)?data.community.usdt_wallets:[];
+    if(wallets.length>20)throw new Error('Можно добавить не более 20 USDT-кошельков.');
+    wallets.forEach((w,i)=>{
+      if(!w||typeof w!=='object'||Array.isArray(w)||!String(w.network||'').trim()||!String(w.address||'').trim())throw new Error('Укажи сеть и адрес для USDT-кошелька №'+(i+1)+'.');
+      if(String(w.network).length>80||String(w.address).length>256)throw new Error('Слишком длинные данные USDT-кошелька №'+(i+1)+'.');
+    });
+  }
   const ids=new Set(),apps=new Set();
   data.games.forEach((g,i)=>{
     if(!g||typeof g!=='object')throw new Error('Некорректная запись игры №'+(i+1)+'.');
@@ -271,6 +319,71 @@ function applyLauncherRelease(){
   markDirty();renderLauncherReleaseState();
   showToast('Параметры обновления добавлены в черновик. Нажми «Опубликовать» вверху страницы.');
 }
+function renderCommunityFields(){
+  const c=catalog&&catalog.community&&typeof catalog.community==='object'?catalog.community:{};
+  $('communityDiscord').value=c.discord_url||'';
+  $('communityLava').value=c.lava_url||'https://lava.top/';
+  $('communityPatreon').value=c.patreon_url||'';
+  $('communityKofi').value=c.kofi_url||'';
+  renderUsdtWalletEditor(Array.isArray(c.usdt_wallets)?c.usdt_wallets:[]);
+  renderCommunityState();
+}
+function renderCommunityState(){
+  const el=$('communityState');if(!el||!catalog)return;
+  const c=catalog.community||{};
+  const links=['discord_url','lava_url','patreon_url','kofi_url'].filter(k=>String(c[k]||'').trim()).length;
+  const wallets=Array.isArray(c.usdt_wallets)?c.usdt_wallets.length:0;
+  el.textContent='Настроено ссылок: '+links+'/4 · Кошельков: '+wallets;
+  el.classList.toggle('ready',links>0||wallets>0);
+}
+function readUsdtWalletEditor(){
+  return Array.from($('usdtWalletEditor').querySelectorAll('[data-wallet-row]')).map(row=>({
+    network:row.querySelector('[data-wallet-network]').value.trim(),
+    address:row.querySelector('[data-wallet-address]').value.trim()
+  }));
+}
+function renderUsdtWalletEditor(wallets){
+  const list=Array.isArray(wallets)?wallets:[];
+  $('usdtWalletEditor').innerHTML=list.length?list.map((w,i)=>
+    '<div class="wallet-row" data-wallet-row data-wallet-index="'+i+'">'+
+      '<div class="field"><label>Сеть / стандарт</label><input data-wallet-network maxlength="80" value="'+escapeHtml(w.network||'')+'" placeholder="TRC20 (TRON)"></div>'+
+      '<div class="field"><label>Адрес кошелька</label><input data-wallet-address maxlength="256" spellcheck="false" value="'+escapeHtml(w.address||'')+'" placeholder="Адрес USDT"></div>'+
+      '<button class="btn danger small" type="button" data-remove-wallet="'+i+'">Удалить</button>'+
+    '</div>').join(''):'<div class="wallet-empty">Кошельки пока не добавлены. Нажми «Добавить кошелёк», чтобы указать сеть и адрес.</div>' ;
+}
+function addUsdtWallet(){
+  const wallets=readUsdtWalletEditor();
+  if(wallets.length>=20){showToast('Можно добавить не более 20 USDT-кошельков.',true);return;}
+  wallets.push({network:'',address:''});renderUsdtWalletEditor(wallets);
+  const inputs=$('usdtWalletEditor').querySelectorAll('[data-wallet-network]');if(inputs.length)inputs[inputs.length-1].focus();
+}
+function removeUsdtWallet(index){
+  const wallets=readUsdtWalletEditor();if(index<0||index>=wallets.length)return;
+  wallets.splice(index,1);renderUsdtWalletEditor(wallets);
+}
+function applyCommunitySettings(){
+  if(!catalog)return;
+  const community={
+    discord_url:$('communityDiscord').value.trim(),
+    lava_url:$('communityLava').value.trim(),
+    patreon_url:$('communityPatreon').value.trim(),
+    kofi_url:$('communityKofi').value.trim(),
+    usdt_wallets:readUsdtWalletEditor().filter(w=>w.network||w.address)
+  };
+  for(const key of ['discord_url','lava_url','patreon_url','kofi_url']){
+    const value=community[key];if(!value)continue;
+    let u;try{u=new URL(value);}catch(_){showToast('Проверь ссылку: '+key+'.',true);return;}
+    if(u.protocol!=='https:'){showToast('Все ссылки сообщества должны начинаться с HTTPS.',true);return;}
+  }
+  if(community.usdt_wallets.length>20){showToast('Можно добавить не более 20 USDT-кошельков.',true);return;}
+  for(let i=0;i<community.usdt_wallets.length;i++){
+    const w=community.usdt_wallets[i];
+    if(!w.network||!w.address){showToast('Укажи и сеть, и адрес для USDT-кошелька №'+(i+1)+'.',true);return;}
+    if(w.network.length>80||w.address.length>256){showToast('Слишком длинные данные USDT-кошелька №'+(i+1)+'.',true);return;}
+  }
+  catalog.community=community;markDirty();renderCommunityState();
+  showToast('Ссылки и USDT-кошельки сохранены в черновик. Нажми «Опубликовать» вверху страницы.');
+}
 async function connect(){
   const value=$('tokenInput').value.trim();if(!value){showToast('Вставь Fine-grained token.',true);return;}
   token=value;
@@ -300,6 +413,7 @@ async function loadCatalog(){
   if(!selectedId||!catalog.games.some(g=>g.id===selectedId))selectedId=catalog.games[0].id;
   renderAll();
   renderLauncherReleaseFields();
+  renderCommunityFields();
   $('connectionNotice').textContent=migrated
     ? 'Каталог приведён к формату DLC. Старые записи сохранены совместимыми с прежними версиями лаунчера. Нажми «Опубликовать», чтобы сохранить изменения в main.'
     : 'Подключено к GitHub. Сначала сохрани изменения игры или DLC, затем нажми «Опубликовать» для создания коммита в main.';
@@ -582,6 +696,9 @@ const originalConnect=connect;
 connect=async function(){await originalConnect();if(catalog)addPublishButton();};
 $('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});
 $('applyLauncherReleaseBtn').addEventListener('click',applyLauncherRelease);
+$('applyCommunityBtn').addEventListener('click',applyCommunitySettings);
+$('addUsdtWalletBtn').addEventListener('click',addUsdtWallet);
+$('usdtWalletEditor').addEventListener('click',e=>{const b=e.target.closest('[data-remove-wallet]');if(b)removeUsdtWallet(Number(b.dataset.removeWallet));});
 $('logoutBtn').addEventListener('click',logout);$('addGameBtn').addEventListener('click',addGame);
 $('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',saveDlc);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
 $('addMirrorBtn').addEventListener('click',addMirrorRow);
