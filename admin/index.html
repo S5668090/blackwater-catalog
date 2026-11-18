@@ -103,9 +103,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
       </div>
       <div class="release-actions">
         <button class="btn secondary" id="applyLauncherReleaseBtn" type="button">Сохранить параметры в черновик</button>
-        <button class="btn danger small" id="disableLauncherReleaseBtn" type="button">Отключить проверку обновлений</button>
       </div>
-      <div class="release-help hint">Порядок выпуска: собери новый EXE с увеличенной APP_VERSION, загрузи именно этот файл на Google Drive, включи доступ «Все, у кого есть ссылка — Читатель», вставь ссылку и укажи ту же версию. Выбери тот же локальный EXE для расчёта SHA-256, нажми «Сохранить параметры в черновик», затем «Опубликовать». Команда PowerShell для хэша вручную: <code>(Get-FileHash -Algorithm SHA256 -LiteralPath ".\Blackwater Launcher.exe").Hash</code>. Лаунчер заменяет себя только после совпадения SHA-256.</div>
+      <div class="release-help hint">Проверка версии обязательна и не может быть отключена из панели. Порядок выпуска: собери новый EXE с увеличенной APP_VERSION, загрузи именно этот файл на Google Drive, включи доступ «Все, у кого есть ссылка — Читатель», вставь ссылку и укажи ту же версию. Выбери тот же локальный EXE для расчёта SHA-256, нажми «Сохранить параметры в черновик», затем «Опубликовать». Публикация каталога без корректного блока launcher_update запрещена. Команда PowerShell для хэша вручную: <code>(Get-FileHash -Algorithm SHA256 -LiteralPath ".\Blackwater Launcher.exe").Hash</code>. Лаунчер заменяет себя только после совпадения SHA-256.</div>
     </section>
     <div class="workspace">
       <aside class="card sidebar">
@@ -262,8 +261,8 @@ function renderLauncherReleaseState(){
   const state=$('launcherReleaseState');if(!state||!catalog)return;
   const update=catalog.launcher_update;
   state.classList.remove('ready','pending');
-  if(update&&update.version){state.textContent='Опубликовано в текущем каталоге: '+update.version;state.classList.add('ready');}
-  else{state.textContent='Обновление не настроено';}
+  if(update&&update.version){state.textContent='Обязательная версия опубликована: '+update.version;state.classList.add('ready');}
+  else{state.textContent='Обязательный релиз не настроен';state.classList.add('pending');}
 }
 function applyLauncherRelease(){
   if(!catalog)return;
@@ -277,15 +276,6 @@ function applyLauncherRelease(){
   $('launcherVersion').value=catalog.launcher_update.version;
   markDirty();renderLauncherReleaseState();
   showToast('Параметры обновления добавлены в черновик. Нажми «Опубликовать» вверху страницы.');
-}
-function disableLauncherRelease(){
-  if(!catalog)return;
-  if(!catalog.launcher_update){showToast('Проверка обновлений уже отключена.');return;}
-  if(!confirm('Отключить публикацию обновлений лаунчера? Старые клиенты перестанут получать это предложение.'))return;
-  delete catalog.launcher_update;
-  $('launcherVersion').value='';$('launcherDriveLink').value='';$('launcherSha256').value='';$('launcherExeHashFile').value='';
-  $('launcherHashStatus').textContent='Файл не загружен на сервер — хэш не рассчитан.';
-  markDirty();renderLauncherReleaseState();showToast('Отключение добавлено в черновик. Нажми «Опубликовать».');
 }
 async function calculateLauncherHash(){
   const file=$('launcherExeHashFile').files&&$('launcherExeHashFile').files[0];
@@ -557,6 +547,10 @@ async function publish(){
   try{
     if(btn){btn.disabled=true;btn.textContent='Публикация…';}
     validateCatalog(catalog);
+    const release=catalog.launcher_update;
+    if(!release||!/^v?\d+\.\d+\.\d+$/i.test(String(release.version||''))||
+       !isGoogleDriveFileUrl(String(release.download_url||''))||! /^[a-f0-9]{64}$/i.test(String(release.sha256||'')))
+      throw new Error('Публикация запрещена: настрой обязательный релиз лаунчера (версия, Google Drive EXE и SHA-256) в верхнем блоке. Отключить проверку нельзя.');
     catalog.catalog_version=catalog.catalog_version||'1.0.0';
     catalog.updated_at=new Date().toISOString().slice(0,10);
     const content=JSON.stringify(catalog,null,2)+'\n';
@@ -611,7 +605,6 @@ const originalConnect=connect;
 connect=async function(){await originalConnect();if(catalog)addPublishButton();};
 $('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});
 $('applyLauncherReleaseBtn').addEventListener('click',applyLauncherRelease);
-$('disableLauncherReleaseBtn').addEventListener('click',disableLauncherRelease);
 $('launcherExeHashFile').addEventListener('change',calculateLauncherHash);
 $('logoutBtn').addEventListener('click',logout);$('addGameBtn').addEventListener('click',addGame);
 $('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',saveDlc);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
