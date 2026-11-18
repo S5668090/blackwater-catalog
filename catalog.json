@@ -1,1 +1,603 @@
-
+{
+  "schema_version": 1,
+  "catalog_version": "1.0.0",
+  "updated_at": "2026-11-18",
+  "games": [
+    {
+      "id": "crusader-kings-3",
+      "name": "Crusader Kings III",
+      "steam_app_id": 1158310,
+      "steam_folder": "Crusader Kings III",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1158310/header.jpg",
+      "featured": true,
+      "dlcs": [
+        {
+          "id": "main",
+          "name": "Главное дополнение",
+          "description": "Замените это название, описание и URL архива на данные настоящего DLC.",
+          "download_url": "",
+          "featured": true
+        },
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "hearts-of-iron-4",
+      "name": "Hearts of Iron IV",
+      "steam_app_id": 394360,
+      "steam_folder": "Hearts of Iron IV",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/394360/header.jpg",
+      "featured": true,
+      "dlcs": [
+        {
+          "id": "main",
+          "name": "Главное дополнение",
+          "description": "Замените это название, описание и URL архива на данные настоящего DLC.",
+          "download_url": "",
+          "featured": true
+        },
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "age-of-wonders-4",
+      "name": "Age of Wonders 4",
+      "steam_app_id": 1669000,
+      "steam_folder": "Age of Wonders 4",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1669000/header.jpg",
+      "featured": false,
+      "dlcs": [
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-4",
+          "name": "Дополнение 4",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-5",
+          "name": "Дополнение 5",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-6",
+          "name": "Дополнение 6",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "crusader-kings-2",
+      "name": "Crusader Kings II",
+      "steam_app_id": 203770,
+      "steam_folder": "Crusader Kings II",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/203770/header.jpg",
+      "featured": false,
+      "dlcs": [
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-4",
+          "name": "Дополнение 4",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-5",
+          "name": "Дополнение 5",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-6",
+          "name": "Дополнение 6",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "astroneer",
+      "name": "Astroneer",
+      "steam_app_id": 361420,
+      "steam_folder": "ASTRONEER",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/361420/header.jpg",
+      "featured": false,
+      "dlcs": [
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-4",
+          "name": "Дополнение 4",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-5",
+          "name": "Дополнение 5",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-6",
+          "name": "Дополнение 6",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "cities-skylines",
+      "name": "Cities: Skylines",
+      "steam_app_id": 255710,
+      "steam_folder": "Cities_Skylines",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/255710/header.jpg",
+      "featured": false,
+      "dlcs": [
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-4",
+          "name": "Дополнение 4",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-5",
+          "name": "Дополнение 5",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-6",
+          "name": "Дополнение 6",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "victoria-2",
+      "name": "Victoria II",
+      "steam_app_id": 42960,
+      "steam_folder": "Victoria 2",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/42960/header.jpg",
+      "featured": false,
+      "dlcs": [
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-4",
+          "name": "Дополнение 4",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-5",
+          "name": "Дополнение 5",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-6",
+          "name": "Дополнение 6",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "prison-architect",
+      "name": "Prison Architect",
+      "steam_app_id": 233450,
+      "steam_folder": "Prison Architect",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/233450/header.jpg",
+      "featured": false,
+      "dlcs": [
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-4",
+          "name": "Дополнение 4",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-5",
+          "name": "Дополнение 5",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-6",
+          "name": "Дополнение 6",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "cities-skylines-2",
+      "name": "Cities: Skylines II",
+      "steam_app_id": 949230,
+      "steam_folder": "Cities Skylines II",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/header.jpg",
+      "featured": false,
+      "dlcs": [
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-4",
+          "name": "Дополнение 4",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-5",
+          "name": "Дополнение 5",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-6",
+          "name": "Дополнение 6",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "europa-universalis-4",
+      "name": "Europa Universalis IV",
+      "steam_app_id": 236850,
+      "steam_folder": "Europa Universalis IV",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/236850/header.jpg",
+      "featured": false,
+      "dlcs": [
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-4",
+          "name": "Дополнение 4",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-5",
+          "name": "Дополнение 5",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-6",
+          "name": "Дополнение 6",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "civilization-6",
+      "name": "Sid Meier's Civilization VI",
+      "steam_app_id": 289070,
+      "steam_folder": "Sid Meier's Civilization VI",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/289070/header.jpg",
+      "featured": false,
+      "dlcs": [
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-4",
+          "name": "Дополнение 4",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-5",
+          "name": "Дополнение 5",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-6",
+          "name": "Дополнение 6",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "id": "stellaris",
+      "name": "Stellaris",
+      "steam_app_id": 281990,
+      "steam_folder": "Stellaris",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/281990/header.jpg",
+      "featured": false,
+      "dlcs": [
+        {
+          "id": "dlc-1",
+          "name": "Дополнение 1",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-2",
+          "name": "Дополнение 2",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-3",
+          "name": "Дополнение 3",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-4",
+          "name": "Дополнение 4",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-5",
+          "name": "Дополнение 5",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        },
+        {
+          "id": "dlc-6",
+          "name": "Дополнение 6",
+          "description": "Добавьте описание и HTTPS-ссылку на ZIP-архив.",
+          "download_url": "",
+          "featured": false
+        }
+      ]
+    }
+  ]
+}
