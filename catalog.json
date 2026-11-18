@@ -14,9 +14,18 @@
         "id": "mod-all",
         "name": "MOD All",
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-        "download_url": "https://itsfileditchfiles.st/alpha44/1aa9ffabe1dfc2157959/Unlocker_CK3.zip",
+        "download_url": "https://drive.google.com/file/d/17I8z3AYFRkoIPQrur9iiJXFUkpkqC0PL/view?usp=sharing",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "https://drive.google.com/file/d/17I8z3AYFRkoIPQrur9iiJXFUkpkqC0PL/view?usp=sharing",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "hearts-of-iron-4",
@@ -31,7 +40,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "age-of-wonders-4",
@@ -46,7 +64,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "crusader-kings-2",
@@ -61,7 +88,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "astroneer",
@@ -76,7 +112,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "cities-skylines",
@@ -91,7 +136,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "victoria-2",
@@ -106,7 +160,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "prison-architect",
@@ -121,7 +184,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "cities-skylines-2",
@@ -136,7 +208,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "europa-universalis-4",
@@ -151,7 +232,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "civilization-6",
@@ -166,7 +256,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     },
     {
       "id": "stellaris",
@@ -181,7 +280,16 @@
         "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
         "download_url": "",
         "featured": true
-      }
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "MOD All",
+          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+          "download_url": "",
+          "featured": true
+        }
+      ]
     }
   ]
 }
