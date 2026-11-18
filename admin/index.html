@@ -251,6 +251,7 @@ function openPackage(){
   $('dlcDialogTitle').textContent='Настроить пакет мода';
   $('dlcId').value=p.id;$('dlcName').value=p.name;$('dlcDescription').value=p.description||'';
   $('dlcUrl').value=p.download_url||'';$('dlcFeatured').checked=p.featured!==false;
+  $('packageFile').value='';$('uploadFileDitchStatus').textContent='После успешной загрузки прямая ссылка автоматически появится выше. API не требует ключа.';
   $('dlcDialog').showModal();
 }
 function savePackage(event){
@@ -299,7 +300,9 @@ function uploadPackageToFileDitch(){
       showToast(status.textContent,true);return;
     }
     if(xhr.status<200||xhr.status>=300||data.success!==true||!/^https:\/\//i.test(data.url||'')){
-      const reason=data.error||('HTTP '+xhr.status);
+      let reason=data.error||('HTTP '+xhr.status);
+      const retryAfter=xhr.getResponseHeader('Retry-After');
+      if((xhr.status===429||xhr.status===503)&&retryAfter)reason+=' · Retry-After: '+retryAfter;
       status.textContent='FileDitch не принял архив: '+reason;
       showToast(status.textContent,true);return;
     }
