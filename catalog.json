@@ -317,8 +317,8 @@
     }
   ],
   "launcher_update": {
-    "version": "v1.8.7",
+    "version": "v1.8.5",
     "download_url": "https://drive.google.com/file/d/1a8LPQeaCDMVabXAkw-v2UPzWEoCsNUTg/view?usp=sharing",
-    "sha256": "657eefa3ab4a3196cbe43ff090d32c48c26f41bd7f3f7e659821c0ae2303b746"
+    "sha256": "03ea16f45871f28d420a68e5d79aa6664ce3157c36171d0485f377a8191495aa"
   }
 }
