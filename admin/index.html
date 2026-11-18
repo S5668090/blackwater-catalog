@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08131d">
+<title>Blackwater Control — Admin</title>
+<style>
+:root{color-scheme:dark;--bg:#08131d;--panel:#0d1b28;--panel2:#122536;--line:#20394b;--text:#e8f7fb;--muted:#91aab8;--accent:#a8e8eb;--accent2:#5db9c4;--danger:#e17e86;--ok:#83d6b4;--shadow:0 16px 50px #0005}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 75% -15%,#16405255,transparent 65%),var(--bg);color:var(--text);font:15px/1.5 Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer}a{color:var(--accent)}
+.top{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:#08131ddd;position:sticky;top:0;z-index:5;backdrop-filter:blur(16px)}
+.brand{display:flex;align-items:center;gap:13px;font-weight:750;letter-spacing:.2px}.mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#c3f8f4,#418e9d);color:#09202a;display:grid;place-items:center;font-weight:900;font-size:18px;box-shadow:0 5px 20px #70cbd433}.brand small{display:block;color:var(--muted);font-size:11px;font-weight:500;letter-spacing:1.4px;text-transform:uppercase}
+.topright{display:flex;align-items:center;gap:12px}.status{color:var(--muted);font-size:12px}.wrap{max-width:1440px;margin:0 auto;padding:34px 28px 70px}
+h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-size:18px;margin:0 0 14px}p{color:var(--muted);margin:0}.eyebrow{color:var(--accent2);font-size:11px;font-weight:750;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:8px}
+.card{background:linear-gradient(160deg,#102230,#0c1a26);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.login{max-width:590px;margin:65px auto;padding:30px}.login h1{margin-bottom:9px}.login .intro{margin-bottom:24px}.field{display:flex;flex-direction:column;gap:7px;margin:0 0 15px}.field label,.field-label{font-size:12px;color:#b7cbd4;font-weight:650}.field input,.field textarea,.field select{width:100%;background:#081722;border:1px solid #294658;color:var(--text);border-radius:10px;padding:11px 12px;outline:none;transition:.15s}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px #5db9c422}.field textarea{min-height:76px;resize:vertical}.hint{font-size:12px;color:var(--muted);line-height:1.55}
+.btn{border:1px solid transparent;padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;transition:.15s;display:inline-flex;gap:8px;align-items:center;justify-content:center}.btn:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--accent);color:#09202a}.primary:hover{background:#d2ffff;transform:translateY(-1px)}.secondary{background:#142b3a;color:#d9edf2;border-color:#294658}.secondary:hover{background:#1b384b}.ghost{background:transparent;color:var(--muted);border-color:var(--line)}.ghost:hover{color:var(--text);border-color:#527184}.danger{color:#ffc5c8;background:#3a2028;border-color:#62343b}.danger:hover{background:#52272f}.small{padding:7px 10px;font-size:12px}.full{width:100%}
+.login-actions{display:flex;flex-direction:column;gap:12px}.security{margin-top:18px;padding:12px 14px;border:1px solid #2b4e57;background:#0d252e;border-radius:11px;color:#a9c9cd;font-size:12px}
+.hidden{display:none!important}.workspace{display:grid;grid-template-columns:285px minmax(0,1fr);gap:22px;margin-top:28px}.sidebar{padding:17px;height:max-content;position:sticky;top:94px}.sidehead{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}.sidehead h2{margin:0}.search{width:100%;margin-bottom:12px;background:#081722;border:1px solid #294658;border-radius:9px;padding:9px 11px;color:var(--text);outline:none}.gamelist{display:flex;flex-direction:column;gap:6px;max-height:65vh;overflow:auto}.gameitem{border:1px solid transparent;background:transparent;color:#c4d5dc;text-align:left;padding:10px;border-radius:10px;display:flex;align-items:center;gap:10px}.gameitem:hover{background:#142a39}.gameitem.active{background:#183443;border-color:#396274;color:#edffff}.gameitem .dot{width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#55717f}.gameitem.active .dot{background:var(--accent)}
+.maincol{min-width:0}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:20px}.hero p{font-size:13px}.stats{display:flex;gap:10px}.stat{min-width:112px;padding:12px 15px}.stat strong{display:block;font-size:22px;line-height:1.1}.stat span{font-size:11px;color:var(--muted)}
+.editor{padding:22px}.editorhead{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:22px}.editorhead h2{font-size:21px;margin:0 0 4px}.editorhead p{font-size:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}.wide{grid-column:1/-1}.checkrow{display:flex;align-items:center;gap:9px;color:#c7d9df;font-size:13px;margin:0 0 16px}.checkrow input{accent-color:#83dce0;width:16px;height:16px}
+.preview{display:flex;align-items:center;gap:13px;padding:12px;background:#0a1822;border:1px solid var(--line);border-radius:12px;margin:2px 0 18px}.preview img{width:112px;height:54px;object-fit:cover;border-radius:7px;background:#142b3a}.preview span{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:26px 0 12px}.sectionhead h2{margin:0}.dlclist{display:flex;flex-direction:column;gap:9px}.dlc{display:grid;grid-template-columns:minmax(140px,1fr) minmax(160px,1.2fr) auto;gap:12px;align-items:center;padding:12px 13px;background:#0a1822;border:1px solid var(--line);border-radius:11px}.dlc strong{display:block;font-size:13px}.dlc small{display:block;color:var(--muted);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dlcactions{display:flex;gap:7px}.empty{padding:25px;text-align:center;border:1px dashed #345064;border-radius:12px;color:var(--muted);font-size:13px}
+.footeractions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding-top:17px;border-top:1px solid var(--line)}.footeractions .right{display:flex;gap:9px}
+.dialog{border:1px solid #355264;border-radius:17px;background:#0d1b28;color:var(--text);padding:24px;width:min(560px,calc(100vw - 28px));box-shadow:0 30px 90px #000a}.dialog::backdrop{background:#02070baa;backdrop-filter:blur(5px)}.dialog h2{margin-bottom:18px}.dialogfoot{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+.toast{position:fixed;right:22px;bottom:22px;z-index:20;max-width:410px;padding:13px 16px;border-radius:12px;background:#173440;border:1px solid #45717a;color:#eaffff;box-shadow:var(--shadow);font-size:13px}.toast.error{background:#40242b;border-color:#81434c}
+.notice{padding:12px 14px;border-radius:10px;background:#102934;border:1px solid #284f5b;color:#a8c8d0;font-size:12px;margin-bottom:14px}
+@media(max-width:900px){.workspace{grid-template-columns:1fr}.sidebar{position:static}.gamelist{max-height:240px}.hero{align-items:flex-start;flex-direction:column}.stats{width:100%}.stat{flex:1;min-width:0}}
+@media(max-width:600px){.top{padding:0 14px}.wrap{padding:24px 14px 50px}.topright .status{display:none}.login{margin:30px auto;padding:21px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.dlc{grid-template-columns:1fr auto}.dlc>div:nth-child(2){grid-column:1/-1;grid-row:2}.footeractions{align-items:flex-start;flex-direction:column}.footeractions .right{width:100%}.footeractions .right .btn{flex:1}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="mark">B</div><div>BLACKWATER <small>CONTROL CENTER</small></div></div>
+  <div class="topright"><span class="status" id="topStatus">Не подключено</span><button class="btn ghost small hidden" id="logoutBtn" type="button">Выйти</button></div>
+</header>
+<main class="wrap">
+  <section class="card login" id="loginPanel">
+    <div class="eyebrow">Панель администратора</div>
+    <h1>Управление каталогом</h1>
+    <p class="intro">Подключись к GitHub, чтобы редактировать игры и DLC в Blackwater Launcher.</p>
+    <div class="field"><label for="tokenInput">Fine-grained Personal Access Token</label><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…"></div>
+    <div class="login-actions"><button class="btn primary full" id="connectBtn" type="button">Подключить GitHub</button><div class="hint">Создай токен с доступом только к репозиторию <b>S5668090/blackwater-catalog</b>: Contents — Read and write, Metadata — Read-only.</div><a class="hint" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Создать Fine-grained token на GitHub ↗</a></div>
+    <div class="security">🔒 Токен не сохраняется в браузере и не отправляется на сторонние серверы. Он используется только в текущей вкладке для запросов к api.github.com. При закрытии или перезагрузке страницы подключение нужно повторить.</div>
+  </section>
+  <section id="appPanel" class="hidden">
+    <div class="hero">
+      <div><div class="eyebrow">Blackwater catalog · main</div><h1>Библиотека игр</h1><p>Редактируй каталог и публикуй изменения в GitHub одним нажатием.</p></div>
+      <div class="stats">
+        <div class="card stat"><strong id="gameCount">0</strong><span>ИГРЫ</span></div>
+        <div class="card stat"><strong id="dlcCount">0</strong><span>DLC</span></div>
+        <div class="card stat"><strong id="catalogVersion">—</strong><span>ВЕРСИЯ КАТАЛОГА</span></div>
+      </div>
+    </div>
+    <div class="notice" id="connectionNotice">Подключено к GitHub. Изменения пока находятся только в памяти страницы — нажми «Опубликовать», чтобы записать их в main.</div>
+    <div class="workspace">
+      <aside class="card sidebar">
+        <div class="sidehead"><h2>Игры</h2><button class="btn secondary small" id="addGameBtn" type="button">＋ Добавить</button></div>
+        <input class="search" id="gameSearch" placeholder="Поиск игры…">
+        <div class="gamelist" id="gameList"></div>
+      </aside>
+      <section class="card editor" id="editor">
+        <div class="empty">Выбери игру слева или добавь новую.</div>
+      </section>
+    </div>
+  </section>
+</main>
+<dialog class="dialog" id="dlcDialog">
+  <form id="dlcForm">
+    <div class="eyebrow">Контент игры</div><h2 id="dlcDialogTitle">Новое DLC</h2>
+    <div class="field"><label for="dlcId">ID дополнения</label><input id="dlcId" required pattern="[A-Za-z0-9_-]+" placeholder="my-dlc"></div>
+    <div class="field"><label for="dlcName">Название</label><input id="dlcName" required placeholder="Название DLC"></div>
+    <div class="field"><label for="dlcDescription">Описание</label><textarea id="dlcDescription" placeholder="Короткое описание"></textarea></div>
+    <div class="field"><label for="dlcUrl">HTTPS-ссылка на ZIP-архив</label><input id="dlcUrl" type="url" placeholder="https://…"></div>
+    <label class="checkrow"><input id="dlcFeatured" type="checkbox"> Выделенное DLC</label>
+    <div class="hint">Оставь ссылку пустой, если дополнение пока не готово к установке. Не добавляй архивы, на которые у тебя нет прав.</div>
+    <div class="dialogfoot"><button class="btn ghost" type="button" id="cancelDlc">Отмена</button><button class="btn primary" type="submit">Сохранить DLC</button></div>
+  </form>
+</dialog>
+<div class="toast hidden" id="toast"></div>
+<script>
+(function(){
+'use strict';
+const OWNER='S5668090',REPO='blackwater-catalog',BRANCH='main',API='https://api.github.com';
+let token='',catalog=null,catalogSha='',selectedId=null,editingDlcIndex=-1,dirty=false,toastTimer=0;
+const $=id=>document.getElementById(id);
+function escapeHtml(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function showToast(message,error){const el=$('toast');el.textContent=message;el.classList.remove('hidden','error');if(error)el.classList.add('error');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add('hidden'),4200);}
+function setStatus(s){$('topStatus').textContent=s;}
+function utf8ToBase64(text){const bytes=new TextEncoder().encode(text);let binary='';for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(binary);}
+function base64ToUtf8(text){const binary=atob(text.replace(/\s/g,''));const bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);return new TextDecoder('utf-8',{fatal:true}).decode(bytes);}
+async function github(path,options){
+  const response=await fetch(API+path,Object.assign({headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28'}},options||{}));
+  const text=await response.text();let data={};try{data=text?JSON.parse(text):{};}catch(_){throw new Error('GitHub вернул некорректный ответ.');}
+  if(!response.ok){let msg=data.message||('HTTP '+response.status);if(response.status===401)msg='Токен недействителен или отозван.';if(response.status===403)msg='Нет прав на запись или GitHub ограничил запросы. Проверь Contents: Read and write.';if(response.status===409||response.status===422)msg='Файл изменился на GitHub или SHA устарел. Обнови каталог и повтори публикацию.';throw new Error(msg);}
+  return data;
+}
+function validateCatalog(data){
+  if(!data||data.schema_version!==1||!Array.isArray(data.games))throw new Error('Неподдерживаемая структура catalog.json. Ожидается schema_version: 1 и массив games.');
+  if(data.games.length<1||data.games.length>250)throw new Error('Количество игр должно быть от 1 до 250.');
+  const ids=new Set(),apps=new Set();
+  data.games.forEach((g,i)=>{
+    if(!g||typeof g!=='object')throw new Error('Некорректная запись игры №'+(i+1)+'.');
+    if(!/^[A-Za-z0-9_-]{1,80}$/.test(g.id||''))throw new Error('Некорректный ID игры: '+(g.name||i+1));
+    if(ids.has(g.id))throw new Error('Повторяется ID игры: '+g.id);ids.add(g.id);
+    if(!String(g.name||'').trim())throw new Error('У игры '+g.id+' не указано название.');
+    if(!Number.isInteger(Number(g.steam_app_id))||Number(g.steam_app_id)<=0)throw new Error('У игры '+g.name+' неверный Steam AppID.');
+    if(apps.has(String(g.steam_app_id)))throw new Error('Повторяется Steam AppID: '+g.steam_app_id);apps.add(String(g.steam_app_id));
+    if(!String(g.steam_folder||'').trim()||/[\\/:*?"<>|]/.test(g.steam_folder))throw new Error('Проверь Steam folder у игры '+g.name+'.');
+    if(g.cover_url&&!/^https:\/\//i.test(g.cover_url))throw new Error('Обложка должна иметь HTTPS-ссылку: '+g.name);
+    if(!Array.isArray(g.dlcs))g.dlcs=[];
+    const dids=new Set();g.dlcs.forEach(d=>{if(!d||!/^[A-Za-z0-9_-]{1,80}$/.test(d.id||''))throw new Error('Некорректный ID DLC в '+g.name);if(dids.has(d.id))throw new Error('Повторяется ID DLC '+d.id+' в '+g.name);dids.add(d.id);if(!String(d.name||'').trim())throw new Error('У DLC '+d.id+' не указано название.');if(d.download_url&&!/^https:\/\//i.test(d.download_url))throw new Error('Ссылка DLC должна начинаться с HTTPS: '+d.name);});
+  });
+}
+async function connect(){
+  const value=$('tokenInput').value.trim();if(!value){showToast('Вставь новый Fine-grained token.',true);return;}
+  token=value;$('connectBtn').disabled=true;$('connectBtn').textContent='Подключение…';setStatus('Подключение к GitHub…');
+  try{await loadCatalog();$('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');setStatus('Подключено · '+OWNER+'/'+REPO);showToast('Каталог загружен.');}
+  catch(e){token='';setStatus('Не подключено');showToast(e.message,true);}
+  finally{$('connectBtn').disabled=false;$('connectBtn').textContent='Подключить GitHub';}
+}
+async function loadCatalog(){
+  const data=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);
+  if(!data.content||data.encoding!=='base64')throw new Error('GitHub не вернул содержимое catalog.json.');
+  const parsed=JSON.parse(base64ToUtf8(data.content));validateCatalog(parsed);
+  catalog=parsed;catalogSha=data.sha;dirty=false;
+  if(!selectedId||!catalog.games.some(g=>g.id===selectedId))selectedId=catalog.games[0].id;
+  renderAll();
+}
+function markDirty(){dirty=true;$('connectionNotice').textContent='Есть неопубликованные изменения. Они сохранятся только после нажатия «Опубликовать».';}
+function renderAll(){
+  $('gameCount').textContent=catalog.games.length;
+  $('dlcCount').textContent=catalog.games.reduce((n,g)=>n+(g.dlcs||[]).length,0);
+  $('catalogVersion').textContent=catalog.catalog_version||'—';
+  renderGameList();renderEditor();
+}
+function renderGameList(){
+  const q=$('gameSearch').value.trim().toLowerCase();
+  const list=catalog.games.filter(g=>(g.name+' '+g.id).toLowerCase().includes(q));
+  $('gameList').innerHTML=list.length?list.map(g=>'<button type="button" class="gameitem '+(g.id===selectedId?'active':'')+'" data-id="'+escapeHtml(g.id)+'"><span class="dot"></span><span>'+escapeHtml(g.name)+'</span></button>').join(''):'<div class="empty">Ничего не найдено.</div>';
+  $('gameList').querySelectorAll('[data-id]').forEach(btn=>btn.addEventListener('click',()=>{selectedId=btn.dataset.id;renderGameList();renderEditor();}));
+}
+function currentGame(){return catalog.games.find(g=>g.id===selectedId)||null;}
+function renderEditor(){
+  const g=currentGame();if(!g){$('editor').innerHTML='<div class="empty">Добавь или выбери игру.</div>';return;}
+  $('editor').innerHTML=
+    '<div class="editorhead"><div><div class="eyebrow">Редактирование игры</div><h2>'+escapeHtml(g.name)+'</h2><p>ID: '+escapeHtml(g.id)+' · Steam AppID: '+escapeHtml(g.steam_app_id)+'</p></div><button class="btn danger small" id="deleteGameBtn" type="button">Удалить игру</button></div>'+
+    '<div class="grid">'+
+      field('gameId','ID игры',g.id,'Например: europa-universalis-4')+
+      field('gameName','Название',g.name,'Название в лаунчере')+
+      field('gameAppId','Steam AppID',g.steam_app_id,'Только число','number')+
+      field('gameFolder','Папка Steam',g.steam_folder,'Имя папки в steamapps/common')+
+      field('gameCover','URL обложки',g.cover_url||'','HTTPS-ссылка','url','wide')+
+    '</div>'+
+    '<div class="preview"><img id="coverPreview" src="'+escapeHtml(g.cover_url||'')+'" alt="" onerror="this.style.visibility=\'hidden\'" onload="this.style.visibility=\'visible\'"><span id="coverPreviewText">'+(g.cover_url?'Предпросмотр обложки':'Добавь HTTPS-ссылку на обложку')+'</span></div>'+
+    '<label class="checkrow"><input id="gameFeatured" type="checkbox" '+(g.featured?'checked':'')+'> Крупная / выделенная карточка на главной</label>'+
+    '<div class="sectionhead"><h2>DLC ('+(g.dlcs||[]).length+')</h2><button class="btn secondary small" id="addDlcBtn" type="button">＋ Добавить DLC</button></div>'+
+    '<div class="dlclist" id="dlcList">'+renderDlcRows(g)+'</div>'+
+    '<div class="footeractions"><span class="hint">Изменения локальные до публикации каталога.</span><div class="right"><button class="btn ghost" id="resetGameBtn" type="button">Отменить правки</button><button class="btn primary" id="saveGameBtn" type="button">Сохранить игру</button></div></div>';
+  $('deleteGameBtn').addEventListener('click',deleteGame);$('addDlcBtn').addEventListener('click',()=>openDlc(-1));
+  $('saveGameBtn').addEventListener('click',saveGame);$('resetGameBtn').addEventListener('click',renderEditor);
+  $('gameCover').addEventListener('input',()=>{const url=$('gameCover').value.trim();$('coverPreview').src=url;$('coverPreviewText').textContent=url?'Предпросмотр обложки':'Добавь HTTPS-ссылку на обложку';});
+  $('dlcList').querySelectorAll('[data-edit-dlc]').forEach(b=>b.addEventListener('click',()=>openDlc(Number(b.dataset.editDlc))));
+  $('dlcList').querySelectorAll('[data-delete-dlc]').forEach(b=>b.addEventListener('click',()=>deleteDlc(Number(b.dataset.deleteDlc))));
+}
+function field(id,label,value,placeholder,type,extra){
+  return '<div class="field '+(extra||'')+'"><label for="'+id+'">'+label+'</label><input id="'+id+'" type="'+(type||'text')+'" value="'+escapeHtml(value)+'" placeholder="'+escapeHtml(placeholder||'')+'"></div>';
+}
+function renderDlcRows(g){
+  const arr=g.dlcs||[];if(!arr.length)return '<div class="empty">У этой игры пока нет дополнений.</div>';
+  return arr.map((d,i)=>'<div class="dlc"><div><strong>'+escapeHtml(d.name)+'</strong><small>'+escapeHtml(d.id)+(d.featured?' · Выделенное':'')+'</small></div><div><small>'+escapeHtml(d.download_url||'Ссылка на архив не добавлена')+'</small></div><div class="dlcactions"><button class="btn secondary small" type="button" data-edit-dlc="'+i+'">Изменить</button><button class="btn danger small" type="button" data-delete-dlc="'+i+'">×</button></div></div>').join('');
+}
+function saveGame(){
+  const g=currentGame();if(!g)return;
+  const next={id:$('gameId').value.trim(),name:$('gameName').value.trim(),steam_app_id:Number($('gameAppId').value),steam_folder:$('gameFolder').value.trim(),cover_url:$('gameCover').value.trim(),featured:$('gameFeatured').checked,dlcs:g.dlcs||[]};
+  if(!/^[A-Za-z0-9_-]{1,80}$/.test(next.id)||!next.name||!Number.isInteger(next.steam_app_id)||next.steam_app_id<=0||!next.steam_folder){showToast('Проверь ID, название, Steam AppID и папку Steam.',true);return;}
+  if(next.cover_url&&!/^https:\/\//i.test(next.cover_url)){showToast('Ссылка на обложку должна начинаться с HTTPS.',true);return;}
+  if(catalog.games.some(x=>x!==g&&(x.id===next.id||Number(x.steam_app_id)===next.steam_app_id))){showToast('Такой ID игры или Steam AppID уже существует.',true);return;}
+  const oldId=g.id;Object.assign(g,next);if(oldId!==next.id)selectedId=next.id;
+  markDirty();renderAll();showToast('Изменения игры сохранены в черновике.');
+}
+function addGame(){
+  let base='new-game',n=1,id=base;while(catalog.games.some(g=>g.id===id)){id=base+'-'+n++;}
+  const g={id,name:'Новая игра',steam_app_id:1,steam_folder:'Game Folder',cover_url:'',featured:false,dlcs:[]};
+  catalog.games.push(g);selectedId=id;markDirty();renderAll();$('gameName').focus();$('gameName').select();showToast('Создан черновик. Заполни поля и сохрани игру.');
+}
+function deleteGame(){
+  const g=currentGame();if(!g)return;if(!confirm('Удалить игру «'+g.name+'» и все её DLC из каталога?'))return;
+  catalog.games=catalog.games.filter(x=>x.id!==g.id);selectedId=catalog.games[0]?catalog.games[0].id:null;markDirty();renderAll();showToast('Игра удалена из черновика.');
+}
+function openDlc(index){
+  const g=currentGame();if(!g)return;editingDlcIndex=index;const d=index>=0?g.dlcs[index]:{id:'new-dlc',name:'Новое DLC',description:'',download_url:'',featured:false};
+  $('dlcDialogTitle').textContent=index>=0?'Изменить DLC':'Добавить DLC';
+  $('dlcId').value=d.id;$('dlcName').value=d.name;$('dlcDescription').value=d.description||'';$('dlcUrl').value=d.download_url||'';$('dlcFeatured').checked=!!d.featured;
+  $('dlcDialog').showModal();
+}
+function saveDlc(event){
+  event.preventDefault();const g=currentGame();if(!g)return;
+  const d={id:$('dlcId').value.trim(),name:$('dlcName').value.trim(),description:$('dlcDescription').value.trim(),download_url:$('dlcUrl').value.trim(),featured:$('dlcFeatured').checked};
+  if(!/^[A-Za-z0-9_-]{1,80}$/.test(d.id)||!d.name){showToast('Укажи корректный ID и название DLC.',true);return;}
+  if(d.download_url&&!/^https:\/\//i.test(d.download_url)){showToast('Ссылка на архив должна начинаться с HTTPS.',true);return;}
+  if(g.dlcs.some((x,i)=>i!==editingDlcIndex&&x.id===d.id)){showToast('Такой ID DLC уже существует в этой игре.',true);return;}
+  if(editingDlcIndex>=0)g.dlcs[editingDlcIndex]=d;else g.dlcs.push(d);
+  $('dlcDialog').close();markDirty();renderAll();showToast('DLC сохранено в черновике.');
+}
+function deleteDlc(index){
+  const g=currentGame(),d=g&&g.dlcs[index];if(!d||!confirm('Удалить DLC «'+d.name+'»?'))return;
+  g.dlcs.splice(index,1);markDirty();renderAll();showToast('DLC удалено из черновика.');
+}
+async function publish(){
+  try{
+    const btn=$('publishBtn');if(btn){btn.disabled=true;btn.textContent='Публикация…';}
+    validateCatalog(catalog);catalog.updated_at=new Date().toISOString().slice(0,10);
+    const content=JSON.stringify(catalog,null,2)+'\n';
+    const data=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'Update Blackwater catalog '+catalog.updated_at,content:utf8ToBase64(content),sha:catalogSha,branch:BRANCH})});
+    catalogSha=data.content.sha;dirty=false;$('connectionNotice').textContent='Каталог опубликован в main. Все пользователи получат обновление при следующем запуске лаунчера.';
+    renderAll();showToast('Опубликовано в GitHub!');setStatus('Опубликовано · '+new Date().toLocaleTimeString());
+  }catch(e){showToast(e.message,true);}
+  finally{const b=$('publishBtn');if(b){b.disabled=false;b.textContent='Опубликовать';}}
+}
+function addPublishButton(){
+  const old=$('publishBtn');if(old)return;
+  const b=document.createElement('button');b.id='publishBtn';b.className='btn primary';b.type='button';b.textContent='Опубликовать';b.addEventListener('click',publish);
+  $('topright');const slot=document.createElement('span');slot.id='publishSlot';slot.appendChild(b);$('logoutBtn').before(slot);
+}
+function logout(){
+  if(dirty&&!confirm('Есть неопубликованные изменения. Выйти без публикации?'))return;
+  token='';catalog=null;catalogSha='';selectedId=null;dirty=false;$('tokenInput').value='';$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');const slot=$('publishSlot');if(slot)slot.remove();setStatus('Не подключено');showToast('Сеанс завершён.');
+}
+$('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});
+$('logoutBtn').addEventListener('click',logout);$('addGameBtn').addEventListener('click',addGame);
+$('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',saveDlc);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
+const originalConnect=connect;
+connect=async function(){await originalConnect();if(catalog)addPublishButton();};
+})();
+</script>
+</body>
+</html>
