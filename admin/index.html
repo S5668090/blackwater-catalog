@@ -76,6 +76,12 @@ h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-si
     <div class="field"><label for="dlcName">Название пакета</label><input id="dlcName" required placeholder="MOD All"></div>
     <div class="field"><label for="dlcDescription">Описание</label><textarea id="dlcDescription" placeholder="Короткое описание"></textarea></div>
     <div class="field"><label for="dlcUrl">HTTPS-ссылка на ZIP-архив</label><input id="dlcUrl" type="url" placeholder="https://…"></div>
+    <div class="field">
+      <label for="packageFile">Или загрузи ZIP прямо на FileDitch</label>
+      <input id="packageFile" type="file" accept=".zip,application/zip">
+      <button class="btn secondary small" id="uploadFileDitchBtn" type="button">Загрузить ZIP на FileDitch</button>
+      <div class="hint" id="uploadFileDitchStatus">После успешной загрузки прямая ссылка автоматически появится выше. API не требует ключа.</div>
+    </div>
     <label class="checkrow"><input id="dlcFeatured" type="checkbox"> Выделенный пакет</label>
     <div class="hint">Добавь прямую HTTPS-ссылку на ZIP. Для FileDitch лаунчер сам проверит /api/ссылку перед скачиванием; status=unknown означает временную проблему сервера.</div>
     <div class="dialogfoot"><button class="btn ghost" type="button" id="cancelDlc">Отмена</button><button class="btn primary" type="submit">Сохранить пакет</button></div>
@@ -255,6 +261,60 @@ function savePackage(event){
   g.mod_pack=p;delete g.dlcs;
   $('dlcDialog').close();markDirty();renderAll();showToast('Пакет MOD All сохранён в черновике.');
 }
+
+function uploadPackageToFileDitch(){
+  const file=$('packageFile').files&&$('packageFile').files[0];
+  const btn=$('uploadFileDitchBtn');
+  const status=$('uploadFileDitchStatus');
+  if(!file){showToast('Сначала выбери ZIP-файл.',true);return;}
+  if(!/\.zip$/i.test(file.name)){showToast('Можно загрузить только ZIP-архив.',true);return;}
+  const maxBytes=150*1024*1024*1024;
+  if(file.size>maxBytes){showToast('Файл превышает лимит FileDitch — 150 ГБ.',true);return;}
+
+  btn.disabled=true;
+  status.textContent='Подготовка загрузки '+file.name+'…';
+  const xhr=new XMLHttpRequest();
+  xhr.open('PUT','https://new.fileditch.com/upload.php?filename='+encodeURIComponent(file.name),true);
+  xhr.setRequestHeader('Content-Type','application/octet-stream');
+  xhr.upload.onprogress=function(e){
+    if(e.lengthComputable){
+      const pct=Math.round((e.loaded/e.total)*100);
+      status.textContent='Загрузка на FileDitch: '+pct+'% ('+Math.round(e.loaded/1048576)+' / '+Math.round(e.total/1048576)+' МБ)';
+    }else status.textContent='Загрузка архива на FileDitch…';
+  };
+  xhr.onerror=function(){
+    btn.disabled=false;
+    status.textContent='Не удалось связаться с new.fileditch.com. Проверь интернет и настройки CORS/сервера.';
+    showToast(status.textContent,true);
+  };
+  xhr.onabort=function(){
+    btn.disabled=false;
+    status.textContent='Загрузка отменена.';
+  };
+  xhr.onload=function(){
+    btn.disabled=false;
+    let data={};
+    try{data=xhr.responseText?JSON.parse(xhr.responseText):{};}catch(_){
+      status.textContent='FileDitch вернул некорректный ответ (HTTP '+xhr.status+').';
+      showToast(status.textContent,true);return;
+    }
+    if(xhr.status<200||xhr.status>=300||data.success!==true||!/^https:\/\//i.test(data.url||'')){
+      const reason=data.error||('HTTP '+xhr.status);
+      status.textContent='FileDitch не принял архив: '+reason;
+      showToast(status.textContent,true);return;
+    }
+    $('dlcUrl').value=data.url;
+    const size=Number(data.size)||file.size;
+    status.textContent='Загружено: '+(data.filename||file.name)+' · '+Math.round(size/1048576)+' МБ. Ссылка вставлена в поле пакета.';
+    showToast('Архив загружен на FileDitch. Теперь нажми «Сохранить пакет».');
+  };
+  try{xhr.send(file);}catch(e){
+    btn.disabled=false;
+    status.textContent='Не удалось начать загрузку: '+(e.message||'ошибка браузера');
+    showToast(status.textContent,true);
+  }
+}
+
 async function publish(){
   const btn=$('publishBtn');
   if(!dirty){showToast('Нет неопубликованных изменений. GitHub не создаёт пустой коммит.');return;}
@@ -315,7 +375,7 @@ const originalConnect=connect;
 connect=async function(){await originalConnect();if(catalog)addPublishButton();};
 $('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});
 $('logoutBtn').addEventListener('click',logout);$('addGameBtn').addEventListener('click',addGame);
-$('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',savePackage);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
+$('gameSearch').addEventListener('input',renderGameList);$('dlcForm').addEventListener('submit',savePackage);$('uploadFileDitchBtn').addEventListener('click',uploadPackageToFileDitch);$('cancelDlc').addEventListener('click',()=>$('dlcDialog').close());
 })();
 </script>
 </body>
