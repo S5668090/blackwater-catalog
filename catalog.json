@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "catalog_version": "1.1.0",
+  "catalog_version": "1.2.0",
   "updated_at": "2026-11-18",
   "games": [
     {
@@ -10,15 +10,13 @@
       "steam_folder": "Crusader Kings III",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1158310/header.jpg",
       "featured": true,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All 1",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "https://itsfileditchfiles.st/alpha44/1aa9ffabe1dfc2157959/Unlocker_CK3.zip",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All 1",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "https://itsfileditchfiles.st/alpha44/1aa9ffabe1dfc2157959/Unlocker_CK3.zip",
+        "featured": true
+      }
     },
     {
       "id": "hearts-of-iron-4",
@@ -27,15 +25,13 @@
       "steam_folder": "Hearts of Iron IV",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/394360/header.jpg",
       "featured": true,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     },
     {
       "id": "age-of-wonders-4",
@@ -44,15 +40,13 @@
       "steam_folder": "Age of Wonders 4",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1669000/header.jpg",
       "featured": false,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     },
     {
       "id": "crusader-kings-2",
@@ -61,15 +55,13 @@
       "steam_folder": "Crusader Kings II",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/203770/header.jpg",
       "featured": false,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     },
     {
       "id": "astroneer",
@@ -78,15 +70,13 @@
       "steam_folder": "ASTRONEER",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/361420/header.jpg",
       "featured": false,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     },
     {
       "id": "cities-skylines",
@@ -95,15 +85,13 @@
       "steam_folder": "Cities_Skylines",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/255710/header.jpg",
       "featured": false,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     },
     {
       "id": "victoria-2",
@@ -112,15 +100,13 @@
       "steam_folder": "Victoria 2",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/42960/header.jpg",
       "featured": false,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     },
     {
       "id": "prison-architect",
@@ -129,15 +115,13 @@
       "steam_folder": "Prison Architect",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/233450/header.jpg",
       "featured": false,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     },
     {
       "id": "cities-skylines-2",
@@ -146,15 +130,13 @@
       "steam_folder": "Cities Skylines II",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/header.jpg",
       "featured": false,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     },
     {
       "id": "europa-universalis-4",
@@ -163,15 +145,13 @@
       "steam_folder": "Europa Universalis IV",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/236850/header.jpg",
       "featured": false,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     },
     {
       "id": "civilization-6",
@@ -180,15 +160,13 @@
       "steam_folder": "Sid Meier's Civilization VI",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/289070/header.jpg",
       "featured": false,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     },
     {
       "id": "stellaris",
@@ -197,15 +175,13 @@
       "steam_folder": "Stellaris",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/281990/header.jpg",
       "featured": false,
-      "dlcs": [
-        {
-          "id": "mod-all",
-          "name": "MOD All",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
-          "featured": true
-        }
-      ]
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "MOD All",
+        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
+        "download_url": "",
+        "featured": true
+      }
     }
   ]
 }
