@@ -41,7 +41,7 @@
         "name": "Thunder at our Gates",
         "description": "Установите новое DLC - Thunder at our Gates!",
         "download_url": "",
-        "featured": false,
+        "featured": true,
         "mirrors": []
       },
       "dlcs": [
@@ -50,7 +50,7 @@
           "name": "Thunder at our Gates",
           "description": "Установите новое DLC - Thunder at our Gates!",
           "download_url": "",
-          "featured": false,
+          "featured": true,
           "mirrors": []
         }
       ]
