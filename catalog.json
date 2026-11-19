@@ -37,18 +37,18 @@
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/394360/header.jpg",
       "featured": true,
       "mod_pack": {
-        "id": "Unlocker_CK3",
-        "name": "DLC Unlocker - All (Silk & Silver)",
-        "description": "Устанавливайте все DLC включая Silk & Silver!",
+        "id": "Thunder_at_our_Gates",
+        "name": "DLC Unlocker - Thunder at our Gates",
+        "description": "Устанавливайте DLC - Thunder at our Gates!",
         "download_url": "",
         "featured": true,
         "mirrors": []
       },
       "dlcs": [
         {
-          "id": "Unlocker_CK3",
-          "name": "DLC Unlocker - All (Silk & Silver)",
-          "description": "Устанавливайте все DLC включая Silk & Silver!",
+          "id": "Thunder_at_our_Gates",
+          "name": "DLC Unlocker - Thunder at our Gates",
+          "description": "Устанавливайте DLC - Thunder at our Gates!",
           "download_url": "",
           "featured": true,
           "mirrors": []
