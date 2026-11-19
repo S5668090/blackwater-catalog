@@ -275,11 +275,28 @@
     }
   ],
   "community": {
-    "discord_url": "https://discord.gg/BXQaEwZ",
+    "discord_url": "",
     "lava_url": "https://app.lava.top/blackwater174",
-    "patreon_url": "https://www.patreon.com/cw/Blackwater174",
+    "patreon_url": "https://www.patreon.com/17159157/join",
     "kofi_url": "https://ko-fi.com/blackwater174",
-    "usdt_wallets": []
+    "usdt_wallets": [
+      {
+        "network": "TRC-20 / Tron",
+        "address": "TWw2GzEV5R7u1hMQPZcqENe9F8yruVYMqy"
+      },
+      {
+        "network": "BEP-20 / Polygon / ERC-20",
+        "address": "0x0A0C034c39D57DAD685400cb6EeBf4d415242197"
+      },
+      {
+        "network": "TON",
+        "address": "UQADisrzVlKDpDRR5ozeDWNFqHupU_uO3AcumB98Tqb6DiMJ"
+      },
+      {
+        "network": "Solana",
+        "address": "Ca3FaWCdJhnAMzCVUFApNabL5aa6bhdezBurEnVnEAW8"
+      }
+    ]
   },
   "launcher_update": {
     "version": "v1.8.6",
