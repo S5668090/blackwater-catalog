@@ -39,7 +39,7 @@
       "mod_pack": {
         "id": "Thunder_at_our_Gates",
         "name": "DLC Unlocker - Thunder at our Gates",
-        "description": "Устанавливайте DLC - Thunder at our Gates!",
+        "description": "Устанавливайте новое DLC - Thunder at our Gates!",
         "download_url": "",
         "featured": true,
         "mirrors": []
@@ -48,7 +48,7 @@
         {
           "id": "Thunder_at_our_Gates",
           "name": "DLC Unlocker - Thunder at our Gates",
-          "description": "Устанавливайте DLC - Thunder at our Gates!",
+          "description": "Устанавливайте новое DLC - Thunder at our Gates!",
           "download_url": "",
           "featured": true,
           "mirrors": []
@@ -315,7 +315,7 @@
     ]
   },
   "launcher_update": {
-    "version": "v1.8.9",
-    "download_url": "https://drive.google.com/file/d/1Dhingd6ubfAtO9n-j2vejIkrtoFexymi/view?usp=sharing"
+    "version": "v1.8.10",
+    "download_url": "https://drive.google.com/file/d/1C7ATrpP2BfrU_e4Lpv2jyP02eBYAc0Vf/view?usp=sharing"
   }
 }
