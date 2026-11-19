@@ -3,6 +3,7 @@
   "catalog_version": "1.2.2",
   "updated_at": "2026-11-19",
   "games": [
+    {
       "id": "hearts-of-iron-4",
       "name": "Hearts of Iron IV",
       "steam_app_id": 394360,
@@ -28,7 +29,8 @@
         }
       ]
     },
-    "id": "crusader-kings-3",
+    {
+      "id": "crusader-kings-3",
       "name": "Crusader Kings III",
       "steam_app_id": 1158310,
       "steam_folder": "Crusader Kings III",
