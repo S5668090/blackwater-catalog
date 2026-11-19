@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "catalog_version": "1.2.2",
-  "updated_at": "2026-11-18",
+  "updated_at": "2026-11-19",
   "games": [
     {
       "id": "crusader-kings-3",
@@ -37,20 +37,28 @@
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/394360/header.jpg",
       "featured": true,
       "mod_pack": {
-        "id": "mod-all",
-        "name": "DLC Unlocker",
-        "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-        "download_url": "",
+        "id": "DLC_Unlocker",
+        "name": "DLC Unlocker - All",
+        "description": "Открывает все паки длс, кроме самых новых, их скачивайте ниже",
+        "download_url": "https://drive.google.com/file/d/1qvzSHjGQNnRwI0t0YUQNNEQZfu7O4UYu/view?usp=sharing",
         "featured": true,
         "mirrors": []
       },
       "dlcs": [
         {
-          "id": "mod-all",
-          "name": "DLC Unlocker",
-          "description": "Единый мод-пакет. Для работы могут требоваться соответствующие DLC игры.",
-          "download_url": "",
+          "id": "DLC_Unlocker",
+          "name": "DLC Unlocker - All",
+          "description": "Открывает все паки длс, кроме самых новых, их скачивайте ниже",
+          "download_url": "https://drive.google.com/file/d/1qvzSHjGQNnRwI0t0YUQNNEQZfu7O4UYu/view?usp=sharing",
           "featured": true,
+          "mirrors": []
+        },
+        {
+          "id": "Thunder_at_our_Gates",
+          "name": "Thunder at our Gates",
+          "description": "Этот пак включает в себя новый длс Thunder at our Gates и другие длс вышедшие ранее, но не попавшие в DLC Unlocker All",
+          "download_url": "https://drive.google.com/file/d/1DcWdKGsgLmoTlB3TylAmKokMaeMHkyPT/view?usp=sharing",
+          "featured": false,
           "mirrors": []
         }
       ]
