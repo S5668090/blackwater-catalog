@@ -36,8 +36,24 @@
       "steam_folder": "Hearts of Iron IV",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/394360/header.jpg",
       "featured": true,
-      "mod_pack": null,
-      "dlcs": []
+      "mod_pack": {
+        "id": "Thunder_at_our_Gates",
+        "name": "Thunder at our Gates",
+        "description": "Установите новое DLC - Thunder at our Gates!",
+        "download_url": "",
+        "featured": false,
+        "mirrors": []
+      },
+      "dlcs": [
+        {
+          "id": "Thunder_at_our_Gates",
+          "name": "Thunder at our Gates",
+          "description": "Установите новое DLC - Thunder at our Gates!",
+          "download_url": "",
+          "featured": false,
+          "mirrors": []
+        }
+      ]
     },
     {
       "id": "age-of-wonders-4",
