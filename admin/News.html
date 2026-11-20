@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08131d">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Blackwater — Новости</title>
+<style>
+:root{color-scheme:dark;--bg:#08131d;--panel:#0d1b28;--panel2:#122536;--line:#20394b;--text:#e8f7fb;--muted:#91aab8;--accent:#a8e8eb;--accent2:#5db9c4;--danger:#e17e86;--ok:#83d6b4;--shadow:0 16px 50px #0005}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 75% -15%,#16405255,transparent 65%),var(--bg);color:var(--text);font:15px/1.5 Inter,Segoe UI,Arial,sans-serif;min-height:100vh}button,input,textarea,select{font:inherit}button{cursor:pointer}a{color:var(--accent)}
+.top{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:#08131ddd;position:sticky;top:0;z-index:5;backdrop-filter:blur(16px)}.brand{display:flex;align-items:center;gap:13px;font-weight:750}.mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#c3f8f4,#418e9d);color:#09202a;display:grid;place-items:center;font-weight:900;font-size:18px}.brand small{display:block;color:var(--muted);font-size:11px;font-weight:500;letter-spacing:1.4px;text-transform:uppercase}.topright{display:flex;align-items:center;gap:12px}.status{color:var(--muted);font-size:12px}.wrap{max-width:1450px;margin:0 auto;padding:34px 28px 70px}h1{font-size:28px;line-height:1.2;margin:0 0 8px;letter-spacing:-.7px}h2{font-size:18px;margin:0 0 14px}p{color:var(--muted);margin:0}.eyebrow{color:var(--accent2);font-size:11px;font-weight:750;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:8px}
+.card{background:linear-gradient(160deg,#102230,#0c1a26);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.login{max-width:590px;margin:65px auto;padding:30px}.login .intro{margin-bottom:24px}.field{display:flex;flex-direction:column;gap:7px;margin:0 0 15px;min-width:0}.field label,.field-label{font-size:12px;color:#b7cbd4;font-weight:650}.field input,.field textarea,.field select{width:100%;background:#081722;border:1px solid #294658;color:var(--text);border-radius:10px;padding:11px 12px;outline:none;transition:.15s;min-width:0}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px #5db9c422}.field textarea{min-height:100px;resize:vertical}.field textarea#content{min-height:220px}.hint{font-size:12px;color:var(--muted);line-height:1.55}.btn{border:1px solid transparent;padding:10px 14px;border-radius:10px;font-weight:700;font-size:13px;transition:.15s;display:inline-flex;gap:8px;align-items:center;justify-content:center}.btn:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--accent);color:#09202a}.primary:hover{background:#d2ffff;transform:translateY(-1px)}.secondary{background:#142b3a;color:#d9edf2;border-color:#294658}.secondary:hover{background:#1b384b}.ghost{background:transparent;color:var(--muted);border-color:var(--line)}.ghost:hover{color:var(--text);border-color:#527184}.danger{color:#ffc5c8;background:#3a2028;border-color:#62343b}.danger:hover{background:#52272f}.small{padding:7px 10px;font-size:12px}.full{width:100%}.security{margin-top:18px;padding:12px 14px;border:1px solid #2b4e57;background:#0d252e;border-radius:11px;color:#a9c9cd;font-size:12px}.hidden{display:none!important}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:20px;flex-wrap:wrap}.hero p{font-size:13px}.stats{display:flex;gap:10px}.stat{min-width:112px;padding:12px 15px}.stat strong{display:block;font-size:22px;line-height:1.1}.stat span{font-size:11px;color:var(--muted)}.workspace{display:grid;grid-template-columns:330px minmax(0,1fr);gap:22px}.sidebar{padding:17px;height:max-content;position:sticky;top:94px}.sidehead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}.sidehead h2{margin:0}.search{width:100%;margin-bottom:12px;background:#081722;border:1px solid #294658;border-radius:9px;padding:9px 11px;color:var(--text);outline:none}.postlist{display:flex;flex-direction:column;gap:7px;max-height:68vh;overflow:auto}.postitem{border:1px solid transparent;background:transparent;color:#c4d5dc;text-align:left;padding:11px;border-radius:10px;display:block;width:100%;min-width:0}.postitem:hover{background:#142a39}.postitem.active{background:#183443;border-color:#396274;color:#edffff}.postitem strong{display:block;font-size:13px;overflow-wrap:anywhere}.postitem small{display:flex;gap:7px;align-items:center;color:var(--muted);font-size:11px;margin-top:4px}.dot{width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#83d6b4}.dot.draft{background:#d4a86c}.empty{padding:25px;text-align:center;border:1px dashed #345064;border-radius:12px;color:var(--muted);font-size:13px}.editor{padding:22px;min-width:0}.editorhead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:20px}.editorhead h2{font-size:21px;margin:0 0 4px}.editorhead p{font-size:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}.wide{grid-column:1/-1}.checkrow{display:flex;align-items:center;gap:9px;color:#c7d9df;font-size:13px;margin:0 0 16px}.checkrow input{accent-color:#83dce0;width:16px;height:16px}.preview{display:flex;align-items:center;gap:13px;padding:12px;background:#0a1822;border:1px solid var(--line);border-radius:12px;margin:2px 0 18px;min-width:0}.preview img{width:140px;min-width:140px;flex:0 0 140px;height:68px;object-fit:cover;border-radius:7px;background:#142b3a}.preview span{font-size:12px;color:var(--muted);overflow-wrap:anywhere}.footeractions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding-top:17px;border-top:1px solid var(--line);flex-wrap:wrap}.footeractions .right{display:flex;gap:9px;flex-wrap:wrap}.notice{padding:12px 14px;border-radius:10px;background:#102934;border:1px solid #284f5b;color:#a8c8d0;font-size:12px;margin:0 0 16px}.toast{position:fixed;right:14px;bottom:14px;z-index:20;width:min(410px,calc(100vw - 28px));padding:13px 16px;border-radius:12px;background:#173440;border:1px solid #45717a;color:#eaffff;box-shadow:var(--shadow);font-size:13px;overflow-wrap:anywhere}.toast.error{background:#40242b;border-color:#81434c}.toplink{font-size:12px;color:var(--muted);text-decoration:none}.toplink:hover{color:var(--accent)}
+@media(max-width:900px){.workspace{grid-template-columns:1fr}.sidebar{position:static}.postlist{max-height:270px}.wrap{padding:24px 16px 50px}.top{padding:0 16px}}@media(max-width:600px){.top{height:64px}.brand{font-size:13px}.topright{gap:6px}.status{display:none}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.editor{padding:16px}.login{margin:30px auto;padding:22px}.hero{align-items:flex-start}.stats{width:100%}.stat{flex:1;min-width:0}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="mark">B</div><div>Blackwater Control<small>News publisher</small></div></div>
+  <div class="topright"><a class="toplink" href="./index.html">Основная админка ↗</a><span class="status" id="topStatus">Не подключено</span><button class="btn ghost small hidden" id="logoutBtn" type="button">Выйти</button></div>
+</header>
+<main class="wrap">
+  <section class="card login" id="loginPanel">
+    <div class="eyebrow">Blackwater · публикации</div><h1>Управление новостями</h1>
+    <p class="intro">Подключись к GitHub, чтобы добавлять новости, дневники разработки, анонсы игр и DLC. Публикации хранятся в том же catalog.json.</p>
+    <div class="field"><label for="tokenInput">Fine-grained GitHub token</label><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…"></div>
+    <div class="hint" id="loginError" style="color:#f0a2a7;margin:0 0 12px"></div>
+    <button class="btn primary full" id="connectBtn" type="button">Подключить GitHub</button>
+    <div class="security">Токен хранится только в памяти этой вкладки и не записывается в файл. Для токена нужен доступ только к репозиторию <b>S5668090/blackwater-catalog</b> с разрешением <b>Contents: Read and write</b>.</div>
+  </section>
+
+  <section id="appPanel" class="hidden">
+    <div class="hero">
+      <div><div class="eyebrow">Blackwater · авторская лента</div><h1>Новости проекта</h1><p>Сначала сохрани публикацию в черновик, затем опубликуй изменения в GitHub.</p></div>
+      <div class="stats"><div class="card stat"><strong id="newsCount">0</strong><span>Публикаций</span></div><div class="card stat"><strong id="publishedCount">0</strong><span>Опубликовано</span></div></div>
+    </div>
+    <div class="notice" id="connectionNotice">Подключено к GitHub.</div>
+    <div class="workspace">
+      <aside class="card sidebar">
+        <div class="sidehead"><h2>Публикации</h2><button class="btn secondary small" id="addPostBtn" type="button">＋ Новая</button></div>
+        <input class="search" id="postSearch" placeholder="Поиск публикации…">
+        <div class="postlist" id="postList"><div class="empty">Подключи GitHub, чтобы загрузить новости.</div></div>
+      </aside>
+      <section class="card editor">
+        <div class="editorhead"><div><div class="eyebrow">Редактор публикации</div><h2 id="editorTitle">Новая публикация</h2><p id="editorSubtitle">Заполни поля и сохрани изменения.</p></div><button class="btn danger small" id="deletePostBtn" type="button" disabled>Удалить</button></div>
+        <div class="grid">
+          <div class="field"><label for="title">Заголовок *</label><input id="title" maxlength="140" placeholder="Например: Готовлю новое DLC"></div>
+          <div class="field"><label for="category">Тип публикации</label><select id="category"><option value="update">Обновление лаунчера</option><option value="dlc">Новое DLC</option><option value="game">Новая игра</option><option value="devlog">Дневник разработчика</option><option value="idea">Мысли и идеи</option><option value="notice">Объявление</option></select></div>
+          <div class="field"><label for="date">Дата публикации *</label><input id="date" type="date"></div>
+          <div class="field"><label for="buttonText">Текст кнопки ссылки</label><input id="buttonText" maxlength="48" placeholder="Подробнее"></div>
+          <div class="field wide"><label for="summary">Краткое описание</label><textarea id="summary" maxlength="800" rows="3" placeholder="Короткий текст, который будет виден в карточке новости"></textarea></div>
+          <div class="field wide"><label for="content">Полный текст</label><textarea id="content" maxlength="10000" rows="9" placeholder="Текст новости, мысли, планы или подробности обновления. Переносы строк сохраняются."></textarea></div>
+          <div class="field wide"><label for="imageUrl">URL изображения / обложки (необязательно)</label><input id="imageUrl" type="url" spellcheck="false" placeholder="https://…"></div>
+          <div class="field wide"><label for="linkUrl">Внешняя ссылка (необязательно)</label><input id="linkUrl" type="url" spellcheck="false" placeholder="https://…"></div>
+        </div>
+        <div class="preview"><img id="imagePreview" alt="" hidden><span id="previewText">Предпросмотр обложки появится здесь, если добавить HTTPS-ссылку.</span></div>
+        <label class="checkrow"><input id="published" type="checkbox" checked> Опубликовано — показывать новость в лаунчере</label>
+        <div class="footeractions"><span class="hint" id="formHint">Черновики не отображаются в лаунчере.</span><div class="right"><button class="btn ghost" id="resetBtn" type="button">Сбросить форму</button><button class="btn primary" id="savePostBtn" type="button">Сохранить публикацию</button></div></div>
+      </section>
+    </div>
+  </section>
+</main>
+<div class="toast hidden" id="toast"></div>
+<script>
+(()=>{
+'use strict';
+const OWNER='S5668090',REPO='blackwater-catalog',BRANCH='main',API='https://api.github.com';
+const CATEGORIES={update:'Обновление',dlc:'Новое DLC',game:'Новая игра',devlog:'Дневник разработчика',idea:'Мысли и идеи',notice:'Объявление'};
+let token='',catalog=null,catalogSha='',dirty=false,editingId=null,editorDirty=false,toastTimer=0;
+const $=id=>document.getElementById(id);
+function escapeHtml(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function showToast(message,error=false){const el=$('toast');el.textContent=message;el.classList.toggle('error',!!error);el.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add('hidden'),4500);}
+function setStatus(message){$('topStatus').textContent=message;}
+function localDate(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function isValidDate(value){const m=String(value||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return false;const y=Number(m[1]),mo=Number(m[2]),day=Number(m[3]),d=new Date(Date.UTC(y,mo-1,day));return y>=2000&&d.getUTCFullYear()===y&&d.getUTCMonth()===mo-1&&d.getUTCDate()===day;}
+function utf8ToBase64(text){const bytes=new TextEncoder().encode(text);let binary='';for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(binary);}
+function base64ToUtf8(text){const binary=atob(text.replace(/\s/g,''));const bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);return new TextDecoder('utf-8',{fatal:true}).decode(bytes);}
+async function github(path,options){
+  const init=Object.assign({method:'GET',cache:'no-store'},options||{});init.cache='no-store';
+  init.headers=Object.assign({'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28'},(options&&options.headers)||{});
+  let response;try{response=await fetch(API+path,init);}catch(e){throw new Error('Не удалось получить ответ от GitHub API. Проверь сеть, CORS и блокировщики. '+(e&&e.message||''));}
+  const raw=await response.text();let data={};try{data=raw?JSON.parse(raw):{};}catch(_){throw new Error('GitHub вернул некорректный ответ (HTTP '+response.status+').');}
+  if(!response.ok){let message=data.message||('HTTP '+response.status);if(response.status===401)message='GitHub token недействителен или отозван.';else if(response.status===403)message='Нет права записи. Проверь Contents: Read and write и правила ветки main. '+message;else if(response.status===404)message='Не найден catalog.json или у токена нет доступа к S5668090/blackwater-catalog.';else if(response.status===409)message='Конфликт версии catalog.json. Перезагрузи страницу и повтори изменения.';throw new Error(message);}
+  return data;
+}
+function validateCatalog(data){
+  if(!data||data.schema_version!==1||!Array.isArray(data.games)||!data.games.length)throw new Error('В catalog.json должна быть схема 1 и непустой массив games.');
+  if(!data.launcher_update||typeof data.launcher_update!=='object'||Array.isArray(data.launcher_update))throw new Error('В каталоге отсутствует обязательный launcher_update.');
+  if(data.news!=null&&!Array.isArray(data.news))throw new Error('Поле news должно быть массивом.');
+  data.news=Array.isArray(data.news)?data.news:[];
+  if(data.news.length>50)throw new Error('Максимум 50 новостных публикаций.');
+  const ids=new Set();
+  data.news.forEach((p,i)=>{
+    if(!p||typeof p!=='object'||Array.isArray(p))throw new Error('Некорректная запись новости №'+(i+1)+'.');
+    if(!/^[A-Za-z0-9_-]{1,80}$/.test(String(p.id||''))||ids.has(p.id))throw new Error('У новости №'+(i+1)+' некорректный или повторяющийся ID.');ids.add(p.id);
+    if(!String(p.title||'').trim()||String(p.title).length>140)throw new Error('У новости №'+(i+1)+' отсутствует заголовок или он слишком длинный.');
+    if(!Object.prototype.hasOwnProperty.call(CATEGORIES,String(p.category||'')))throw new Error('У новости «'+p.title+'» неизвестная категория.');
+    if(!isValidDate(p.date))throw new Error('У новости «'+p.title+'» некорректная дата.');
+    if(String(p.summary||'').length>800||String(p.content||'').length>10000||String(p.button_text||'').length>48)throw new Error('В новости «'+p.title+'» превышена длина текстового поля.');
+    for(const key of ['image_url','link_url']){const url=String(p[key]||'').trim();if(url){let parsed;try{parsed=new URL(url);}catch(_){throw new Error('В новости «'+p.title+'» некорректная ссылка '+key+'.');}if(parsed.protocol!=='https:')throw new Error('В новости «'+p.title+'» ссылка '+key+' должна быть HTTPS.');}}
+  });
+}
+async function connect(){
+  const value=$('tokenInput').value.trim();if(!value){$('loginError').textContent='Вставь Fine-grained token.';return;}
+  token=value;$('connectBtn').disabled=true;$('connectBtn').textContent='Проверка токена…';$('loginError').textContent='';setStatus('Подключение к GitHub…');
+  try{
+    const remote=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);
+    if(!remote.content||remote.encoding!=='base64'||!remote.sha)throw new Error('GitHub не вернул содержимое catalog.json и его SHA.');
+    const parsed=JSON.parse(base64ToUtf8(remote.content));validateCatalog(parsed);catalog=parsed;catalogSha=remote.sha;dirty=false;
+    $('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');addPublishButton();
+    $('connectionNotice').textContent='Подключено к '+OWNER+'/'+REPO+'. Публикации сохраняются в поле news файла catalog.json. Существующие игры, DLC и настройки останутся на месте.';
+    renderList();clearEditor();setStatus('Подключено · '+OWNER+'/'+REPO);showToast('Каталог и новости загружены.');
+  }catch(e){token='';$('loginError').textContent=e&&e.message||'Не удалось подключиться.';setStatus('Не подключено');showToast($('loginError').textContent,true);}
+  finally{$('connectBtn').disabled=false;$('connectBtn').textContent='Подключить GitHub';}
+}
+function posts(){return catalog&&Array.isArray(catalog.news)?catalog.news:[];}
+function sortedPosts(){return [...posts()].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));}
+function renderList(){
+  if(!catalog)return;const q=$('postSearch').value.trim().toLowerCase();const list=sortedPosts().filter(p=>(String(p.title||'')+' '+String(p.id||'')+' '+String(p.category||'')).toLowerCase().includes(q));
+  $('postList').innerHTML=list.length?list.map(p=>'<button type="button" class="postitem '+(p.id===editingId?'active':'')+'" data-post-id="'+escapeHtml(p.id)+'"><strong>'+escapeHtml(p.title||'Без названия')+'</strong><small><i class="dot '+(p.published===false?'draft':'')+'"></i>'+escapeHtml(CATEGORIES[p.category]||'Объявление')+' · '+escapeHtml(p.date||'Без даты')+' · '+(p.published===false?'Черновик':'Опубликовано')+'</small></button>').join(''):'<div class="empty">Публикаций пока нет. Нажми «Новая».</div>';
+  $('postList').querySelectorAll('[data-post-id]').forEach(btn=>btn.addEventListener('click',()=>{if(editorDirty&&!confirm('Несохранённые изменения формы будут потеряны. Продолжить?'))return;loadPost(btn.dataset.postId);}));
+  $('newsCount').textContent=posts().length;$('publishedCount').textContent=posts().filter(p=>p.published!==false).length;
+}
+function updatePreview(){const url=$('imageUrl').value.trim(),img=$('imagePreview'),text=$('previewText');img.hidden=!url;if(url){img.src=url;text.textContent='Предпросмотр изображения';}else{img.removeAttribute('src');text.textContent='Предпросмотр обложки появится здесь, если добавить HTTPS-ссылку.';}}
+function clearEditor(){editingId=null;editorDirty=false;$('editorTitle').textContent='Новая публикация';$('editorSubtitle').textContent='Создай анонс, заметку или дневник разработки.';$('title').value='';$('category').value='notice';$('date').value=localDate();$('buttonText').value='Подробнее';$('summary').value='';$('content').value='';$('imageUrl').value='';$('linkUrl').value='';$('published').checked=true;$('deletePostBtn').disabled=true;$('savePostBtn').textContent='Сохранить публикацию';$('formHint').textContent='Черновики не отображаются в лаунчере.';updatePreview();renderList();}
+function loadPost(id){const post=posts().find(p=>p.id===id);if(!post)return;editingId=id;editorDirty=false;$('editorTitle').textContent='Редактирование публикации';$('editorSubtitle').textContent='ID: '+post.id;$('title').value=post.title||'';$('category').value=post.category||'notice';$('date').value=post.date||localDate();$('buttonText').value=post.button_text||'Подробнее';$('summary').value=post.summary||'';$('content').value=post.content||'';$('imageUrl').value=post.image_url||'';$('linkUrl').value=post.link_url||'';$('published').checked=post.published!==false;$('deletePostBtn').disabled=false;$('savePostBtn').textContent='Сохранить изменения';$('formHint').textContent=post.published===false?'Это черновик: он не будет показан в лаунчере.':'Публикация будет показана в ленте лаунчера.';updatePreview();renderList();}
+function newPostId(){const stamp=localDate().replaceAll('-','');let id='news-'+stamp+'-'+Date.now().toString(36);while(posts().some(p=>p.id===id))id+='-1';return id;}
+function markDirty(){dirty=true;$('connectionNotice').textContent='Есть неопубликованные изменения. Нажми «Опубликовать в GitHub», чтобы сохранить их в main.';}
+function savePost(){
+  if(!catalog)return;
+  const title=$('title').value.trim(),category=$('category').value,date=$('date').value,summary=$('summary').value.trim(),content=$('content').value.trim(),imageUrl=$('imageUrl').value.trim(),linkUrl=$('linkUrl').value.trim(),buttonText=$('buttonText').value.trim()||'Подробнее';
+  if(!title){showToast('Укажи заголовок публикации.',true);$('title').focus();return;}
+  if(title.length>140||summary.length>800||content.length>10000||buttonText.length>48){showToast('Превышен допустимый размер одного из текстовых полей.',true);return;}
+  if(!isValidDate(date)) {showToast('Укажи корректную дату в формате ГГГГ-ММ-ДД.',true);return;}
+  for(const [label,url] of [['изображения',imageUrl],['внешней ссылки',linkUrl]]){if(!url)continue;let parsed;try{parsed=new URL(url);}catch(_){showToast('Некорректный URL '+label+'.',true);return;}if(parsed.protocol!=='https:'){showToast('URL '+label+' должен начинаться с HTTPS.',true);return;}}
+  const id=editingId||newPostId();
+  const duplicate=posts().some(p=>p.id===id&&p.id!==editingId);if(duplicate){showToast('Такой ID публикации уже существует.',true);return;}
+  const next={id,title,category,date,summary,content,image_url:imageUrl,link_url:linkUrl,button_text:buttonText,published:$('published').checked};
+  if(editingId){const index=posts().findIndex(p=>p.id===editingId);if(index<0){showToast('Публикация уже удалена. Обнови список.',true);return;}catalog.news[index]=next;}
+  else{if(posts().length>=50){showToast('Достигнут лимит 50 публикаций.',true);return;}catalog.news.push(next);}
+  editingId=id;editorDirty=false;markDirty();loadPost(id);showToast('Публикация сохранена в локальный черновик админки. Не забудь нажать «Опубликовать в GitHub».');
+}
+function deletePost(){if(!editingId)return;const post=posts().find(p=>p.id===editingId);if(!post||!confirm('Удалить публикацию «'+post.title+'» из каталога?'))return;catalog.news=catalog.news.filter(p=>p.id!==editingId);editingId=null;editorDirty=false;markDirty();clearEditor();showToast('Публикация удалена из черновика каталога.');}
+async function publish(){
+  if(!catalog||!dirty){showToast('Нет сохранённых изменений для публикации.');return;}
+  if(editorDirty){showToast('Сначала нажми «Сохранить публикацию» в редакторе.',true);return;}
+  const btn=$('publishBtn');btn.disabled=true;btn.textContent='Публикация…';setStatus('Публикация…');
+  try{
+    validateCatalog(catalog);catalog.updated_at=localDate();const content=JSON.stringify(catalog,null,2)+'\n';
+    const remote=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);
+    if(!remote.sha||!remote.content)throw new Error('GitHub не вернул текущий catalog.json.');
+    if(remote.sha!==catalogSha)throw new Error('catalog.json на GitHub изменился после загрузки редактора. Перезагрузи страницу, чтобы не затереть чужие изменения.');
+    const remoteText=base64ToUtf8(remote.content);if(remoteText===content){dirty=false;catalogSha=remote.sha;syncPublish();showToast('На GitHub уже находится эта версия каталога.');return;}
+    const result=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'Publish Blackwater news '+catalog.updated_at,content:utf8ToBase64(content),sha:remote.sha,branch:BRANCH})});
+    const commitSha=result&&result.commit&&result.commit.sha,newSha=result&&result.content&&result.content.sha;if(!commitSha||!newSha)throw new Error('GitHub не вернул SHA созданного коммита и файла. Проверь историю репозитория.');
+    const confirmed=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);if(confirmed.sha!==newSha)throw new Error('Коммит создан, но main пока не указывает на опубликованный файл. Проверь историю репозитория.');
+    catalogSha=newSha;dirty=false;$('connectionNotice').textContent='Опубликовано в main. Коммит: '+commitSha+'. Лаунчер получит новости при следующем обновлении каталога.';setStatus('Опубликовано · '+new Date().toLocaleTimeString());syncPublish();showToast('Новости опубликованы · '+commitSha.slice(0,7));
+  }catch(e){const message=e&&e.message||'Неизвестная ошибка публикации.';$('connectionNotice').textContent='Публикация не выполнена: '+message;setStatus('Ошибка публикации');showToast(message,true);}
+  finally{btn.textContent='Опубликовать в GitHub';syncPublish();}
+}
+function syncPublish(){const btn=$('publishBtn');if(btn)btn.disabled=!dirty||editorDirty;}
+function logout(){if((dirty||editorDirty)&&!confirm('Есть неопубликованные изменения. Выйти без сохранения?'))return;token='';catalog=null;catalogSha='';dirty=false;editorDirty=false;$('tokenInput').value='';$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('publishSlot')?.remove();setStatus('Не подключено');}
+function addPublishButton(){if($('publishBtn'))return;const b=document.createElement('button');b.id='publishBtn';b.className='btn primary';b.type='button';b.textContent='Опубликовать в GitHub';b.addEventListener('click',publish);const slot=document.createElement('span');slot.id='publishSlot';slot.appendChild(b);$('logoutBtn').before(slot);syncPublish();}
+$('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});$('logoutBtn').addEventListener('click',logout);
+$('addPostBtn').addEventListener('click',()=>{if(editorDirty&&!confirm('Несохранённые изменения формы будут потеряны. Продолжить?'))return;clearEditor();$('title').focus();});$('resetBtn').addEventListener('click',()=>{if(editorDirty&&!confirm('Сбросить несохранённые изменения формы?'))return;if(editingId)loadPost(editingId);else clearEditor();});$('savePostBtn').addEventListener('click',savePost);$('deletePostBtn').addEventListener('click',deletePost);$('postSearch').addEventListener('input',renderList);$('imageUrl').addEventListener('input',()=>{editorDirty=true;updatePreview();syncPublish();});
+for(const id of ['title','category','date','buttonText','summary','content','linkUrl','published'])$(id).addEventListener('input',()=>{editorDirty=true;syncPublish();});$('publishSlot')?.remove();
+})();
+</script>
+</body>
+</html>
