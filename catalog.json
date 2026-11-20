@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "catalog_version": "1.2.2",
-  "updated_at": "2026-11-19",
+  "updated_at": "2026-11-20",
   "games": [
     {
       "id": "hearts-of-iron-4",
@@ -34,7 +34,7 @@
       "name": "Crusader Kings III",
       "steam_app_id": 1158310,
       "steam_folder": "Crusader Kings III",
-      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1158310/header.jpg",
+      "cover_url": "https://lh3.googleusercontent.com/d/1d2kfH8kIKDBlh0hSp1g_se1Rjzsh7y-9",
       "featured": true,
       "mod_pack": {
         "id": "Silk_Silver",
