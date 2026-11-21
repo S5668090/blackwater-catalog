@@ -16,13 +16,17 @@
         "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям, включая самое последние - To the Bitter End!",
         "download_url": "https://drive.google.com/file/d/19x0FaVUcXBCCdgwF1n_tyll3DAY5WFSE/view?usp=drive_link",
         "featured": true,
+        "is_new": false,
         "mirrors": [
+          {
+            "name": "MediaFire",
+            "url": "https://www.mediafire.com/file/35t08c1utvivym1/DLCUnlockerAll_HOI4.zip/file"
+          },
           {
             "name": "FileDitch",
             "url": "https://itsfileditchfiles.st/balpha51/b81dad8295ea25d3b636/DLCUnlockerAll_HOI4.zip"
           }
-        ],
-        "is_new": false
+        ]
       },
       "dlcs": [
         {
@@ -31,13 +35,17 @@
           "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям, включая самое последние - To the Bitter End!",
           "download_url": "https://drive.google.com/file/d/19x0FaVUcXBCCdgwF1n_tyll3DAY5WFSE/view?usp=drive_link",
           "featured": true,
+          "is_new": false,
           "mirrors": [
+            {
+              "name": "MediaFire",
+              "url": "https://www.mediafire.com/file/35t08c1utvivym1/DLCUnlockerAll_HOI4.zip/file"
+            },
             {
               "name": "FileDitch",
               "url": "https://itsfileditchfiles.st/balpha51/b81dad8295ea25d3b636/DLCUnlockerAll_HOI4.zip"
             }
-          ],
-          "is_new": false
+          ]
         },
         {
           "id": "To_the_Bitter_End",
