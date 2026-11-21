@@ -318,5 +318,32 @@
     "version": "v1.8.12",
     "download_url": "https://drive.google.com/file/d/1hDySmP8CXp_Sz5bd-k0H8K-_JfeoJf76/view?usp=sharing"
   },
-  "news": []
+  "news": [
+    {
+      "id": "news-20261121-mwqsjenc",
+      "title": "тест1",
+      "category": "notice",
+      "date": "2026-11-21",
+      "time": "22:20",
+      "summary": "тест1тест1тест1",
+      "content": "тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1\n\nтест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1тест1",
+      "image_url": "https://ichef.bbci.co.uk/ace/ws/640/cpsprodpb/11582/production/_103424017_mary-mcgowan_caught-in-the-act_00001294.jpg.webp",
+      "link_url": "",
+      "button_text": "Подробнее",
+      "published": true
+    },
+    {
+      "id": "news-20261121-mwqsmg9x",
+      "title": "тест2",
+      "category": "notice",
+      "date": "2026-11-21",
+      "time": "22:22",
+      "summary": "тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2",
+      "content": "тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2 \n\nтест2тест2тест2тест2тест2тест2тест2тест2тест2\nтест2тест2тест2тест2тест2тест2тест2тест2тест2тест2тест2",
+      "image_url": "https://i.playground.ru/p/owUG5GhlsadasvaVMfqUQA.png",
+      "link_url": "https://www.playground.ru/hearts_of_iron_4/file/hearts_of_iron_4_millennium_dawn_modern_day_mod_ispravlennaya_versiya_16_08_24-1722395",
+      "button_text": "Подробнее",
+      "published": true
+    }
+  ]
 }
