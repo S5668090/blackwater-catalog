@@ -21,7 +21,8 @@
             "name": "FileDitch",
             "url": "https://itsfileditchfiles.st/balpha51/b81dad8295ea25d3b636/DLCUnlockerAll_HOI4.zip"
           }
-        ]
+        ],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -35,7 +36,8 @@
               "name": "FileDitch",
               "url": "https://itsfileditchfiles.st/balpha51/b81dad8295ea25d3b636/DLCUnlockerAll_HOI4.zip"
             }
-          ]
+          ],
+          "is_new": false
         },
         {
           "id": "To_the_Bitter_End",
@@ -43,6 +45,7 @@
           "description": "Устанавливайте новое DLC - To the Bitter End!\n\nПри установке скачаетяся только To the Bitter End, \nа так же бонус пак Songs of Liberty",
           "download_url": "https://drive.google.com/file/d/1y1dJzvHeSjQKoM05BVu45KpIwxtnI341/view?usp=drive_link",
           "featured": false,
+          "is_new": true,
           "mirrors": [
             {
               "name": "FileDitch",
@@ -70,7 +73,8 @@
             "name": "FileDitch",
             "url": "https://itsfileditchfiles.st/balpha51/dd3eea533179c5c58e0b/Silk_Silver.zip"
           }
-        ]
+        ],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -84,7 +88,8 @@
               "name": "FileDitch",
               "url": "https://itsfileditchfiles.st/balpha51/dd3eea533179c5c58e0b/Silk_Silver.zip"
             }
-          ]
+          ],
+          "is_new": false
         }
       ]
     },
@@ -101,7 +106,8 @@
         "description": "Скоро здесь появляться DLC.",
         "download_url": "",
         "featured": true,
-        "mirrors": []
+        "mirrors": [],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -110,7 +116,8 @@
           "description": "Скоро здесь появляться DLC.",
           "download_url": "",
           "featured": true,
-          "mirrors": []
+          "mirrors": [],
+          "is_new": false
         }
       ]
     },
@@ -127,7 +134,8 @@
         "description": "Скоро здесь появляться DLC.",
         "download_url": "",
         "featured": true,
-        "mirrors": []
+        "mirrors": [],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -136,7 +144,8 @@
           "description": "Скоро здесь появляться DLC.",
           "download_url": "",
           "featured": true,
-          "mirrors": []
+          "mirrors": [],
+          "is_new": false
         }
       ]
     },
@@ -153,7 +162,8 @@
         "description": "Скоро здесь появляться DLC.",
         "download_url": "",
         "featured": true,
-        "mirrors": []
+        "mirrors": [],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -162,7 +172,8 @@
           "description": "Скоро здесь появляться DLC.",
           "download_url": "",
           "featured": true,
-          "mirrors": []
+          "mirrors": [],
+          "is_new": false
         }
       ]
     },
@@ -179,7 +190,8 @@
         "description": "Скоро здесь появляться DLC.",
         "download_url": "",
         "featured": true,
-        "mirrors": []
+        "mirrors": [],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -188,7 +200,8 @@
           "description": "Скоро здесь появляться DLC.",
           "download_url": "",
           "featured": true,
-          "mirrors": []
+          "mirrors": [],
+          "is_new": false
         }
       ]
     },
@@ -205,7 +218,8 @@
         "description": "Скоро здесь появляться DLC.",
         "download_url": "",
         "featured": true,
-        "mirrors": []
+        "mirrors": [],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -214,7 +228,8 @@
           "description": "Скоро здесь появляться DLC.",
           "download_url": "",
           "featured": true,
-          "mirrors": []
+          "mirrors": [],
+          "is_new": false
         }
       ]
     },
@@ -231,7 +246,8 @@
         "description": "Скоро здесь появляться DLC.",
         "download_url": "",
         "featured": true,
-        "mirrors": []
+        "mirrors": [],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -240,7 +256,8 @@
           "description": "Скоро здесь появляться DLC.",
           "download_url": "",
           "featured": true,
-          "mirrors": []
+          "mirrors": [],
+          "is_new": false
         }
       ]
     },
@@ -257,7 +274,8 @@
         "description": "Скоро здесь появляться DLC.",
         "download_url": "",
         "featured": true,
-        "mirrors": []
+        "mirrors": [],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -266,7 +284,8 @@
           "description": "Скоро здесь появляться DLC.",
           "download_url": "",
           "featured": true,
-          "mirrors": []
+          "mirrors": [],
+          "is_new": false
         }
       ]
     },
@@ -283,7 +302,8 @@
         "description": "Скоро здесь появляться DLC.",
         "download_url": "",
         "featured": true,
-        "mirrors": []
+        "mirrors": [],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -292,7 +312,8 @@
           "description": "Скоро здесь появляться DLC.",
           "download_url": "",
           "featured": true,
-          "mirrors": []
+          "mirrors": [],
+          "is_new": false
         }
       ]
     },
@@ -309,7 +330,8 @@
         "description": "Скоро здесь появляться DLC.",
         "download_url": "",
         "featured": true,
-        "mirrors": []
+        "mirrors": [],
+        "is_new": false
       },
       "dlcs": [
         {
@@ -318,7 +340,8 @@
           "description": "Скоро здесь появляться DLC.",
           "download_url": "",
           "featured": true,
-          "mirrors": []
+          "mirrors": [],
+          "is_new": false
         }
       ]
     }
