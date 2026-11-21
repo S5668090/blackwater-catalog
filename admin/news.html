@@ -29,15 +29,15 @@
     <div class="field"><label for="tokenInput">Fine-grained GitHub token</label><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…"></div>
     <div class="hint" id="loginError" style="color:#f0a2a7;margin:0 0 12px"></div>
     <button class="btn primary full" id="connectBtn" type="button">Подключить GitHub</button>
-    <div class="security">Токен хранится только в памяти этой вкладки и не записывается в файл. Для токена нужен доступ только к репозиторию <b>S5668090/blackwater-catalog</b> с разрешением <b>Contents: Read and write</b>.</div>
+    <div class="security">Токен и черновики хранятся только в памяти этой вкладки и не записываются в файл. Для токена нужен доступ только к репозиторию <b>S5668090/blackwater-catalog</b> с разрешением <b>Contents: Read and write</b>.</div>
   </section>
 
   <section id="appPanel" class="hidden">
     <div class="hero">
-      <div><div class="eyebrow">Blackwater · авторская лента</div><h1>Новости проекта</h1><p>Сначала сохрани публикацию в черновик, затем опубликуй изменения в GitHub.</p></div>
-      <div class="stats"><div class="card stat"><strong id="newsCount">0</strong><span>Публикаций</span></div><div class="card stat"><strong id="publishedCount">0</strong><span>Опубликовано</span></div></div>
+      <div><div class="eyebrow">Blackwater · авторская лента</div><h1>Новости проекта</h1><p>Черновики живут только в памяти этой вкладки. В GitHub отправляются только опубликованные новости.</p></div>
+      <div class="stats"><div class="card stat"><strong id="newsCount">0</strong><span>Материалов в сессии</span></div><div class="card stat"><strong id="publishedCount">0</strong><span>Опубликовано</span></div><div class="card stat"><strong id="draftCount">0</strong><span>Локальных черновиков</span></div></div>
     </div>
-    <div class="notice" id="connectionNotice">Подключено к GitHub.</div>
+    <div class="notice" id="connectionNotice">Подключено к GitHub. Черновики не отправляются в репозиторий.</div>
     <div class="workspace">
       <aside class="card sidebar">
         <div class="sidehead"><h2>Публикации</h2><button class="btn secondary small" id="addPostBtn" type="button">＋ Новая</button></div>
@@ -69,7 +69,7 @@
 'use strict';
 const OWNER='S5668090',REPO='blackwater-catalog',BRANCH='main',API='https://api.github.com';
 const CATEGORIES={update:'Обновление',dlc:'Новое DLC',game:'Новая игра',devlog:'Дневник разработчика',idea:'Мысли и идеи',notice:'Объявление'};
-let token='',catalog=null,catalogSha='',dirty=false,editingId=null,editorDirty=false,toastTimer=0;
+let token='',catalog=null,catalogSha='',dirty=false,sessionDrafts=[],editingId=null,editorDirty=false,toastTimer=0;
 const $=id=>document.getElementById(id);
 function escapeHtml(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function showToast(message,error=false){const el=$('toast');el.textContent=message;el.classList.toggle('error',!!error);el.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add('hidden'),4500);}
@@ -109,26 +109,34 @@ async function connect(){
   try{
     const remote=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);
     if(!remote.content||remote.encoding!=='base64'||!remote.sha)throw new Error('GitHub не вернул содержимое catalog.json и его SHA.');
-    const parsed=JSON.parse(base64ToUtf8(remote.content));validateCatalog(parsed);catalog=parsed;catalogSha=remote.sha;dirty=false;
+    const parsed=JSON.parse(base64ToUtf8(remote.content));validateCatalog(parsed);
+    const remoteNews=Array.isArray(parsed.news)?parsed.news:[];
+    sessionDrafts=remoteNews.filter(p=>p.published===false).map(p=>Object.assign({},p,{published:false}));
+    parsed.news=remoteNews.filter(p=>p.published!==false);
+    catalog=parsed;catalogSha=remote.sha;dirty=sessionDrafts.length>0;
     $('loginPanel').classList.add('hidden');$('appPanel').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');addPublishButton();
-    $('connectionNotice').textContent='Подключено к '+OWNER+'/'+REPO+'. Публикации сохраняются в поле news файла catalog.json. Существующие игры, DLC и настройки останутся на месте.';
-    renderList();clearEditor();setStatus('Подключено · '+OWNER+'/'+REPO);showToast('Каталог и новости загружены.');
+    $('connectionNotice').textContent='Подключено к '+OWNER+'/'+REPO+'. В GitHub хранятся только опубликованные новости; черновики остаются в памяти этой вкладки.'+(sessionDrafts.length?' Найдены старые черновики в каталоге GitHub: они временно загружены локально и будут удалены из каталога при следующей публикации.':'');
+    renderList();clearEditor();setStatus('Подключено · '+OWNER+'/'+REPO);showToast('Каталог загружен. Черновики существуют только до закрытия или перезагрузки вкладки.');
   }catch(e){token='';$('loginError').textContent=e&&e.message||'Не удалось подключиться.';setStatus('Не подключено');showToast($('loginError').textContent,true);}
   finally{$('connectBtn').disabled=false;$('connectBtn').textContent='Подключить GitHub';}
 }
-function posts(){return catalog&&Array.isArray(catalog.news)?catalog.news:[];}
+function posts(){return catalog?[...(Array.isArray(catalog.news)?catalog.news:[]),...sessionDrafts]:[];}
 function sortedPosts(){return [...posts()].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));}
 function renderList(){
   if(!catalog)return;const q=$('postSearch').value.trim().toLowerCase();const list=sortedPosts().filter(p=>(String(p.title||'')+' '+String(p.id||'')+' '+String(p.category||'')).toLowerCase().includes(q));
   $('postList').innerHTML=list.length?list.map(p=>'<button type="button" class="postitem '+(p.id===editingId?'active':'')+'" data-post-id="'+escapeHtml(p.id)+'"><strong>'+escapeHtml(p.title||'Без названия')+'</strong><small><i class="dot '+(p.published===false?'draft':'')+'"></i>'+escapeHtml(CATEGORIES[p.category]||'Объявление')+' · '+escapeHtml(p.date||'Без даты')+' · '+(p.published===false?'Черновик':'Опубликовано')+'</small></button>').join(''):'<div class="empty">Публикаций пока нет. Нажми «Новая».</div>';
   $('postList').querySelectorAll('[data-post-id]').forEach(btn=>btn.addEventListener('click',()=>{if(editorDirty&&!confirm('Несохранённые изменения формы будут потеряны. Продолжить?'))return;loadPost(btn.dataset.postId);}));
-  $('newsCount').textContent=posts().length;$('publishedCount').textContent=posts().filter(p=>p.published!==false).length;
+  $('newsCount').textContent=posts().length;$('publishedCount').textContent=catalog.news.length;$('draftCount').textContent=sessionDrafts.length;
 }
 function updatePreview(){const url=$('imageUrl').value.trim(),img=$('imagePreview'),text=$('previewText');img.hidden=!url;if(url){img.src=url;text.textContent='Предпросмотр изображения';}else{img.removeAttribute('src');text.textContent='Предпросмотр обложки появится здесь, если добавить HTTPS-ссылку.';}}
-function clearEditor(){editingId=null;editorDirty=false;$('editorTitle').textContent='Новая публикация';$('editorSubtitle').textContent='Создай анонс, заметку или дневник разработки.';$('title').value='';$('category').value='notice';$('date').value=localDate();$('buttonText').value='Подробнее';$('summary').value='';$('content').value='';$('imageUrl').value='';$('linkUrl').value='';$('published').checked=true;$('deletePostBtn').disabled=true;$('savePostBtn').textContent='Сохранить публикацию';$('formHint').textContent='Черновики не отображаются в лаунчере.';updatePreview();renderList();}
-function loadPost(id){const post=posts().find(p=>p.id===id);if(!post)return;editingId=id;editorDirty=false;$('editorTitle').textContent='Редактирование публикации';$('editorSubtitle').textContent='ID: '+post.id;$('title').value=post.title||'';$('category').value=post.category||'notice';$('date').value=post.date||localDate();$('buttonText').value=post.button_text||'Подробнее';$('summary').value=post.summary||'';$('content').value=post.content||'';$('imageUrl').value=post.image_url||'';$('linkUrl').value=post.link_url||'';$('published').checked=post.published!==false;$('deletePostBtn').disabled=false;$('savePostBtn').textContent='Сохранить изменения';$('formHint').textContent=post.published===false?'Это черновик: он не будет показан в лаунчере.':'Публикация будет показана в ленте лаунчера.';updatePreview();renderList();}
+function clearEditor(){editingId=null;editorDirty=false;$('editorTitle').textContent='Новая публикация';$('editorSubtitle').textContent='Создай анонс, заметку или дневник разработки.';$('title').value='';$('category').value='notice';$('date').value=localDate();$('buttonText').value='Подробнее';$('summary').value='';$('content').value='';$('imageUrl').value='';$('linkUrl').value='';$('published').checked=false;$('deletePostBtn').disabled=true;syncSaveButton();$('formHint').textContent='Новая запись по умолчанию является локальным черновиком. Для отправки в GitHub включи «Опубликовано».';updatePreview();renderList();}
+function loadPost(id){const post=posts().find(p=>p.id===id);if(!post)return;editingId=id;editorDirty=false;$('editorTitle').textContent='Редактирование публикации';$('editorSubtitle').textContent='ID: '+post.id;$('title').value=post.title||'';$('category').value=post.category||'notice';$('date').value=post.date||localDate();$('buttonText').value=post.button_text||'Подробнее';$('summary').value=post.summary||'';$('content').value=post.content||'';$('imageUrl').value=post.image_url||'';$('linkUrl').value=post.link_url||'';$('published').checked=post.published!==false;$('deletePostBtn').disabled=false;syncSaveButton();$('formHint').textContent=post.published===false?'Локальный черновик: не отправляется в GitHub и исчезнет после закрытия или перезагрузки вкладки.':'Опубликованная запись: её изменения попадут в GitHub только после нажатия «Опубликовать в GitHub».';updatePreview();renderList();}
 function newPostId(){const stamp=localDate().replaceAll('-','');let id='news-'+stamp+'-'+Date.now().toString(36);while(posts().some(p=>p.id===id))id+='-1';return id;}
-function markDirty(){dirty=true;$('connectionNotice').textContent='Есть неопубликованные изменения. Нажми «Опубликовать в GitHub», чтобы сохранить их в main.';}
+function markDirty(){dirty=true;$('connectionNotice').textContent='Есть изменения опубликованных новостей. Локальные черновики не будут включены в отправляемый catalog.json. Нажми «Опубликовать в GitHub», чтобы записать только опубликованные новости в main.';}
+function syncSaveButton(){
+  const isPublished=$('published').checked;
+  $('savePostBtn').textContent=isPublished?(editingId?'Сохранить изменения':'Сохранить публикацию'):'Сохранить черновик';
+}
 function savePost(){
   if(!catalog)return;
   const title=$('title').value.trim(),category=$('category').value,date=$('date').value,summary=$('summary').value.trim(),content=$('content').value.trim(),imageUrl=$('imageUrl').value.trim(),linkUrl=$('linkUrl').value.trim(),buttonText=$('buttonText').value.trim()||'Подробнее';
@@ -138,18 +146,47 @@ function savePost(){
   for(const [label,url] of [['изображения',imageUrl],['внешней ссылки',linkUrl]]){if(!url)continue;let parsed;try{parsed=new URL(url);}catch(_){showToast('Некорректный URL '+label+'.',true);return;}if(parsed.protocol!=='https:'){showToast('URL '+label+' должен начинаться с HTTPS.',true);return;}}
   const id=editingId||newPostId();
   const duplicate=posts().some(p=>p.id===id&&p.id!==editingId);if(duplicate){showToast('Такой ID публикации уже существует.',true);return;}
-  const next={id,title,category,date,summary,content,image_url:imageUrl,link_url:linkUrl,button_text:buttonText,published:$('published').checked};
-  if(editingId){const index=posts().findIndex(p=>p.id===editingId);if(index<0){showToast('Публикация уже удалена. Обнови список.',true);return;}catalog.news[index]=next;}
-  else{if(posts().length>=50){showToast('Достигнут лимит 50 публикаций.',true);return;}catalog.news.push(next);}
-  editingId=id;editorDirty=false;markDirty();loadPost(id);showToast('Публикация сохранена в локальный черновик админки. Не забудь нажать «Опубликовать в GitHub».');
+  const isPublished=$('published').checked;
+  const next={id,title,category,date,summary,content,image_url:imageUrl,link_url:linkUrl,button_text:buttonText,published:isPublished};
+  if(editingId){
+    const publishedIndex=catalog.news.findIndex(p=>p.id===editingId);
+    const draftIndex=sessionDrafts.findIndex(p=>p.id===editingId);
+    if(publishedIndex>=0){
+      if(isPublished)catalog.news[publishedIndex]=next;
+      else{catalog.news.splice(publishedIndex,1);sessionDrafts.push(Object.assign({},next,{published:false}));}
+      markDirty();
+    }else if(draftIndex>=0){
+      if(isPublished){sessionDrafts.splice(draftIndex,1);catalog.news.push(next);markDirty();}
+      else sessionDrafts[draftIndex]=Object.assign({},next,{published:false});
+    }else{showToast('Запись не найдена. Обнови страницу и повтори.',true);return;}
+  }else{
+    if(posts().length>=50){showToast('Достигнут лимит 50 материалов в сессии.',true);return;}
+    if(isPublished){catalog.news.push(next);markDirty();}
+    else sessionDrafts.push(Object.assign({},next,{published:false}));
+  }
+  editingId=id;editorDirty=false;loadPost(id);
+  if(isPublished)showToast('Публикация подготовлена. Она попадёт в GitHub только после нажатия «Опубликовать в GitHub».');
+  else{$('connectionNotice').textContent='Локальный черновик сохранён только в памяти этой вкладки. Он не отправляется в GitHub и исчезнет после закрытия или перезагрузки страницы.'+(dirty?' При этом есть отдельные изменения опубликованных новостей — для них доступна кнопка «Опубликовать в GitHub».':'');showToast('Черновик сохранён только в текущей сессии. На GitHub он не отправляется.');}
+  syncPublish();
 }
-function deletePost(){if(!editingId)return;const post=posts().find(p=>p.id===editingId);if(!post||!confirm('Удалить публикацию «'+post.title+'» из каталога?'))return;catalog.news=catalog.news.filter(p=>p.id!==editingId);editingId=null;editorDirty=false;markDirty();clearEditor();showToast('Публикация удалена из черновика каталога.');}
+function deletePost(){
+  if(!editingId)return;
+  const publishedIndex=catalog.news.findIndex(p=>p.id===editingId);
+  const draftIndex=sessionDrafts.findIndex(p=>p.id===editingId);
+  const post=publishedIndex>=0?catalog.news[publishedIndex]:sessionDrafts[draftIndex];
+  if(!post)return;
+  const question=publishedIndex>=0?'Удалить опубликованную новость из каталога? Изменение попадёт на GitHub только после публикации.':'Удалить локальный черновик из текущей сессии?';
+  if(!confirm(question))return;
+  if(publishedIndex>=0){catalog.news.splice(publishedIndex,1);markDirty();}
+  else sessionDrafts.splice(draftIndex,1);
+  editingId=null;editorDirty=false;clearEditor();showToast(publishedIndex>=0?'Новость удалена из подготовленной версии каталога.':'Локальный черновик удалён из памяти вкладки.');syncPublish();
+}
 async function publish(){
   if(!catalog||!dirty){showToast('Нет сохранённых изменений для публикации.');return;}
   if(editorDirty){showToast('Сначала нажми «Сохранить публикацию» в редакторе.',true);return;}
   const btn=$('publishBtn');btn.disabled=true;btn.textContent='Публикация…';setStatus('Публикация…');
   try{
-    validateCatalog(catalog);catalog.updated_at=localDate();const content=JSON.stringify(catalog,null,2)+'\n';
+    catalog.news=catalog.news.filter(p=>p.published!==false);validateCatalog(catalog);catalog.updated_at=localDate();const content=JSON.stringify(catalog,null,2)+'\n';
     const remote=await github('/repos/'+OWNER+'/'+REPO+'/contents/catalog.json?ref='+BRANCH);
     if(!remote.sha||!remote.content)throw new Error('GitHub не вернул текущий catalog.json.');
     if(remote.sha!==catalogSha)throw new Error('catalog.json на GitHub изменился после загрузки редактора. Перезагрузи страницу, чтобы не затереть чужие изменения.');
@@ -162,11 +199,11 @@ async function publish(){
   finally{btn.textContent='Опубликовать в GitHub';syncPublish();}
 }
 function syncPublish(){const btn=$('publishBtn');if(btn)btn.disabled=!dirty||editorDirty;}
-function logout(){if((dirty||editorDirty)&&!confirm('Есть неопубликованные изменения. Выйти без сохранения?'))return;token='';catalog=null;catalogSha='';dirty=false;editorDirty=false;$('tokenInput').value='';$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('publishSlot')?.remove();setStatus('Не подключено');}
+function logout(){if((dirty||editorDirty||sessionDrafts.length)&&!confirm('Есть неопубликованные изменения или локальные черновики. При выходе все черновики текущей сессии будут удалены. Продолжить?'))return;token='';catalog=null;catalogSha='';dirty=false;sessionDrafts=[];editingId=null;editorDirty=false;$('tokenInput').value='';$('appPanel').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('logoutBtn').classList.add('hidden');$('publishSlot')?.remove();setStatus('Не подключено');}
 function addPublishButton(){if($('publishBtn'))return;const b=document.createElement('button');b.id='publishBtn';b.className='btn primary';b.type='button';b.textContent='Опубликовать в GitHub';b.addEventListener('click',publish);const slot=document.createElement('span');slot.id='publishSlot';slot.appendChild(b);$('logoutBtn').before(slot);syncPublish();}
 $('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});$('logoutBtn').addEventListener('click',logout);
 $('addPostBtn').addEventListener('click',()=>{if(editorDirty&&!confirm('Несохранённые изменения формы будут потеряны. Продолжить?'))return;clearEditor();$('title').focus();});$('resetBtn').addEventListener('click',()=>{if(editorDirty&&!confirm('Сбросить несохранённые изменения формы?'))return;if(editingId)loadPost(editingId);else clearEditor();});$('savePostBtn').addEventListener('click',savePost);$('deletePostBtn').addEventListener('click',deletePost);$('postSearch').addEventListener('input',renderList);$('imageUrl').addEventListener('input',()=>{editorDirty=true;updatePreview();syncPublish();});
-for(const id of ['title','category','date','buttonText','summary','content','linkUrl','published'])$(id).addEventListener('input',()=>{editorDirty=true;syncPublish();});$('publishSlot')?.remove();
+for(const id of ['title','category','date','buttonText','summary','content','linkUrl','published'])$(id).addEventListener('input',()=>{editorDirty=true;syncPublish();});$('published').addEventListener('change',()=>{editorDirty=true;syncSaveButton();syncPublish();});$('publishSlot')?.remove();
 })();
 </script>
 </body>
