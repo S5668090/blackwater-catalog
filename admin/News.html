@@ -50,6 +50,7 @@
           <div class="field"><label for="title">Заголовок *</label><input id="title" maxlength="140" placeholder="Например: Готовлю новое DLC"></div>
           <div class="field"><label for="category">Тип публикации</label><select id="category"><option value="update">Обновление лаунчера</option><option value="dlc">Новое DLC</option><option value="game">Новая игра</option><option value="devlog">Дневник разработчика</option><option value="idea">Мысли и идеи</option><option value="notice">Объявление</option></select></div>
           <div class="field"><label for="date">Дата публикации *</label><input id="date" type="date"></div>
+          <div class="field"><label for="time">Время публикации (местное)</label><input id="time" type="time" step="60"></div>
           <div class="field"><label for="buttonText">Текст кнопки ссылки</label><input id="buttonText" maxlength="48" placeholder="Подробнее"></div>
           <div class="field wide"><label for="summary">Краткое описание</label><textarea id="summary" maxlength="800" rows="3" placeholder="Короткий текст, который будет виден в карточке новости"></textarea></div>
           <div class="field wide"><label for="content">Полный текст</label><textarea id="content" maxlength="10000" rows="9" placeholder="Текст новости, мысли, планы или подробности обновления. Переносы строк сохраняются."></textarea></div>
@@ -75,6 +76,8 @@ function escapeHtml(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'
 function showToast(message,error=false){const el=$('toast');el.textContent=message;el.classList.toggle('error',!!error);el.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add('hidden'),4500);}
 function setStatus(message){$('topStatus').textContent=message;}
 function localDate(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function localTime(){const d=new Date();return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;}
+function isValidTime(value){return value===''||/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(String(value));}
 function isValidDate(value){const m=String(value||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return false;const y=Number(m[1]),mo=Number(m[2]),day=Number(m[3]),d=new Date(Date.UTC(y,mo-1,day));return y>=2000&&d.getUTCFullYear()===y&&d.getUTCMonth()===mo-1&&d.getUTCDate()===day;}
 function utf8ToBase64(text){const bytes=new TextEncoder().encode(text);let binary='';for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(binary);}
 function base64ToUtf8(text){const binary=atob(text.replace(/\s/g,''));const bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);return new TextDecoder('utf-8',{fatal:true}).decode(bytes);}
@@ -99,6 +102,7 @@ function validateCatalog(data){
     if(!String(p.title||'').trim()||String(p.title).length>140)throw new Error('У новости №'+(i+1)+' отсутствует заголовок или он слишком длинный.');
     if(!Object.prototype.hasOwnProperty.call(CATEGORIES,String(p.category||'')))throw new Error('У новости «'+p.title+'» неизвестная категория.');
     if(!isValidDate(p.date))throw new Error('У новости «'+p.title+'» некорректная дата.');
+    if(p.time!=null&&(typeof p.time!=='string'||!isValidTime(p.time)))throw new Error('У новости «'+p.title+'» некорректное время. Используй формат ЧЧ:ММ.');
     if(String(p.summary||'').length>800||String(p.content||'').length>10000||String(p.button_text||'').length>48)throw new Error('В новости «'+p.title+'» превышена длина текстового поля.');
     for(const key of ['image_url','link_url']){const url=String(p[key]||'').trim();if(url){let parsed;try{parsed=new URL(url);}catch(_){throw new Error('В новости «'+p.title+'» некорректная ссылка '+key+'.');}if(parsed.protocol!=='https:')throw new Error('В новости «'+p.title+'» ссылка '+key+' должна быть HTTPS.');}}
   });
@@ -121,16 +125,16 @@ async function connect(){
   finally{$('connectBtn').disabled=false;$('connectBtn').textContent='Подключить GitHub';}
 }
 function posts(){return catalog?[...(Array.isArray(catalog.news)?catalog.news:[]),...sessionDrafts]:[];}
-function sortedPosts(){return [...posts()].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));}
+function sortedPosts(){return [...posts()].sort((a,b)=>{const byDate=String(b.date||'').localeCompare(String(a.date||''));return byDate||String(b.time||'').localeCompare(String(a.time||''));});}
 function renderList(){
   if(!catalog)return;const q=$('postSearch').value.trim().toLowerCase();const list=sortedPosts().filter(p=>(String(p.title||'')+' '+String(p.id||'')+' '+String(p.category||'')).toLowerCase().includes(q));
-  $('postList').innerHTML=list.length?list.map(p=>'<button type="button" class="postitem '+(p.id===editingId?'active':'')+'" data-post-id="'+escapeHtml(p.id)+'"><strong>'+escapeHtml(p.title||'Без названия')+'</strong><small><i class="dot '+(p.published===false?'draft':'')+'"></i>'+escapeHtml(CATEGORIES[p.category]||'Объявление')+' · '+escapeHtml(p.date||'Без даты')+' · '+(p.published===false?'Черновик':'Опубликовано')+'</small></button>').join(''):'<div class="empty">Публикаций пока нет. Нажми «Новая».</div>';
+  $('postList').innerHTML=list.length?list.map(p=>'<button type="button" class="postitem '+(p.id===editingId?'active':'')+'" data-post-id="'+escapeHtml(p.id)+'"><strong>'+escapeHtml(p.title||'Без названия')+'</strong><small><i class="dot '+(p.published===false?'draft':'')+'"></i>'+escapeHtml(CATEGORIES[p.category]||'Объявление')+' · '+escapeHtml(p.date||'Без даты')+(p.time?' · '+escapeHtml(p.time):'')+' · '+(p.published===false?'Черновик':'Опубликовано')+'</small></button>').join(''):'<div class="empty">Публикаций пока нет. Нажми «Новая».</div>';
   $('postList').querySelectorAll('[data-post-id]').forEach(btn=>btn.addEventListener('click',()=>{if(editorDirty&&!confirm('Несохранённые изменения формы будут потеряны. Продолжить?'))return;loadPost(btn.dataset.postId);}));
   $('newsCount').textContent=posts().length;$('publishedCount').textContent=catalog.news.length;$('draftCount').textContent=sessionDrafts.length;
 }
 function updatePreview(){const url=$('imageUrl').value.trim(),img=$('imagePreview'),text=$('previewText');img.hidden=!url;if(url){img.src=url;text.textContent='Предпросмотр изображения';}else{img.removeAttribute('src');text.textContent='Предпросмотр обложки появится здесь, если добавить HTTPS-ссылку.';}}
-function clearEditor(){editingId=null;editorDirty=false;$('editorTitle').textContent='Новая публикация';$('editorSubtitle').textContent='Создай анонс, заметку или дневник разработки.';$('title').value='';$('category').value='notice';$('date').value=localDate();$('buttonText').value='Подробнее';$('summary').value='';$('content').value='';$('imageUrl').value='';$('linkUrl').value='';$('published').checked=false;$('deletePostBtn').disabled=true;syncSaveButton();$('formHint').textContent='Новая запись по умолчанию является локальным черновиком. Для публикации сохрани её и нажми общую кнопку «Опубликовать в GitHub».';updatePreview();renderList();syncPublish();}
-function loadPost(id){const post=posts().find(p=>p.id===id);if(!post)return;editingId=id;editorDirty=false;$('editorTitle').textContent='Редактирование публикации';$('editorSubtitle').textContent='ID: '+post.id;$('title').value=post.title||'';$('category').value=post.category||'notice';$('date').value=post.date||localDate();$('buttonText').value=post.button_text||'Подробнее';$('summary').value=post.summary||'';$('content').value=post.content||'';$('imageUrl').value=post.image_url||'';$('linkUrl').value=post.link_url||'';$('published').checked=post.published!==false;$('deletePostBtn').disabled=false;syncSaveButton();$('formHint').textContent=post.published===false?'Локальный черновик: не отправляется в GitHub и исчезнет после закрытия или перезагрузки вкладки. Чтобы опубликовать именно его, нажми общую кнопку «Опубликовать в GitHub».':'Опубликованная запись: её изменения попадут в GitHub только после нажатия «Опубликовать в GitHub».';updatePreview();renderList();syncPublish();}
+function clearEditor(){editingId=null;editorDirty=false;$('editorTitle').textContent='Новая публикация';$('editorSubtitle').textContent='Создай анонс, заметку или дневник разработки.';$('title').value='';$('category').value='notice';$('date').value=localDate();$('time').value=localTime();$('buttonText').value='Подробнее';$('summary').value='';$('content').value='';$('imageUrl').value='';$('linkUrl').value='';$('published').checked=false;$('deletePostBtn').disabled=true;syncSaveButton();$('formHint').textContent='Новая запись по умолчанию является локальным черновиком. Для публикации сохрани её и нажми общую кнопку «Опубликовать в GitHub».';updatePreview();renderList();syncPublish();}
+function loadPost(id){const post=posts().find(p=>p.id===id);if(!post)return;editingId=id;editorDirty=false;$('editorTitle').textContent='Редактирование публикации';$('editorSubtitle').textContent='ID: '+post.id;$('title').value=post.title||'';$('category').value=post.category||'notice';$('date').value=post.date||localDate();$('time').value=post.time||'';$('buttonText').value=post.button_text||'Подробнее';$('summary').value=post.summary||'';$('content').value=post.content||'';$('imageUrl').value=post.image_url||'';$('linkUrl').value=post.link_url||'';$('published').checked=post.published!==false;$('deletePostBtn').disabled=false;syncSaveButton();$('formHint').textContent=post.published===false?'Локальный черновик: не отправляется в GitHub и исчезнет после закрытия или перезагрузки вкладки. Чтобы опубликовать именно его, нажми общую кнопку «Опубликовать в GitHub».':'Опубликованная запись: её изменения попадут в GitHub только после нажатия «Опубликовать в GitHub».';updatePreview();renderList();syncPublish();}
 function newPostId(){const stamp=localDate().replaceAll('-','');let id='news-'+stamp+'-'+Date.now().toString(36);while(posts().some(p=>p.id===id))id+='-1';return id;}
 function markDirty(){dirty=true;$('connectionNotice').textContent='Есть изменения опубликованных новостей. Локальные черновики не будут включены в отправляемый catalog.json. Нажми «Опубликовать в GitHub», чтобы записать только опубликованные новости в main.';}
 function syncSaveButton(){
@@ -139,15 +143,16 @@ function syncSaveButton(){
 }
 function savePost(){
   if(!catalog)return;
-  const title=$('title').value.trim(),category=$('category').value,date=$('date').value,summary=$('summary').value.trim(),content=$('content').value.trim(),imageUrl=$('imageUrl').value.trim(),linkUrl=$('linkUrl').value.trim(),buttonText=$('buttonText').value.trim()||'Подробнее';
+  const title=$('title').value.trim(),category=$('category').value,date=$('date').value,time=$('time').value,summary=$('summary').value.trim(),content=$('content').value.trim(),imageUrl=$('imageUrl').value.trim(),linkUrl=$('linkUrl').value.trim(),buttonText=$('buttonText').value.trim()||'Подробнее';
   if(!title){showToast('Укажи заголовок публикации.',true);$('title').focus();return;}
   if(title.length>140||summary.length>800||content.length>10000||buttonText.length>48){showToast('Превышен допустимый размер одного из текстовых полей.',true);return;}
   if(!isValidDate(date)) {showToast('Укажи корректную дату в формате ГГГГ-ММ-ДД.',true);return;}
+  if(!isValidTime(time)) {showToast('Укажи корректное время в формате ЧЧ:ММ.',true);$('time').focus();return;}
   for(const [label,url] of [['изображения',imageUrl],['внешней ссылки',linkUrl]]){if(!url)continue;let parsed;try{parsed=new URL(url);}catch(_){showToast('Некорректный URL '+label+'.',true);return;}if(parsed.protocol!=='https:'){showToast('URL '+label+' должен начинаться с HTTPS.',true);return;}}
   const id=editingId||newPostId();
   const duplicate=posts().some(p=>p.id===id&&p.id!==editingId);if(duplicate){showToast('Такой ID публикации уже существует.',true);return;}
   const isPublished=$('published').checked;
-  const next={id,title,category,date,summary,content,image_url:imageUrl,link_url:linkUrl,button_text:buttonText,published:isPublished};
+  const next={id,title,category,date,time,summary,content,image_url:imageUrl,link_url:linkUrl,button_text:buttonText,published:isPublished};
   if(editingId){
     const publishedIndex=catalog.news.findIndex(p=>p.id===editingId);
     const draftIndex=sessionDrafts.findIndex(p=>p.id===editingId);
@@ -225,7 +230,7 @@ function logout(){if((dirty||editorDirty||sessionDrafts.length)&&!confirm('Ес�
 function addPublishButton(){if($('publishBtn'))return;const b=document.createElement('button');b.id='publishBtn';b.className='btn primary';b.type='button';b.textContent='Опубликовать в GitHub';b.addEventListener('click',publish);const slot=document.createElement('span');slot.id='publishSlot';slot.appendChild(b);$('logoutBtn').before(slot);syncPublish();}
 $('connectBtn').addEventListener('click',connect);$('tokenInput').addEventListener('keydown',e=>{if(e.key==='Enter')connect();});$('logoutBtn').addEventListener('click',logout);
 $('addPostBtn').addEventListener('click',()=>{if(editorDirty&&!confirm('Несохранённые изменения формы будут потеряны. Продолжить?'))return;clearEditor();$('title').focus();});$('resetBtn').addEventListener('click',()=>{if(editorDirty&&!confirm('Сбросить несохранённые изменения формы?'))return;if(editingId)loadPost(editingId);else clearEditor();});$('savePostBtn').addEventListener('click',savePost);$('deletePostBtn').addEventListener('click',deletePost);$('postSearch').addEventListener('input',renderList);$('imageUrl').addEventListener('input',()=>{editorDirty=true;updatePreview();syncPublish();});
-for(const id of ['title','category','date','buttonText','summary','content','linkUrl','published'])$(id).addEventListener('input',()=>{editorDirty=true;syncPublish();});$('published').addEventListener('change',()=>{editorDirty=true;syncSaveButton();syncPublish();});$('publishSlot')?.remove();
+for(const id of ['title','category','date','time','buttonText','summary','content','linkUrl','published'])$(id).addEventListener('input',()=>{editorDirty=true;syncPublish();});$('published').addEventListener('change',()=>{editorDirty=true;syncSaveButton();syncPublish();});$('publishSlot')?.remove();
 })();
 </script>
 </body>
