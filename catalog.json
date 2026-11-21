@@ -9,7 +9,7 @@
       "steam_app_id": 394360,
       "steam_folder": "Hearts of Iron IV",
       "cover_url": "https://lh3.googleusercontent.com/d/18ce-jUh8DnR5Zz148zVQVsaiZ3NTaFxL",
-      "featured": false,
+      "featured": true,
       "mod_pack": {
         "id": "DLCUnlockerAll_HOI4",
         "name": "DLC Unlocker - All (Все дополнения)",
@@ -42,7 +42,7 @@
           "name": "DLC Unlocker - To the Bitter End",
           "description": "Устанавливайте новое DLC - To the Bitter End!\n\nПри установке скачаетяся только To the Bitter End и бонус пак Songs of Liberty",
           "download_url": "https://drive.google.com/file/d/1y1dJzvHeSjQKoM05BVu45KpIwxtnI341/view?usp=drive_link",
-          "featured": true,
+          "featured": false,
           "mirrors": [
             {
               "name": "FileDitch",
