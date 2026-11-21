@@ -63,18 +63,28 @@
         "id": "Silk_Silver",
         "name": "DLC Unlocker - All (Silk & Silver)",
         "description": "Устанавливайте все DLC включая Silk & Silver!",
-        "download_url": "",
+        "download_url": "https://drive.google.com/file/d/1CSzpkBN7YrEvjSmnWxJjIr7IKNJA8i8G/view?usp=drive_link",
         "featured": true,
-        "mirrors": []
+        "mirrors": [
+          {
+            "name": "FileDitch",
+            "url": "https://itsfileditchfiles.st/balpha51/dd3eea533179c5c58e0b/Silk_Silver.zip"
+          }
+        ]
       },
       "dlcs": [
         {
           "id": "Silk_Silver",
           "name": "DLC Unlocker - All (Silk & Silver)",
           "description": "Устанавливайте все DLC включая Silk & Silver!",
-          "download_url": "",
+          "download_url": "https://drive.google.com/file/d/1CSzpkBN7YrEvjSmnWxJjIr7IKNJA8i8G/view?usp=drive_link",
           "featured": true,
-          "mirrors": []
+          "mirrors": [
+            {
+              "name": "FileDitch",
+              "url": "https://itsfileditchfiles.st/balpha51/dd3eea533179c5c58e0b/Silk_Silver.zip"
+            }
+          ]
         }
       ]
     },
