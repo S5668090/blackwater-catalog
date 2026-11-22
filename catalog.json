@@ -14,13 +14,13 @@
         "id": "DLCUnlockerAll_HOI4",
         "name": "DLC Unlocker - All (Все дополнения)",
         "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям, включая самое последние - To the Bitter End!",
-        "download_url": "https://drive.google.com/file/d/19x0FaVUcXBCCdgwF1n_tyll3DAY5WFSE/view?usp=drive_link",
+        "download_url": "https://upload.am/d/6c0191b4-4565-4686-a975-5882cd493234",
         "featured": true,
         "is_new": false,
         "mirrors": [
           {
-            "name": "Upload.am",
-            "url": "https://upload.am/d/6c0191b4-4565-4686-a975-5882cd493234"
+            "name": "Google Drive",
+            "url": "https://drive.google.com/file/d/19x0FaVUcXBCCdgwF1n_tyll3DAY5WFSE/view?usp=drive_link"
           },
           {
             "name": "MediaFire",
@@ -37,13 +37,13 @@
           "id": "DLCUnlockerAll_HOI4",
           "name": "DLC Unlocker - All (Все дополнения)",
           "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям, включая самое последние - To the Bitter End!",
-          "download_url": "https://drive.google.com/file/d/19x0FaVUcXBCCdgwF1n_tyll3DAY5WFSE/view?usp=drive_link",
+          "download_url": "https://upload.am/d/6c0191b4-4565-4686-a975-5882cd493234",
           "featured": true,
           "is_new": false,
           "mirrors": [
             {
-              "name": "Upload.am",
-              "url": "https://upload.am/d/6c0191b4-4565-4686-a975-5882cd493234"
+              "name": "Google Drive",
+              "url": "https://drive.google.com/file/d/19x0FaVUcXBCCdgwF1n_tyll3DAY5WFSE/view?usp=drive_link"
             },
             {
               "name": "MediaFire",
@@ -59,10 +59,14 @@
           "id": "To_the_Bitter_End",
           "name": "DLC Unlocker - To the Bitter End",
           "description": "Устанавливайте новое DLC - To the Bitter End!\n\nСюда входит только дополнение To the Bitter End, а также бонусный набор Songs of Liberty",
-          "download_url": "https://drive.google.com/file/d/1y1dJzvHeSjQKoM05BVu45KpIwxtnI341/view?usp=drive_link",
+          "download_url": "https://upload.am/d/4d8ad6a5-c904-4843-b05f-fcea7bb15674",
           "featured": false,
           "is_new": true,
           "mirrors": [
+            {
+              "name": "Google Drive",
+              "url": "https://drive.google.com/file/d/1y1dJzvHeSjQKoM05BVu45KpIwxtnI341/view?usp=drive_link"
+            },
             {
               "name": "FileDitch",
               "url": "https://itsfileditchfiles.st/balpha51/1c057ec5037e911f0a3c/To_the_Bitter_End.zip"
