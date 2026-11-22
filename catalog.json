@@ -86,30 +86,38 @@
         "id": "Silk_Silver",
         "name": "DLC Unlocker - All (Silk & Silver)",
         "description": "Устанавливайте все DLC включая Silk & Silver!",
-        "download_url": "https://drive.google.com/file/d/1CSzpkBN7YrEvjSmnWxJjIr7IKNJA8i8G/view?usp=drive_link",
+        "download_url": "https://upload.am/d/2c18ec0c-9fd9-46fa-8db5-fa09bc9ae4d9",
         "featured": true,
+        "is_new": false,
         "mirrors": [
+          {
+            "name": "Google Drive",
+            "url": "https://drive.google.com/file/d/1CSzpkBN7YrEvjSmnWxJjIr7IKNJA8i8G/view?usp=drive_link"
+          },
           {
             "name": "FileDitch",
             "url": "https://itsfileditchfiles.st/balpha51/dd3eea533179c5c58e0b/Silk_Silver.zip"
           }
-        ],
-        "is_new": false
+        ]
       },
       "dlcs": [
         {
           "id": "Silk_Silver",
           "name": "DLC Unlocker - All (Silk & Silver)",
           "description": "Устанавливайте все DLC включая Silk & Silver!",
-          "download_url": "https://drive.google.com/file/d/1CSzpkBN7YrEvjSmnWxJjIr7IKNJA8i8G/view?usp=drive_link",
+          "download_url": "https://upload.am/d/2c18ec0c-9fd9-46fa-8db5-fa09bc9ae4d9",
           "featured": true,
+          "is_new": false,
           "mirrors": [
+            {
+              "name": "Google Drive",
+              "url": "https://drive.google.com/file/d/1CSzpkBN7YrEvjSmnWxJjIr7IKNJA8i8G/view?usp=drive_link"
+            },
             {
               "name": "FileDitch",
               "url": "https://itsfileditchfiles.st/balpha51/dd3eea533179c5c58e0b/Silk_Silver.zip"
             }
-          ],
-          "is_new": false
+          ]
         }
       ]
     },
