@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "catalog_version": "1.2.2",
-  "updated_at": "2026-11-21",
+  "updated_at": "2026-11-22",
   "games": [
     {
       "id": "hearts-of-iron-4",
@@ -18,6 +18,10 @@
         "featured": true,
         "is_new": false,
         "mirrors": [
+          {
+            "name": "Upload.am",
+            "url": "https://upload.am/d/6c0191b4-4565-4686-a975-5882cd493234"
+          },
           {
             "name": "MediaFire",
             "url": "https://www.mediafire.com/file/35t08c1utvivym1/DLCUnlockerAll_HOI4.zip/file"
@@ -37,6 +41,10 @@
           "featured": true,
           "is_new": false,
           "mirrors": [
+            {
+              "name": "Upload.am",
+              "url": "https://upload.am/d/6c0191b4-4565-4686-a975-5882cd493234"
+            },
             {
               "name": "MediaFire",
               "url": "https://www.mediafire.com/file/35t08c1utvivym1/DLCUnlockerAll_HOI4.zip/file"
