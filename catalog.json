@@ -403,6 +403,19 @@
       "link_url": "",
       "button_text": "Подробнее",
       "published": true
+    },
+    {
+      "id": "news-20261122-mwrt8i9d",
+      "title": "тест",
+      "category": "notice",
+      "date": "2026-11-22",
+      "time": "14:25",
+      "summary": "тест",
+      "content": "тест",
+      "image_url": "",
+      "link_url": "",
+      "button_text": "Подробнее",
+      "published": true
     }
   ]
 }
