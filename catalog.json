@@ -126,26 +126,36 @@
       "name": "Age of Wonders 4",
       "steam_app_id": 1669000,
       "steam_folder": "Age of Wonders 4",
-      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1669000/header.jpg",
+      "cover_url": "https://lh3.googleusercontent.com/d/1bG76eAWQMRCls6YYBCOa-C3a6OQ24Rxn",
       "featured": false,
       "mod_pack": {
-        "id": "mod-all",
-        "name": "DLC Unlocker",
-        "description": "Скоро здесь появляться DLC.",
+        "id": "Unlocker_AoW4",
+        "name": "DLC Unlocker - All (Все дополнения)",
+        "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям, включая самое последние - The Silver Seas",
         "download_url": "",
+        "download_parts": [
+          "https://upload.am/d/445faceb-5bc1-4988-b68f-5b8242a03b25",
+          "https://upload.am/d/0f30f45f-13e9-4992-82ac-d0b0bd928ee1",
+          "https://upload.am/d/96aa1413-8757-4c7d-9998-995340ba12e8"
+        ],
         "featured": true,
-        "mirrors": [],
-        "is_new": false
+        "is_new": true,
+        "mirrors": []
       },
       "dlcs": [
         {
-          "id": "mod-all",
-          "name": "DLC Unlocker",
-          "description": "Скоро здесь появляться DLC.",
+          "id": "Unlocker_AoW4",
+          "name": "DLC Unlocker - All (Все дополнения)",
+          "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям, включая самое последние - The Silver Seas",
           "download_url": "",
+          "download_parts": [
+            "https://upload.am/d/445faceb-5bc1-4988-b68f-5b8242a03b25",
+            "https://upload.am/d/0f30f45f-13e9-4992-82ac-d0b0bd928ee1",
+            "https://upload.am/d/96aa1413-8757-4c7d-9998-995340ba12e8"
+          ],
           "featured": true,
-          "mirrors": [],
-          "is_new": false
+          "is_new": true,
+          "mirrors": []
         }
       ]
     },
