@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "catalog_version": "1.2.2",
-  "updated_at": "2026-11-23",
+  "updated_at": "2026-11-24",
   "games": [
     {
       "id": "hearts-of-iron-4",
@@ -156,6 +156,20 @@
           "featured": true,
           "is_new": true,
           "mirrors": []
+        },
+        {
+          "id": "SilverSeas",
+          "name": "DLC Unlocker - The Silver Seas",
+          "description": "Устанавливайте новое DLC - The Silver Seas!\n\nСюда входит только дополнение The Silver Seas.",
+          "download_url": "https://upload.am/d/ca9004ee-f6b8-4d14-ab90-8269ae8ec516",
+          "featured": false,
+          "is_new": false,
+          "mirrors": [
+            {
+              "name": "Google Drive",
+              "url": "https://drive.google.com/file/d/1zPXqsHdFy56LgWXgGNRmIwWpZkv-Vn4S/view?usp=sharing"
+            }
+          ]
         }
       ]
     },
