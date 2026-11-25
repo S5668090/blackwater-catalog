@@ -506,6 +506,94 @@
       "priority": 12,
       "dlcs": [],
       "mod_pack": null
+    },
+    {
+      "id": "new-game-9",
+      "name": "Новая игра",
+      "steam_app_id": 1125125,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 13,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-10",
+      "name": "Новая игра",
+      "steam_app_id": 11251252,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 14,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-11",
+      "name": "Новая игра",
+      "steam_app_id": 11252,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 15,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-12",
+      "name": "Новая игра",
+      "steam_app_id": 12124,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 16,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-13",
+      "name": "Новая игра",
+      "steam_app_id": 1125214,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 17,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-14",
+      "name": "Новая игра",
+      "steam_app_id": 112512412,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 18,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-15",
+      "name": "Новая игра",
+      "steam_app_id": 112115,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 19,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-16",
+      "name": "Новая игра",
+      "steam_app_id": 112214125,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 20,
+      "dlcs": [],
+      "mod_pack": null
     }
   ],
   "community": {
