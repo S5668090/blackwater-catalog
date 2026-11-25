@@ -407,6 +407,105 @@
         }
       ],
       "priority": 3
+    },
+    {
+      "id": "new-game",
+      "name": "Новая игра",
+      "steam_app_id": 15121531,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 4,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-1",
+      "name": "Новая игра",
+      "steam_app_id": 15151531,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 5,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-2",
+      "name": "Новая игра",
+      "steam_app_id": 15151532,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 6,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-3",
+      "name": "Новая игра",
+      "steam_app_id": 1,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 7,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-4",
+      "name": "Новая игра",
+      "steam_app_id": 1515152,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 8,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-5",
+      "name": "Новая игра",
+      "steam_app_id": 15152,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 9,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-6",
+      "name": "Новая игра",
+      "steam_app_id": 152,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 10,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-7",
+      "name": "Новая игра",
+      "steam_app_id": 135151,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 11,
+      "dlcs": [],
+      "mod_pack": null
+    },
+    {
+      "id": "new-game-8",
+      "name": "Новая игра",
+      "steam_app_id": 1325151,
+      "steam_folder": "Game Folder",
+      "cover_url": "",
+      "featured": false,
+      "priority": 12,
+      "dlcs": [],
+      "mod_pack": null
     }
   ],
   "community": {
