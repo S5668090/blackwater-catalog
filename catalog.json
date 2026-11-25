@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "catalog_version": "1.2.2",
-  "updated_at": "2026-11-24",
+  "updated_at": "2026-11-25",
   "games": [
     {
       "id": "hearts-of-iron-4",
@@ -178,7 +178,7 @@
       "name": "Europa Universalis V",
       "steam_app_id": 3450310,
       "steam_folder": "Europa Universalis V",
-      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3450310/9944293cf93d5c11430d3b69941221b614c3ea70/header.jpg",
+      "cover_url": "https://lh3.googleusercontent.com/d/19fTUMCmbhf_aewSOUcow7TWiBmHB0JnX",
       "featured": false,
       "dlcs": [
         {
