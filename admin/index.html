@@ -215,7 +215,7 @@ function validateCatalog(data){
       d.description=d.description||'';d.download_url=d.download_url||'';d.featured=d.featured!==false;d.is_new=d.is_new===true;
     });g.mod_pack=g.dlcs.length?g.dlcs[0]:null;
   });
-  sortCatalogGamesByPriority();
+  data.games=data.games.map((game,index)=>({game,index})).sort((a,b)=>a.game.priority-b.game.priority||a.index-b.index).map(entry=>entry.game);
 }
 function renderLauncherReleaseFields(){const update=catalog&&catalog.launcher_update?catalog.launcher_update:{};$('launcherVersion').value=update.version||'';$('launcherDriveLink').value=update.download_url||'';$('launcherUploadAmLink').value=update.upload_am_url||'';renderLauncherReleaseState();}
 function renderLauncherReleaseState(){const state=$('launcherReleaseState');if(!state||!catalog)return;const update=catalog.launcher_update||{};state.classList.remove('ready','pending');if(update.version){const sources=(update.download_url?1:0)+(update.upload_am_url?1:0);state.textContent='Опубликована версия: '+update.version+' · источников: '+sources+'/2';state.classList.add('ready');}else{state.textContent='Обязательный релиз не настроен';state.classList.add('pending');}}
