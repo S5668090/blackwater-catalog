@@ -73,7 +73,8 @@
             }
           ]
         }
-      ]
+      ],
+      "priority": 1
     },
     {
       "id": "crusader-kings-3",
@@ -119,7 +120,8 @@
             }
           ]
         }
-      ]
+      ],
+      "priority": 2
     },
     {
       "id": "age-of-wonders-4",
@@ -171,7 +173,8 @@
             }
           ]
         }
-      ]
+      ],
+      "priority": 3
     },
     {
       "id": "europa-universalis-5",
@@ -199,7 +202,8 @@
         "featured": true,
         "is_new": false,
         "mirrors": []
-      }
+      },
+      "priority": 4
     },
     {
       "id": "crusader-kings-2",
@@ -227,7 +231,8 @@
           "mirrors": [],
           "is_new": false
         }
-      ]
+      ],
+      "priority": 5
     },
     {
       "id": "cities-skylines",
@@ -255,7 +260,8 @@
           "mirrors": [],
           "is_new": false
         }
-      ]
+      ],
+      "priority": 6
     },
     {
       "id": "victoria-2",
@@ -283,7 +289,8 @@
           "mirrors": [],
           "is_new": false
         }
-      ]
+      ],
+      "priority": 7
     },
     {
       "id": "prison-architect",
@@ -311,7 +318,8 @@
           "mirrors": [],
           "is_new": false
         }
-      ]
+      ],
+      "priority": 8
     },
     {
       "id": "cities-skylines-2",
@@ -339,7 +347,8 @@
           "mirrors": [],
           "is_new": false
         }
-      ]
+      ],
+      "priority": 9
     },
     {
       "id": "europa-universalis-4",
@@ -367,7 +376,8 @@
           "mirrors": [],
           "is_new": false
         }
-      ]
+      ],
+      "priority": 10
     },
     {
       "id": "civilization-6",
@@ -395,7 +405,8 @@
           "mirrors": [],
           "is_new": false
         }
-      ]
+      ],
+      "priority": 11
     }
   ],
   "community": {
