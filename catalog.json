@@ -307,11 +307,6 @@
       }
     ]
   },
-  "launcher_update": {
-    "version": "v1.8.36",
-    "download_url": "https://drive.google.com/file/d/11zyKb-qLBKh5YRphSswbfQ6aJx335JVF/view?usp=sharing",
-    "upload_am_url": "https://upload.am/d/ed9c5aba-1d08-4444-9361-1fc7b3539d79"
-  },
   "news": [
     {
       "id": "news-20261122-mwrt6h0t",
@@ -327,9 +322,14 @@
       "published": true
     }
   ],
+  "launcher_update": {
+    "version": "v1.8.36",
+    "download_url": "https://drive.google.com/file/d/11zyKb-qLBKh5YRphSswbfQ6aJx335JVF/view?usp=sharing",
+    "upload_am_url": "https://upload.am/d/ed9c5aba-1d08-4444-9361-1fc7b3539d79"
+  },
   "latest_update": {
-    "version": "v1.8.49",
-    "download_url": "https://drive.google.com/file/d/empty/view?usp=sharing",
-    "upload_am_url": "https://upload.am/d/2cd70ebc-7131-454f-a9a9-e9d146582920"
+    "version": "v1.8.48",
+    "download_url": "",
+    "upload_am_url": "https://upload.am/d/ba840abe-87ed-4a4b-a850-7d1bd5866af8"
   }
 }
