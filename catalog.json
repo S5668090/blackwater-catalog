@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "catalog_version": "1.2.2",
-  "updated_at": "2026-11-25",
+  "updated_at": "2026-11-28",
   "games": [
     {
       "id": "hearts-of-iron-4",
@@ -177,32 +177,32 @@
       "priority": 1
     },
     {
-      "id": "cities-skylines-2",
-      "name": "Cities: Skylines II",
-      "steam_app_id": 949230,
-      "steam_folder": "Cities Skylines II",
-      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/header.jpg",
+      "id": "europa-universalis-5",
+      "name": "Europa Universalis V",
+      "steam_app_id": 3450310,
+      "steam_folder": "Europa Universalis V",
+      "cover_url": "https://lh3.googleusercontent.com/d/19fTUMCmbhf_aewSOUcow7TWiBmHB0JnX",
       "featured": false,
-      "mod_pack": {
-        "id": "mod-all",
-        "name": "DLC Unlocker",
-        "description": "Скоро здесь появятся DLC.",
-        "download_url": "",
-        "featured": true,
-        "mirrors": [],
-        "is_new": false
-      },
       "dlcs": [
         {
-          "id": "mod-all",
-          "name": "DLC Unlocker",
-          "description": "Скоро здесь появятся DLC.",
-          "download_url": "",
+          "id": "DLCUnlockerAll_EU5",
+          "name": "DLC Unlocker - All (Все дополнения)",
+          "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям.",
+          "download_url": "https://upload.am/d/9fbe1669-f503-4463-a055-e3c18effb565",
           "featured": true,
-          "mirrors": [],
-          "is_new": false
+          "is_new": false,
+          "mirrors": []
         }
       ],
+      "mod_pack": {
+        "id": "DLCUnlockerAll_EU5",
+        "name": "DLC Unlocker - All (Все дополнения)",
+        "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям.",
+        "download_url": "https://upload.am/d/9fbe1669-f503-4463-a055-e3c18effb565",
+        "featured": true,
+        "is_new": false,
+        "mirrors": []
+      },
       "priority": 1
     },
     {
@@ -232,7 +232,36 @@
           "is_new": false
         }
       ],
-      "priority": 1
+      "priority": 2
+    },
+    {
+      "id": "cities-skylines-2",
+      "name": "Cities: Skylines II",
+      "steam_app_id": 949230,
+      "steam_folder": "Cities Skylines II",
+      "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/header.jpg",
+      "featured": false,
+      "mod_pack": {
+        "id": "mod-all",
+        "name": "DLC Unlocker",
+        "description": "Скоро здесь появятся DLC.",
+        "download_url": "",
+        "featured": true,
+        "mirrors": [],
+        "is_new": false
+      },
+      "dlcs": [
+        {
+          "id": "mod-all",
+          "name": "DLC Unlocker",
+          "description": "Скоро здесь появятся DLC.",
+          "download_url": "",
+          "featured": true,
+          "mirrors": [],
+          "is_new": false
+        }
+      ],
+      "priority": 2
     },
     {
       "id": "europa-universalis-4",
@@ -264,35 +293,6 @@
       "priority": 2
     },
     {
-      "id": "europa-universalis-5",
-      "name": "Europa Universalis V",
-      "steam_app_id": 3450310,
-      "steam_folder": "Europa Universalis V",
-      "cover_url": "https://lh3.googleusercontent.com/d/19fTUMCmbhf_aewSOUcow7TWiBmHB0JnX",
-      "featured": false,
-      "dlcs": [
-        {
-          "id": "DLCUnlockerAll_EU5",
-          "name": "DLC Unlocker - All (Все дополнения)",
-          "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям.",
-          "download_url": "https://upload.am/d/9fbe1669-f503-4463-a055-e3c18effb565",
-          "featured": true,
-          "is_new": false,
-          "mirrors": []
-        }
-      ],
-      "mod_pack": {
-        "id": "DLCUnlockerAll_EU5",
-        "name": "DLC Unlocker - All (Все дополнения)",
-        "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям.",
-        "download_url": "https://upload.am/d/9fbe1669-f503-4463-a055-e3c18effb565",
-        "featured": true,
-        "is_new": false,
-        "mirrors": []
-      },
-      "priority": 2
-    },
-    {
       "id": "cities-skylines",
       "name": "Cities: Skylines",
       "steam_app_id": 255710,
@@ -319,7 +319,7 @@
           "is_new": false
         }
       ],
-      "priority": 2
+      "priority": 3
     },
     {
       "id": "prison-architect",
