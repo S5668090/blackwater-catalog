@@ -10,28 +10,6 @@
       "steam_folder": "Hearts of Iron IV",
       "cover_url": "https://lh3.googleusercontent.com/d/18ce-jUh8DnR5Zz148zVQVsaiZ3NTaFxL",
       "featured": true,
-      "mod_pack": {
-        "id": "DLCUnlockerAll_HOI4",
-        "name": "DLC Unlocker - All (Все дополнения)",
-        "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям, включая самое последние - To the Bitter End!",
-        "download_url": "https://upload.am/d/6c0191b4-4565-4686-a975-5882cd493234",
-        "featured": true,
-        "is_new": false,
-        "mirrors": [
-          {
-            "name": "Google Drive",
-            "url": "https://drive.google.com/file/d/19x0FaVUcXBCCdgwF1n_tyll3DAY5WFSE/view?usp=drive_link"
-          },
-          {
-            "name": "MediaFire",
-            "url": "https://www.mediafire.com/file/35t08c1utvivym1/DLCUnlockerAll_HOI4.zip/file"
-          },
-          {
-            "name": "FileDitch",
-            "url": "https://itsfileditchfiles.st/balpha51/b81dad8295ea25d3b636/DLCUnlockerAll_HOI4.zip"
-          }
-        ]
-      },
       "dlcs": [
         {
           "id": "DLCUnlockerAll_HOI4",
@@ -83,24 +61,6 @@
       "steam_folder": "Crusader Kings III",
       "cover_url": "https://lh3.googleusercontent.com/d/1d2kfH8kIKDBlh0hSp1g_se1Rjzsh7y-9",
       "featured": true,
-      "mod_pack": {
-        "id": "Silk_Silver",
-        "name": "DLC Unlocker - All (Silk & Silver)",
-        "description": "Устанавливайте все DLC включая Silk & Silver!",
-        "download_url": "https://upload.am/d/2c18ec0c-9fd9-46fa-8db5-fa09bc9ae4d9",
-        "featured": true,
-        "is_new": false,
-        "mirrors": [
-          {
-            "name": "Google Drive",
-            "url": "https://drive.google.com/file/d/1CSzpkBN7YrEvjSmnWxJjIr7IKNJA8i8G/view?usp=drive_link"
-          },
-          {
-            "name": "FileDitch",
-            "url": "https://itsfileditchfiles.st/balpha51/dd3eea533179c5c58e0b/Silk_Silver.zip"
-          }
-        ]
-      },
       "dlcs": [
         {
           "id": "Silk_Silver",
@@ -130,20 +90,6 @@
       "steam_folder": "Age of Wonders 4",
       "cover_url": "https://lh3.googleusercontent.com/d/14LW7uzeZAF5LIwgPI2lMY7Db_NKrx7DP",
       "featured": false,
-      "mod_pack": {
-        "id": "Unlocker_AoW4",
-        "name": "DLC Unlocker - All (Все дополнения)",
-        "description": "Анлокер открывает доступ ко всем вышедшим DLC, включая самое последние - The Silver Seas\nАрхив разбит на части, общий вес всех файлов - 10.9 ГБ",
-        "download_url": "",
-        "download_parts": [
-          "https://upload.am/d/445faceb-5bc1-4988-b68f-5b8242a03b25",
-          "https://upload.am/d/0f30f45f-13e9-4992-82ac-d0b0bd928ee1",
-          "https://upload.am/d/96aa1413-8757-4c7d-9998-995340ba12e8"
-        ],
-        "featured": true,
-        "is_new": true,
-        "mirrors": []
-      },
       "dlcs": [
         {
           "id": "Unlocker_AoW4",
@@ -194,15 +140,6 @@
           "mirrors": []
         }
       ],
-      "mod_pack": {
-        "id": "DLCUnlockerAll_EU5",
-        "name": "DLC Unlocker - All (Все дополнения)",
-        "description": "Анлокер открывает доступ ко всем вышедшим на данный момент дополнениям.",
-        "download_url": "https://upload.am/d/9fbe1669-f503-4463-a055-e3c18effb565",
-        "featured": true,
-        "is_new": false,
-        "mirrors": []
-      },
       "priority": 1
     },
     {
@@ -212,15 +149,6 @@
       "steam_folder": "Sid Meier's Civilization VI",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/289070/header.jpg",
       "featured": false,
-      "mod_pack": {
-        "id": "mod-all",
-        "name": "DLC Unlocker",
-        "description": "Скоро здесь появятся DLC.",
-        "download_url": "",
-        "featured": true,
-        "mirrors": [],
-        "is_new": false
-      },
       "dlcs": [
         {
           "id": "mod-all",
@@ -241,15 +169,6 @@
       "steam_folder": "Cities Skylines II",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/header.jpg",
       "featured": false,
-      "mod_pack": {
-        "id": "mod-all",
-        "name": "DLC Unlocker",
-        "description": "Скоро здесь появятся DLC.",
-        "download_url": "",
-        "featured": true,
-        "mirrors": [],
-        "is_new": false
-      },
       "dlcs": [
         {
           "id": "mod-all",
@@ -270,15 +189,6 @@
       "steam_folder": "Europa Universalis IV",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/236850/header.jpg",
       "featured": false,
-      "mod_pack": {
-        "id": "mod-all",
-        "name": "DLC Unlocker",
-        "description": "Скоро здесь появятся DLC.",
-        "download_url": "",
-        "featured": true,
-        "mirrors": [],
-        "is_new": false
-      },
       "dlcs": [
         {
           "id": "mod-all",
@@ -299,15 +209,6 @@
       "steam_folder": "Cities_Skylines",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/255710/header.jpg",
       "featured": false,
-      "mod_pack": {
-        "id": "mod-all",
-        "name": "DLC Unlocker",
-        "description": "Скоро здесь появятся DLC.",
-        "download_url": "",
-        "featured": true,
-        "mirrors": [],
-        "is_new": false
-      },
       "dlcs": [
         {
           "id": "mod-all",
@@ -328,15 +229,6 @@
       "steam_folder": "Prison Architect",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/233450/header.jpg",
       "featured": false,
-      "mod_pack": {
-        "id": "mod-all",
-        "name": "DLC Unlocker",
-        "description": "Скоро здесь появятся DLC.",
-        "download_url": "",
-        "featured": true,
-        "mirrors": [],
-        "is_new": false
-      },
       "dlcs": [
         {
           "id": "mod-all",
@@ -357,15 +249,6 @@
       "steam_folder": "Crusader Kings II",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/203770/header.jpg",
       "featured": false,
-      "mod_pack": {
-        "id": "mod-all",
-        "name": "DLC Unlocker",
-        "description": "Скоро здесь появятся DLC.",
-        "download_url": "",
-        "featured": true,
-        "mirrors": [],
-        "is_new": false
-      },
       "dlcs": [
         {
           "id": "mod-all",
@@ -386,15 +269,6 @@
       "steam_folder": "Victoria 2",
       "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/42960/header.jpg",
       "featured": false,
-      "mod_pack": {
-        "id": "mod-all",
-        "name": "DLC Unlocker",
-        "description": "Скоро здесь появятся DLC.",
-        "download_url": "",
-        "featured": true,
-        "mirrors": [],
-        "is_new": false
-      },
       "dlcs": [
         {
           "id": "mod-all",
@@ -452,5 +326,10 @@
       "button_text": "",
       "published": true
     }
-  ]
+  ],
+  "latest_update": {
+    "version": "v1.8.49",
+    "download_url": "https://drive.google.com/file/d/empty/view?usp=sharing",
+    "upload_am_url": "https://upload.am/d/2cd70ebc-7131-454f-a9a9-e9d146582920"
+  }
 }
